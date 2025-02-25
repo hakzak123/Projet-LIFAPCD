@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    testFont = TTF_OpenFont("./fonts/testTTF.ttf",256);
+    testFont = TTF_OpenFont("../fonts/testTTF.ttf",256);
 
     if(window = SDL_CreateWindow("SDL test",0,0,SDL_WINDOW_FULLSCREEN)){
         renderer = SDL_CreateRenderer(window,NULL);
@@ -71,8 +71,8 @@ int main(int argc, char* argv[]) {
             SDL_DelayNS(maxframeratecyclecount-frameTimeMS);
         }
 
-        std::chrono::duration<double> cycleTime = CURRENT_TIME-frameStart;
-        framerate = 1/cycleTime.count();
+        std::chrono::duration<double> loopTime = CURRENT_TIME-frameStart;
+        framerate = 1/loopTime.count();
         framecount++;
     }
 
