@@ -1,0 +1,52 @@
+{
+  "version": 3,
+
+  "configurePresets": [
+    {
+      "name": "mingw-debug",
+      "description": "Debug build using MinGW Makefiles",
+      "generator": "MinGW Makefiles",
+      "binaryDir": "${sourceDir}/out/build/mingw-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_MAKE_PROGRAM": "mingw32-make"
+      }
+    },
+    {
+      "name": "mingw-release",
+      "description": "Release build using MinGW Makefiles",
+      "generator": "MinGW Makefiles",
+      "binaryDir": "${sourceDir}/out/build/mingw-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_MAKE_PROGRAM": "mingw32-make"
+      }
+    }
+  ],
+
+  "buildPresets": [
+    {
+      "name": "build-debug",
+      "description": "Build the Debug preset",
+      "configurePreset": "mingw-debug"
+    },
+    {
+      "name": "build-release",
+      "description": "Build the Release preset",
+      "configurePreset": "mingw-release"
+    }
+  ],
+
+  "testPresets": [
+    {
+      "name": "test-debug",
+      "description": "Run tests for Debug build",
+      "configurePreset": "mingw-debug"
+    },
+    {
+      "name": "test-release",
+      "description": "Run tests for Release build",
+      "configurePreset": "mingw-release"
+    }
+  ]
+}
