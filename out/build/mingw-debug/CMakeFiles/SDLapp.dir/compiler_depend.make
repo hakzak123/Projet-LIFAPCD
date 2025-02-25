@@ -656,6 +656,7 @@ CMakeFiles/SDLapp.dir/src/ui.cpp.obj: C:/Users/Hakim/Documents/Visual\ Studio\ 2
   C:/Users/Hakim/Documents/Visual\ Studio\ 2019/Code/src/geometry.h \
   C:/Users/Hakim/Documents/Visual\ Studio\ 2019/Code/src/position.h \
   C:/Users/Hakim/Documents/Visual\ Studio\ 2019/Code/src/smartptr.h \
+  C:/Users/Hakim/Documents/Visual\ Studio\ 2019/Code/src/ttf.h \
   C:/Users/Hakim/Documents/Visual\ Studio\ 2019/Code/src/ui.h \
   C:/Users/Hakim/Documents/Visual\ Studio\ 2019/Code/src/windowInfo.h \
   C:/msys64/ucrt64/include/_mingw.h \
@@ -1507,5 +1508,7 @@ C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_multimap.h:
 C:/msys64/ucrt64/include/c++/13.2.0/bits/stl_tree.h:
 
 C:/msys64/ucrt64/include/c++/13.2.0/ext/aligned_buffer.h:
+
+C:/Users/Hakim/Documents/Visual\ Studio\ 2019/Code/src/ttf.h:
 
 C:/Users/Hakim/Documents/Visual\ Studio\ 2019/Code/src/update.cpp:

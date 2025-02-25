@@ -215,4 +215,5 @@ CMakeFiles/SDLapp.dir/src/ui.cpp.obj: \
  C:/msys64/ucrt64/include/c++/13.2.0/bits/istream.tcc \
  C:/Users/Hakim/DOCUME~1/VISUAL~1/Code/src/position.h \
  C:/Users/Hakim/DOCUME~1/VISUAL~1/Code/src/geometry.h \
- C:/Users/Hakim/DOCUME~1/VISUAL~1/Code/src/smartptr.h
+ C:/Users/Hakim/DOCUME~1/VISUAL~1/Code/src/smartptr.h \
+ C:/Users/Hakim/DOCUME~1/VISUAL~1/Code/src/ttf.h

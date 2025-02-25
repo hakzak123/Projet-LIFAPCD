@@ -5,6 +5,7 @@
 #include <ui.h>
 #include <windowInfo.h>
 #include <smartptr.h>
+#include <ttf.h>
 
 
 extern SDL_Window *window;
@@ -73,11 +74,11 @@ std::string winInfo(){
 void uiSetup(SDL_Renderer* renderer){
     int width = winfo.w;
     int height = winfo.h;
-    TTFTexture textTexture(renderer,testFont,"c est un test",color(0,255,0,255));
+    SDL_Texture* textTexture = createTTFTexture(renderer,testFont,"test test test",{0,255,0,255});
 
     uiTextureComponent uiTestTexture(
         renderer,
-        textTexture.pointer(),
+        textTexture,
         &winfo,
         fRect(width-width/10,height/6,600,100)
     );

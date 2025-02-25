@@ -209,24 +209,6 @@ public :
 
 };
 
-class TTFTexture{ // wrapper around SDL_Texture*, owns a surface
-private:
-    SDL_Texture* ttfTexture = nullptr;
-public:
-    TTFTexture(){
-
-    }
-
-    TTFTexture(SDL_Renderer* renderer,TTF_Font* font,std::string text,color Color){
-        uniqueSDLPtr<SDL_Surface> tmpSurface = TTF_RenderText_Solid(font,text.c_str(),0,{Color.r,Color.g,Color.b,Color.a});
-        ttfTexture = SDL_CreateTextureFromSurface(renderer,tmpSurface.pointer());
-    }
-
-    SDL_Texture* pointer(){
-        return ttfTexture;
-    }
-
-};
 
 class ui{ // Stores ui component maps
 public :
