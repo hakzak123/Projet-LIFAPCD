@@ -3,6 +3,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <iostream>
 #include <chrono>
+#include <filesystem>
 #include <macros.h>
 #include <windowInfo.h>
 
@@ -13,6 +14,8 @@ TTF_Font* testFont;
 double framerate = 0;
 double maxframerate = 60;
 Uint64 framecount = 0;
+std::string workspace = std::string(SDL_GetBasePath()) + "../";
+
 
 void argumentHandling(int,char**);
 void render(SDL_Renderer*);
@@ -37,9 +40,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    testFont = TTF_OpenFont("../fonts/testTTF.ttf",256);
-    std::cout << testFont << '\n';
-    std::cout << argv[0];
+    testFont = TTF_OpenFont((workspace + "fonts/testTTF.ttf").c_str(),256);
 
     if(window = SDL_CreateWindow("SDL test",0,0,SDL_WINDOW_FULLSCREEN)){
         renderer = SDL_CreateRenderer(window,NULL);
