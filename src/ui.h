@@ -51,8 +51,7 @@ public:
     virtual void render(){
         if(rendered){
             size_t stringsize = text.size()*charwidth;
-            int width = winfo->w;
-            float gap = width-x;
+            float gap = winfo->w-x;
             float overflow = stringsize-gap;
             bool positiveOverflow = overflow > 0 ? true : false;
 
@@ -107,8 +106,7 @@ public :
         if(rendered){
             fRect tmpRect = dstRect;
             size_t rectWidth = dstRect.w;
-            int width = winfo->w;
-            float gap = width-dstRect.x;
+            float gap = winfo->w-dstRect.x;
             float overflow = rectWidth-gap;
             bool positiveOverflow = overflow > 0 ? true : false;
             
@@ -191,8 +189,7 @@ public :
                 stringColor = stringcolorptr();
 
             size_t stringsize = text.size()*charwidth;
-            int width = winfo->w;
-            float gap = width-x;
+            float gap = winfo->w-x;
             float overflow = stringsize-gap;
             bool positiveOverflow = overflow > 0 ? true : false;
 
@@ -209,6 +206,26 @@ public :
 
 };
 
+
+class uiButton{
+
+};
+
+class uiButtonRectBackgrnd : public uiButton{
+
+};
+
+class uiButtonRectText : public uiButtonRectBackgrnd{
+
+};
+
+class uiButtonRectImage : public uiButtonRectBackgrnd{
+
+};
+
+class uiButtonImage : public uiButton{
+
+};
 
 class ui{ // Stores ui component maps
 public :

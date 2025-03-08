@@ -38,6 +38,7 @@ int main(int argc, char* argv[]) {
     }
 
     testFont = TTF_OpenFont("../fonts/testTTF.ttf",256);
+    std::cout << testFont;
 
     if(window = SDL_CreateWindow("SDL test",0,0,SDL_WINDOW_FULLSCREEN)){
         renderer = SDL_CreateRenderer(window,NULL);

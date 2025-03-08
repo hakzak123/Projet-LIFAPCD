@@ -17,6 +17,7 @@ extern Uint64 framecount;
 
 ui Ui;
 
+
 // Returns true when at least ms amount of time has passed since the last call. lastTimeStatic MUST BE A ZERO-INITIALIZED STATIC VARIABLE.
 bool time_passed_since_last_time(Uint64 ms, Uint64 &lastTimeStatic){
     Uint64 timeNow = SDL_GetTicks();
