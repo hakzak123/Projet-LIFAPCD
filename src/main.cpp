@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    testFont = TTF_OpenFont((workspace + "fonts/testTTF.ttf").c_str(),256);
+    testFont = TTF_OpenFont((workspace + "data/fonts/testTTF.ttf").c_str(),256);
 
     if(window = SDL_CreateWindow("SDL test",0,0,SDL_WINDOW_FULLSCREEN)){
         renderer = SDL_CreateRenderer(window,NULL);

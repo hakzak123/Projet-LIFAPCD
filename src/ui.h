@@ -79,7 +79,6 @@ protected :
     fRect dstRect;
     fRect iniRect;
 
-
 public :
 
     uiTextureComponent(SDL_Renderer* _renderer, SDL_Texture* _texture, windowInfo* _winfo,fRect _dstRect):
