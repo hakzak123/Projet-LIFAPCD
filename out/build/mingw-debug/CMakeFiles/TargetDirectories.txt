@@ -1,3 +1,0 @@
-C:/Users/Hakim/Documents/Visual Studio 2019/Code/out/build/mingw-debug/CMakeFiles/SDLapp.dir
-C:/Users/Hakim/Documents/Visual Studio 2019/Code/out/build/mingw-debug/CMakeFiles/edit_cache.dir
-C:/Users/Hakim/Documents/Visual Studio 2019/Code/out/build/mingw-debug/CMakeFiles/rebuild_cache.dir
