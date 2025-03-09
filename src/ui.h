@@ -15,6 +15,7 @@ protected :
     pos Pos;
     bool rendered = true;
 public :
+
     uiComponent(SDL_Renderer* _renderer, windowInfo* _winfo, pos _Pos) : renderer(_renderer), winfo(_winfo), Pos(_Pos){
 
     }
@@ -26,6 +27,7 @@ public :
     void renderable(bool b){
         rendered = b;
     }
+
     virtual void update() = 0;
     virtual void render() = 0;
 };
@@ -111,6 +113,10 @@ public :
 };
 
 class uiTTFComponent : public uiTextComponent{
+
+};
+
+class uiDynamicTTFComponent : public uiTTFComponent{
 
 };
 
@@ -203,16 +209,26 @@ public :
 
 
 
-class uiButtonRectBackgrnd{
-private:
+class uiButtonRectBackgrnd : public uiComponent{
+protected:
     fRect rectangle;
-    bool clickable;
+    bool active;
 public:
+    bool clickable();
+
+    virtual void onClick();
+
+    void update() override;
+
+    void render() override;
 
 };
 
 class uiButtonRectText : public uiButtonRectBackgrnd{
+protected:
+    uiDynamicTTFComponent text;
 
+public:
 };
 
 class uiButtonRectImage : public uiButtonRectBackgrnd{
