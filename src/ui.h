@@ -8,32 +8,16 @@
 #include <geometry.h>
 #include <smartptr.h>
 
-
-class uiTextComponent{ // corrects a debug text's position so that it doesn't overflow to the right.
+class uiComponent{
 protected :
-
     SDL_Renderer* renderer;
-    std::string text;
-    color stringColor;
-    float x,y;
-    pos iniPos;
-    windowInfo iniWinfo;
     windowInfo* winfo;
-    int charwidth = 8;
+    pos Pos;
     bool rendered = true;
+public :
+    uiComponent(SDL_Renderer* _renderer, windowInfo* _winfo, pos _Pos) : renderer(_renderer), winfo(_winfo), Pos(_Pos){
 
-public:
-
-    uiTextComponent(SDL_Renderer* _renderer,const std::string& _text, pos _position, const color &_stringColor,windowInfo* _winfo) : 
-    renderer(_renderer), 
-    text(_text),
-    x(_position.x), 
-    y(_position.y), 
-    winfo(_winfo), 
-    stringColor(_stringColor),
-    iniWinfo(*_winfo),
-    iniPos(_position)
-   {}
+    }
 
     bool isRendered(){
         return rendered;
@@ -43,70 +27,80 @@ public:
         rendered = b;
     }
 
+    virtual void render() = 0;
+};
+
+class uiTextComponent : public uiComponent{ // corrects a debug text's position so that it doesn't overflow to the right.
+protected :
+
+    std::string text;
+    color stringColor;
+    pos iniPos;
+    const int charwidth = 8;
+
+
+public:
+
+    uiTextComponent(SDL_Renderer* _renderer,const std::string& _text, pos _position, const color &_stringColor,windowInfo* _winfo) : 
+    uiComponent(_renderer, _winfo,_position),
+    text(_text),
+    stringColor(_stringColor),
+    iniPos(_position)
+   {}
+
+
     void update(){
-        x = iniPos.x*winfo->w/iniWinfo.w;
-        y = iniPos.y*winfo->h/iniWinfo.h;
+        Pos.x = iniPos.x*winfo->w()/winfo->iniW();
+        Pos.y = iniPos.y*winfo->h()/winfo->iniH();
     }
 
-    virtual void render(){
+    void render() override{
         if(rendered){
             size_t stringsize = text.size()*charwidth;
-            float gap = winfo->w-x;
+            float gap = winfo->w()-Pos.x;
             float overflow = stringsize-gap;
             bool positiveOverflow = overflow > 0 ? true : false;
 
             setRenderDrawColor(renderer,stringColor);
             
             if(positiveOverflow){
-                SDL_RenderDebugText(renderer,x-overflow,y,text.c_str());
+                SDL_RenderDebugText(renderer,Pos.x-overflow,Pos.y,text.c_str());
             }
             else{ 
-                SDL_RenderDebugText(renderer,x,y,text.c_str());
+                SDL_RenderDebugText(renderer,Pos.x,Pos.y,text.c_str());
             }
         }
     }
 };
 
-class uiTextureComponent{ // corrects a texture's rectangle position so that it doesn't overflow to the right. Doesn't take in src rectangle for simplicity.
-protected :     
-    SDL_Renderer* renderer;
+class uiTextureComponent : public uiComponent{ // corrects a texture's rectangle position so that it doesn't overflow to the right. Doesn't take in src rectangle for simplicity.
+protected :
     SDL_Texture* texture;
-    windowInfo* winfo;
     fRect dstRect;
     fRect iniRect;
-    windowInfo iniWinfo;
-    bool rendered = true;
+
 
 public :
 
     uiTextureComponent(SDL_Renderer* _renderer, SDL_Texture* _texture, windowInfo* _winfo,fRect _dstRect):
-    renderer(_renderer),
+    uiComponent(_renderer,_winfo,pos(_dstRect.x,_dstRect.y)),
     texture(_texture),
-    winfo(_winfo),
     dstRect(_dstRect),
-    iniRect(_dstRect),
-    iniWinfo(*_winfo)
+    iniRect(_dstRect)
     {
     }
 
-    bool isRendered(){
-        return rendered;
-    }
-
-    void renderable(bool b){
-        rendered = b;
-    }
 
     void update(){
-        dstRect.x = iniRect.x*winfo->w/iniWinfo.w;
-        dstRect.y = iniRect.y*winfo->h/iniWinfo.h;
+        dstRect.x = iniRect.x*winfo->w()/winfo->iniW();
+        dstRect.y = iniRect.y*winfo->h()/winfo->iniH();
     }
 
     void render(){
         if(rendered){
             fRect tmpRect = dstRect;
             size_t rectWidth = dstRect.w;
-            float gap = winfo->w-dstRect.x;
+            float gap = winfo->w()-dstRect.x;
             float overflow = rectWidth-gap;
             bool positiveOverflow = overflow > 0 ? true : false;
             
@@ -182,24 +176,24 @@ public :
             if(textptr)
                 text = textptr();           
             if(positionptr){
-                x = positionptr().x;
-                y = positionptr().y;
+                Pos.x = positionptr().x;
+                Pos.y = positionptr().y;
             }
             if(stringcolorptr)
                 stringColor = stringcolorptr();
 
             size_t stringsize = text.size()*charwidth;
-            float gap = winfo->w-x;
+            float gap = winfo->w()-Pos.x;
             float overflow = stringsize-gap;
             bool positiveOverflow = overflow > 0 ? true : false;
 
             setRenderDrawColor(renderer,stringColor);
             
             if(positiveOverflow){
-                SDL_RenderDebugText(renderer,x-overflow,y,text.c_str());
+                SDL_RenderDebugText(renderer,Pos.x-overflow,Pos.y,text.c_str());
             }
             else{ 
-                SDL_RenderDebugText(renderer,x,y,text.c_str());
+                SDL_RenderDebugText(renderer,Pos.x,Pos.y,text.c_str());
             }
         }
     }
@@ -207,11 +201,12 @@ public :
 };
 
 
-class uiButton{
 
-};
-
-class uiButtonRectBackgrnd : public uiButton{
+class uiButtonRectBackgrnd{
+private:
+    fRect rectangle;
+    bool clickable;
+public:
 
 };
 
@@ -223,7 +218,7 @@ class uiButtonRectImage : public uiButtonRectBackgrnd{
 
 };
 
-class uiButtonImage : public uiButton{
+class uiButtonImage : public uiTextureComponent{
 
 };
 

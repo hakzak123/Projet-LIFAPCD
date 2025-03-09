@@ -1,0 +1,2 @@
+dans uiTextureComponent, utiliser Pos pour la position au lieu de dstRect
+dans uiTextComponent, se débarasser de iniPos

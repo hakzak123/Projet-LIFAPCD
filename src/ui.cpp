@@ -69,12 +69,12 @@ color FPSColor(){
 }
 
 std::string winInfo(){
-    return std::to_string(winfo.w)+ "x" +std::to_string(winfo.h);
+    return std::to_string(winfo.w()) + "x" +std::to_string(winfo.h());
 }
 
 void uiSetup(SDL_Renderer* renderer){
-    int width = winfo.w;
-    int height = winfo.h;
+    int width = winfo.w();
+    int height = winfo.h();
     SDL_Texture* textTexture = createTTFTexture(renderer,testFont,"test test test",{0,255,0,255});
 
     uiTextureComponent uiTestTexture(
