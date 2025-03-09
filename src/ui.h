@@ -26,7 +26,7 @@ public :
     void renderable(bool b){
         rendered = b;
     }
-
+    virtual void update() = 0;
     virtual void render() = 0;
 };
 
@@ -35,7 +35,6 @@ protected :
 
     std::string text;
     color stringColor;
-    pos iniPos;
     const int charwidth = 8;
 
 
@@ -44,14 +43,13 @@ public:
     uiTextComponent(SDL_Renderer* _renderer,const std::string& _text, pos _position, const color &_stringColor,windowInfo* _winfo) : 
     uiComponent(_renderer, _winfo,_position),
     text(_text),
-    stringColor(_stringColor),
-    iniPos(_position)
-   {}
+    stringColor(_stringColor)
+    {}
 
 
-    void update(){
-        Pos.x = iniPos.x*winfo->w()/winfo->iniW();
-        Pos.y = iniPos.y*winfo->h()/winfo->iniH();
+    void update() override{
+        Pos.x = Pos.iniX()*winfo->w()/winfo->iniW();
+        Pos.y = Pos.iniY()*winfo->h()/winfo->iniH();
     }
 
     void render() override{
@@ -77,22 +75,22 @@ class uiTextureComponent : public uiComponent{ // corrects a texture's rectangle
 protected :
     SDL_Texture* texture;
     fRect dstRect;
-    fRect iniRect;
 
 public :
 
     uiTextureComponent(SDL_Renderer* _renderer, SDL_Texture* _texture, windowInfo* _winfo,fRect _dstRect):
     uiComponent(_renderer,_winfo,pos(_dstRect.x,_dstRect.y)),
     texture(_texture),
-    dstRect(_dstRect),
-    iniRect(_dstRect)
+    dstRect(_dstRect)
     {
     }
 
 
-    void update(){
-        dstRect.x = iniRect.x*winfo->w()/winfo->iniW();
-        dstRect.y = iniRect.y*winfo->h()/winfo->iniH();
+    void update() override{
+        Pos.x = Pos.iniX()*winfo->w()/winfo->iniW();
+        Pos.y = Pos.iniY()*winfo->h()/winfo->iniH();
+        dstRect.x = dstRect.iniX()*winfo->w()/winfo->iniW();
+        dstRect.y = dstRect.iniY()*winfo->h()/winfo->iniH();
     }
 
     void render(){
@@ -109,6 +107,10 @@ public :
             SDL_RenderTexture(renderer,texture,NULL,&tmpRect);
         }
     }
+
+};
+
+class uiTTFComponent : public uiTextComponent{
 
 };
 
