@@ -77,14 +77,14 @@ void uiSetup(SDL_Renderer* renderer){
     int height = winfo.h();
     SDL_Texture* textTexture = createTTFTexture(renderer,testFont,"test test test",{0,255,0,255});
 
-    uiTextureComponent uiTestTexture(
+    uiTextureComponent* uiTestTexture = new uiTextureComponent(
         renderer,
         textTexture,
         &winfo,
         fRect(width-width/10,height/6,600,100)
     );
 
-    uiTextComponent uiTest(
+    uiTextComponent* uiTest = new uiTextComponent(
         renderer,
         "test test test test te",
         pos(width-width/10,height/8),
@@ -92,7 +92,7 @@ void uiSetup(SDL_Renderer* renderer){
         &winfo
     );
 
-    uiDynamicTextComponent uiFPS(
+    uiDynamicTextComponent* uiFPS = new uiDynamicTextComponent(
         renderer,
         FPSCount,
         pos(width-width/10,height/10),
@@ -100,7 +100,7 @@ void uiSetup(SDL_Renderer* renderer){
         &winfo
     );
 
-    uiDynamicTextComponent uiWinInfo(
+    uiDynamicTextComponent* uiWinInfo = new uiDynamicTextComponent(
         renderer,
         winInfo,
         pos(width-width/10,height/12),
@@ -108,9 +108,10 @@ void uiSetup(SDL_Renderer* renderer){
         &winfo
     );
 
+    // ne pas oublier de les supprimer à la fin du programme
     Ui.insert("Test",uiTest);
     Ui.insert("FPS",uiFPS);
     Ui.insert("ttfTest",uiTestTexture);
-    Ui.insert("WinInfo",uiWinInfo);
+    Ui.insert("WinInfo",uiWinInfo); 
 
 }
