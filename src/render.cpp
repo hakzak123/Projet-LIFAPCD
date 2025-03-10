@@ -4,16 +4,17 @@
 #include <color.h>
 #include <ui.h>
 #include <geometry.h>
+#include <application.h>
 
 extern ui Ui;
 
 
-void render(SDL_Renderer* renderer){
-    setRenderDrawColor(renderer,color(0,0,0,255));
-    SDL_RenderClear(renderer);
+void render(SMM* app){
+    setRenderDrawColor(app->getRenderer(),color(0,0,0,255));
+    SDL_RenderClear(app->getRenderer());
     
     Ui.render();
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(app->getRenderer());
 
 }

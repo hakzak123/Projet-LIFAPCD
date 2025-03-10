@@ -10,8 +10,8 @@ protected :
         color stringColor;
     
 public:
-        uiTextComponent(SDL_Renderer* _renderer,const std::string& _text, pos _position, const color &_stringColor,windowInfo* _winfo) : 
-        uiComponent(_renderer, _winfo,_position),
+        uiTextComponent(SMM* _app,const std::string& _text, pos _position, const color &_stringColor) : 
+        uiComponent(_app,_position),
         text(_text),
         stringColor(_stringColor)
         {}
@@ -50,50 +50,50 @@ class uiDynamicTextComponent : public uiTextComponent{ // same job as uiTextComp
     
     
     public : 
-        uiDynamicTextComponent(SDL_Renderer* _renderer,std::string (*_textptr)(), pos (*_positionptr)(), color (* _stringcolorptr)(),windowInfo* _winfo) : 
-        uiTextComponent(_renderer,_textptr(),_positionptr(),_stringcolorptr(),_winfo),
+        uiDynamicTextComponent(SMM* _app,std::string (*_textptr)(), pos (*_positionptr)(), color (* _stringcolorptr)()) : 
+        uiTextComponent(_app,_textptr(),_positionptr(),_stringcolorptr()),
         positionptr(_positionptr),
         textptr(_textptr),
         stringcolorptr(_stringcolorptr)
         {}
     
-        uiDynamicTextComponent(SDL_Renderer* _renderer,std::string _text, pos (*_positionptr)(), color (* _stringcolorptr)(),windowInfo* _winfo) : 
-        uiTextComponent(_renderer,_text,_positionptr(),_stringcolorptr(),_winfo),
+        uiDynamicTextComponent(SMM* _app,std::string _text, pos (*_positionptr)(), color (* _stringcolorptr)()) : 
+        uiTextComponent(_app,_text,_positionptr(),_stringcolorptr()),
         positionptr(_positionptr),
         textptr(nullptr),
         stringcolorptr(_stringcolorptr)
         {}
     
-        uiDynamicTextComponent(SDL_Renderer* _renderer,std::string (*_textptr)(), pos _position, color (* _stringcolorptr)(),windowInfo* _winfo) : 
-        uiTextComponent(_renderer,_textptr(),_position,_stringcolorptr(),_winfo),
+        uiDynamicTextComponent(SMM* _app,std::string (*_textptr)(), pos _position, color (* _stringcolorptr)()) : 
+        uiTextComponent(_app,_textptr(),_position,_stringcolorptr()),
         positionptr(nullptr),
         textptr(_textptr),
         stringcolorptr(_stringcolorptr)
         {}
     
-        uiDynamicTextComponent(SDL_Renderer* _renderer,std::string (*_textptr)(), pos (*_positionptr)(), color  _stringcolor,windowInfo* _winfo) : 
-        uiTextComponent(_renderer,_textptr(),_positionptr(),_stringcolor,_winfo),
+        uiDynamicTextComponent(SMM* _app,std::string (*_textptr)(), pos (*_positionptr)(), color  _stringcolor) : 
+        uiTextComponent(_app,_textptr(),_positionptr(),_stringcolor),
         positionptr(_positionptr),
         textptr(_textptr),
         stringcolorptr(nullptr)
         {}
     
-        uiDynamicTextComponent(SDL_Renderer* _renderer,std::string _text, pos _position, color (* _stringcolorptr)(),windowInfo* _winfo) : 
-        uiTextComponent(_renderer,_text,_position,_stringcolorptr(),_winfo),
+        uiDynamicTextComponent(SMM* _app,std::string _text, pos _position, color (* _stringcolorptr)()) : 
+        uiTextComponent(_app,_text,_position,_stringcolorptr()),
         positionptr(nullptr),
         textptr(nullptr),
         stringcolorptr(_stringcolorptr)
         {}
     
-        uiDynamicTextComponent(SDL_Renderer* _renderer,std::string (*_textptr)(), pos _position, color _stringcolor,windowInfo* _winfo) : 
-        uiTextComponent(_renderer,_textptr(),_position,_stringcolor,_winfo),
+        uiDynamicTextComponent(SMM* _app,std::string (*_textptr)(), pos _position, color _stringcolor) : 
+        uiTextComponent(_app,_textptr(),_position,_stringcolor),
         positionptr(nullptr),
         textptr(_textptr),
         stringcolorptr(nullptr)
         {}
     
-        uiDynamicTextComponent(SDL_Renderer* _renderer,std::string _text, pos (*_positionptr)(), color _stringcolor,windowInfo* _winfo) : 
-        uiTextComponent(_renderer,_text,_positionptr(),_stringcolor,_winfo),
+        uiDynamicTextComponent(SMM* _app,std::string _text, pos (*_positionptr)(), color _stringcolor) : 
+        uiTextComponent(_app,_text,_positionptr(),_stringcolor),
         positionptr(_positionptr),
         textptr(nullptr),
         stringcolorptr(nullptr)

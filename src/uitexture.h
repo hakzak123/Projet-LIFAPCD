@@ -13,8 +13,8 @@ protected :
     fRect dstRect;
 
 public :
-    uiTextureComponent(SDL_Renderer* _renderer, SDL_Texture* _texture, windowInfo* _winfo,fRect _dstRect):
-    uiComponent(_renderer,_winfo,pos(_dstRect.x,_dstRect.y)),
+    uiTextureComponent(SMM* _app, SDL_Texture* _texture,fRect _dstRect):
+    uiComponent(_app,pos(_dstRect.x,_dstRect.y)),
     texture(_texture),
     dstRect(_dstRect)
     {

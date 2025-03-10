@@ -2,11 +2,11 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <ui.h>
 #include <windowInfo.h>
+#include <application.h>
 
-extern windowInfo winfo;
 extern ui Ui;
 
-void update(){
-    winfo.update();
+void update(SMM* app){
+    app->winfo.update();
     Ui.update();
 }

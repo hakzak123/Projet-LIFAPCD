@@ -1,12 +1,11 @@
 #include <SDL3/SDL.h>
 #include <iostream>
+#include <application.h>
 
-extern bool appRunning;
-
-void eventHandling(const SDL_Event& event){
+void eventHandling(SMM* app, const SDL_Event& event){
     switch(event.type){
         case SDL_EVENT_QUIT: {
-            appRunning = false;
+            app->appRunning = false;
             break;
         }
     }

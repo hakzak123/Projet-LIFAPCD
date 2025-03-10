@@ -1,8 +1,7 @@
 #include <string.h>
 #include <string>
 #include <iostream>
-
-extern double maxframerate;
+#include <application.h>
 
 int argumentsParserFind(int argc, char* argv[], const char* searched){
     for(int i=0; i < argc ; ++i){
@@ -13,12 +12,12 @@ int argumentsParserFind(int argc, char* argv[], const char* searched){
     return -1;
 }
 
-void argumentHandling(int argc, char* argv[]){
+void argumentHandling(SMM* app, int argc, char* argv[]){
     int c = argumentsParserFind(argc,argv,"-maxfps");
 
     try{
         if(c>=0){
-            if((maxframerate = std::stoi(argv[c+1])) <=0)
+            if((app->maxframerate = std::stoi(argv[c+1])) <=0)
                 throw std::runtime_error("Invalid maxfps argument\n");
         }
     }

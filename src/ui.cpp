@@ -6,17 +6,10 @@
 #include <windowInfo.h>
 #include <smartptr.h>
 #include <ttf.h>
+#include <application.h>
 
-
-extern SDL_Window *window;
-extern TTF_Font* testFont;
-extern windowInfo winfo;
-extern double framerate;
-extern double maxframerate;
-extern Uint64 framecount;
-
+extern SMM* app;
 ui Ui;
-
 
 // Returns true when at least ms amount of time has passed since the last call. lastTimeStatic MUST BE A ZERO-INITIALIZED STATIC VARIABLE.
 bool time_passed_since_last_time(Uint64 ms, Uint64 &lastTimeStatic){
@@ -42,12 +35,12 @@ bool time_passed_since_last_time(Uint64 ms, Uint64 &lastTimeStatic, bool & first
 }
 
 std::string FPSCount(){
-    static int shownvalue = int(framerate);
+    static int shownvalue = int(app->framerate);
     static Uint64 lastTime = 0;
     static bool firstCall = true;
 
     if(time_passed_since_last_time(250,lastTime,firstCall)){
-        shownvalue = int(framerate);
+        shownvalue = int(app->framerate);
     }
 
     return std::to_string(shownvalue) + " FPS";
@@ -55,57 +48,53 @@ std::string FPSCount(){
 
 color FPSColor(){
     static Uint32 count = 0;
-    static int shownvalue = static_cast<int>(framerate);
+    static int shownvalue = static_cast<int>(app->framerate);
 
     if(count < 30){
         count++;
     }
     else{
         count = 0;
-        shownvalue = static_cast<int>(framerate);
+        shownvalue = static_cast<int>(app->framerate);
     }
 
     return shownvalue>30 ? color(32,255,48,255) : color(255,32,48,255);
 }
 
 std::string winInfo(){
-    return std::to_string(winfo.w()) + "x" +std::to_string(winfo.h());
+    return std::to_string(app->winfo.w()) + "x" +std::to_string(app->winfo.h());
 }
 
 void uiSetup(SDL_Renderer* renderer){
-    int width = winfo.w();
-    int height = winfo.h();
-    SDL_Texture* textTexture = createTTFTexture(renderer,testFont,"test test test",{0,255,0,255});
+    int width = app->winfo.w();
+    int height = app->winfo.h();
+    SDL_Texture* textTexture = createTTFTexture(renderer,app->fontMap.find("testFont")->second,"test test test",{0,255,0,255});
 
     uiTextureComponent* uiTestTexture = new uiTextureComponent(
-        renderer,
+        app,
         textTexture,
-        &winfo,
         fRect(width-width/10,height/6,600,100)
     );
 
     uiTextComponent* uiTest = new uiTextComponent(
-        renderer,
+        app,
         "test test test test te",
         pos(width-width/10,height/8),
-        {48,255,0,255},
-        &winfo
+        {48,255,0,255}
     );
 
     uiDynamicTextComponent* uiFPS = new uiDynamicTextComponent(
-        renderer,
+        app,
         FPSCount,
         pos(width-width/10,height/10),
-        FPSColor,
-        &winfo
+        FPSColor
     );
 
     uiDynamicTextComponent* uiWinInfo = new uiDynamicTextComponent(
-        renderer,
+        app,
         winInfo,
         pos(width-width/10,height/12),
-        {48,255,0,255},
-        &winfo
+        {48,255,0,255}
     );
 
     // ne pas oublier de les supprimer à la fin du programme

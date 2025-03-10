@@ -10,6 +10,7 @@ set(SOURCES
     src/ui.cpp
     src/update.cpp
     src/argumentHandling.cpp
+    src/eventHandling.cpp
 )
 
 include_directories(

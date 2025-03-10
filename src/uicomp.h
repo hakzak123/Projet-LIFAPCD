@@ -2,6 +2,7 @@
 #include <SDL3/SDL.h>
 #include <windowInfo.h>
 #include <position.h>
+#include <application.h>
 
 class uiComponent{
     protected :
@@ -11,7 +12,7 @@ class uiComponent{
         bool rendered = true;
     public :
     
-        uiComponent(SDL_Renderer* _renderer, windowInfo* _winfo, pos _Pos) : renderer(_renderer), winfo(_winfo), Pos(_Pos){
+        uiComponent(SMM* _app, pos _Pos) : renderer(_app->renderer), winfo(&_app->winfo), Pos(_Pos){
     
         }
     
