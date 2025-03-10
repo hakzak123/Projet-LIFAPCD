@@ -8,10 +8,9 @@
 
 class SMM;
 
-void render(SMM*);
-void uiSetup(SDL_Renderer*);
-void update();
-// prendront SMM en paramètres (*this)
+void renderApp(SMM*);
+void uiSetup(SMM*);
+void updateApp(SMM*);
 
 
 class SMM{
@@ -50,7 +49,7 @@ public:
         winfo = window;
         
         // ui Setup
-        uiSetup(renderer);
+        uiSetup(this);
     }
 
     // handles framerate and returns current framerate
@@ -66,12 +65,12 @@ public:
         framerate = 1/loopTime.count();
     }
 
-    void updateApp(){
-        update();
+    void update(){
+        updateApp(this);
     }
 
-    void renderApp(){
-        render(this);
+    void render(){
+        renderApp(this);
     }
 
     SDL_Renderer* getRenderer(){

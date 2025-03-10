@@ -40,8 +40,8 @@ int main(int argc, char* argv[]){
             eventHandling(app,event);
         }
 
-        update(app);
-        render(app);
+        app->update();
+        app->render();
 
         app->framerateHandling(frameStart);
     }

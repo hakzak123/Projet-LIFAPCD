@@ -65,10 +65,10 @@ std::string winInfo(){
     return std::to_string(app->winfo.w()) + "x" +std::to_string(app->winfo.h());
 }
 
-void uiSetup(SDL_Renderer* renderer){
+void uiSetup(SMM* app){
     int width = app->winfo.w();
     int height = app->winfo.h();
-    SDL_Texture* textTexture = createTTFTexture(renderer,app->fontMap.find("testFont")->second,"test test test",{0,255,0,255});
+    SDL_Texture* textTexture = createTTFTexture(app->renderer,app->fontMap.find("testFont")->second,"test test test",{0,255,0,255});
 
     uiTextureComponent* uiTestTexture = new uiTextureComponent(
         app,
@@ -97,7 +97,6 @@ void uiSetup(SDL_Renderer* renderer){
         {48,255,0,255}
     );
 
-    // ne pas oublier de les supprimer à la fin du programme
     Ui.insert("Test",uiTest);
     Ui.insert("FPS",uiFPS);
     Ui.insert("ttfTest",uiTestTexture);
