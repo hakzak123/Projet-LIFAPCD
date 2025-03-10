@@ -6,13 +6,12 @@
 
 class uiComponent{
     protected :
-        SDL_Renderer* renderer;
-        windowInfo* winfo;
+        SMM* app;
         pos Pos;
         bool rendered = true;
     public :
     
-        uiComponent(SMM* _app, pos _Pos) : renderer(_app->renderer), winfo(&_app->winfo), Pos(_Pos){
+        uiComponent(SMM* _app, pos _Pos) : app(_app), Pos(_Pos){
     
         }
     

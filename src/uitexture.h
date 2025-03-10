@@ -5,8 +5,6 @@
 #include <geometry.h>
 
 
-
-
 class uiTextureComponent : public uiComponent{ // corrects a texture's rectangle position so that it doesn't overflow to the right. Doesn't take in src rectangle for simplicity.
 protected :
     SDL_Texture* texture;
@@ -22,17 +20,21 @@ public :
 
 
     void update() override{
-        Pos.x = Pos.iniX()*winfo->w()/winfo->iniW();
-        Pos.y = Pos.iniY()*winfo->h()/winfo->iniH();
-        dstRect.x = dstRect.iniX()*winfo->w()/winfo->iniW();
-        dstRect.y = dstRect.iniY()*winfo->h()/winfo->iniH();
+        windowInfo winfo = app->winfo;
+        SDL_Renderer* renderer = app->renderer;
+        Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
+        Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
+        dstRect.x = dstRect.iniX()*winfo.w()/winfo.iniW();
+        dstRect.y = dstRect.iniY()*winfo.h()/winfo.iniH();
     }
 
     void render(){
         if(rendered){
+            windowInfo winfo = app->winfo;
+            SDL_Renderer* renderer = app->renderer;
             fRect tmpRect = dstRect;
             size_t rectWidth = dstRect.w;
-            float gap = winfo->w()-dstRect.x;
+            float gap = winfo.w()-dstRect.x;
             float overflow = rectWidth-gap;
             bool positiveOverflow = overflow > 0 ? true : false;
             

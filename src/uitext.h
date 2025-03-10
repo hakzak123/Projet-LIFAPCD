@@ -18,14 +18,17 @@ public:
     
     
         void update() override{
-            Pos.x = Pos.iniX()*winfo->w()/winfo->iniW();
-            Pos.y = Pos.iniY()*winfo->h()/winfo->iniH();
+            windowInfo winfo = app->winfo;
+            Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
+            Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
         }
     
         void render() override{
             if(rendered){
+                windowInfo winfo = app->winfo;
+                SDL_Renderer* renderer = app->renderer;
                 size_t stringsize = text.size()*8;
-                float gap = winfo->w()-Pos.x;
+                float gap = winfo.w()-Pos.x;
                 float overflow = stringsize-gap;
                 bool positiveOverflow = overflow > 0 ? true : false;
     
@@ -101,6 +104,8 @@ class uiDynamicTextComponent : public uiTextComponent{ // same job as uiTextComp
     
         void render() override {
             if(rendered){
+                windowInfo winfo = app->winfo;
+                SDL_Renderer* renderer = app->renderer;
                 if(textptr)
                     text = textptr();           
                 if(positionptr){
@@ -111,7 +116,7 @@ class uiDynamicTextComponent : public uiTextComponent{ // same job as uiTextComp
                     stringColor = stringcolorptr();
     
                 size_t stringsize = text.size()*8;
-                float gap = winfo->w()-Pos.x;
+                float gap = winfo.w()-Pos.x;
                 float overflow = stringsize-gap;
                 bool positiveOverflow = overflow > 0 ? true : false;
     
