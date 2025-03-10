@@ -11,13 +11,17 @@ SDL_Window *window = nullptr;
 windowInfo winfo;
 TTF_Font* testFont;
 
+// il faudra mettre toutes ces variables dans une classe app
+bool appRunning = true;
 double framerate = 0;
 double maxframerate = 60;
 Uint64 framecount = 0;
+
 std::string workspace = std::string(SDL_GetBasePath()) + "../";
 
 
 void argumentHandling(int,char**);
+void eventHandling(const SDL_Event&);
 void render(SDL_Renderer*);
 void uiSetup(SDL_Renderer*);
 void update();
@@ -26,7 +30,7 @@ void update();
 int main(int argc, char* argv[]) {
     argumentHandling(argc,argv);
     double maxframeratecyclecount = 1000000000/maxframerate;
-    bool gameRunning = true;
+    
     SDL_Event event;
     SDL_Renderer* renderer;
 
@@ -53,16 +57,11 @@ int main(int argc, char* argv[]) {
     uiSetup(renderer);
     
 
-    while(gameRunning){
+    while(appRunning){
         auto frameStart = CURRENT_TIME;
 
         while(SDL_PollEvent(&event)){
-            switch(event.type){
-                case SDL_EVENT_QUIT: {
-                    gameRunning = false;
-                    break;
-                }
-            }
+            eventHandling(event);
         }
 
         update();
