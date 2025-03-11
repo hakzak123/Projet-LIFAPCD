@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>208</x><y>128</y><w>280</w><h>312</h></coordinates><panel_attributes>&lt;&lt;SMM&gt;&gt;
+<diagram program="umletino" version="15.1"><zoom_level>5</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>185</x><y>265</y><w>175</w><h>195</h></coordinates><panel_attributes>SMM
 --
 -window: pointeur de SDL_Window 
 -renderer: pointeur de SDL_Renderer
@@ -20,4 +20,24 @@
 +getWindowInfo() : windowInfo
 +getFramerate() : float64
 +getMaxFramerate() : float64
-+setMaxFramerate(fps : float64)</panel_attributes><additional_attributes></additional_attributes></element></diagram>
++setMaxFramerate(fps : float64)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>145</y><w>145</w><h>105</h></coordinates><panel_attributes>windowInfo
+--
+-w0 : int
+-h0 : int
+-_w : int
+-_h : int
+-window : pointeur de SDL_Window
+--
++windowInfo()
++windowInfo(_window : pointeur de SDL_Window)
++operator=(window : pointeur de SDL_Window)
++update()
++w() : int
++h() : int
++iniW() : int
++iniH() : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>245</y><w>55</w><h>60</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;90;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>380</x><y>125</y><w>145</w><h>105</h></coordinates><panel_attributes>windowInfo
+--
+-uiCompMap : map (clé : string, élément : pointeur de uiComponent)
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>

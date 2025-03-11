@@ -9,8 +9,12 @@
 
 
 class ui{ // Stores ui component maps
-public :
+private :
     std::map<std::string,uiComponent*> uiCompMap;
+
+public :
+    ui(){
+    }
 
     void insert(std::string key, uiComponent* comp){
         uiCompMap.insert({key,comp});

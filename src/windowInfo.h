@@ -8,9 +8,9 @@ private:
     int h0 = 0;
     int _w = 0;
     int _h = 0;
-public:
     SDL_Window* window;
 
+public:
     windowInfo(){
     }
 
