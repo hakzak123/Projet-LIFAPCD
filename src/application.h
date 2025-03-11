@@ -8,24 +8,31 @@
 
 class SMM;
 
-void renderApp(SMM*);
 void uiSetup(SMM*);
-void updateApp(SMM*);
-
 
 class SMM{
 public:
-    SDL_Window *window = nullptr;
+    SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     std::map<std::string,TTF_Font*> fontMap;
 
     windowInfo winfo;
-    std::string workspace = std::string(SDL_GetBasePath()) + "../";
+    const std::string workspace = std::string(SDL_GetBasePath()) + "../";
 
     double framerate = 0;
     double maxframerate = 60;
-    Uint64 framecount = 0;
     bool appRunning = true;
+
+    SDL_Window* const getWindow();
+    SDL_Renderer* const getRenderer(){
+        return renderer;
+    };
+    void addFont(std::string key,TTF_Font* font);
+    TTF_Font* getFont(std::string key);
+    windowInfo getWindowInfo();
+    double getFramerate();
+    double getMaxFramerate();
+    void setMaxFramerate(double fps);
 
     void setup(){
         // Fonts init
@@ -65,15 +72,7 @@ public:
         framerate = 1/loopTime.count();
     }
 
-    void update(){
-        updateApp(this);
-    }
+    void update();
+    void render();
 
-    void render(){
-        renderApp(this);
-    }
-
-    SDL_Renderer* getRenderer(){
-        return renderer;
-    }
 };

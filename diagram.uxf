@@ -1,0 +1,23 @@
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>208</x><y>128</y><w>280</w><h>312</h></coordinates><panel_attributes>&lt;&lt;SMM&gt;&gt;
+--
+-window: pointeur de SDL_Window 
+-renderer: pointeur de SDL_Renderer
+-winfo : windowInfo
+-fontMap : map (clé : string, élément : pointeur de TTF_Font)
++workspace : string constant
+-framerate : float64
+-maxframerate : float64
++appRunning : bool
+--
++SMM()
++~SMM()
++setup()
++framerateHandling(frameStart : point dans le temps)
++getWindow(): pointeur de SDL_Window constant
++getRenderer(): pointeur de SDL_Renderer constant
++addFont(key : string, font: pointeur de TTF_Font)
++getFont(key : string) : pointeur de TTF_Font
++getWindowInfo() : windowInfo
++getFramerate() : float64
++getMaxFramerate() : float64
++setMaxFramerate(fps : float64)</panel_attributes><additional_attributes></additional_attributes></element></diagram>

@@ -42,7 +42,6 @@ int main(int argc, char* argv[]){
 
         app->update();
         app->render();
-
         app->framerateHandling(frameStart);
     }
 

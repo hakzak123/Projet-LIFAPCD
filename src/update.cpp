@@ -6,7 +6,7 @@
 
 extern ui Ui;
 
-void updateApp(SMM* app){
-    app->winfo.update();
+void SMM::update(){
+    winfo.update();
     Ui.update();
 }
