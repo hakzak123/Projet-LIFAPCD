@@ -5,10 +5,7 @@
 #include <chrono>
 #include <windowInfo.h>
 #include <macros.h>
-
-class SMM;
-
-void uiSetup(SMM*);
+#include <camera.h>
 
 class SMM{
 public:
@@ -17,6 +14,7 @@ public:
     std::map<std::string,TTF_Font*> fontMap;
 
     windowInfo winfo;
+    camera cam;
     const std::string workspace = std::string(SDL_GetBasePath()) + "../";
 
     double framerate = 0;
@@ -54,9 +52,6 @@ public:
             std::exit(1);
         }
         winfo = window;
-        
-        // ui Setup
-        uiSetup(this);
     }
 
     // handles framerate and returns current framerate

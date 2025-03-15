@@ -49,11 +49,12 @@ public :
 
 class uiTTFComponent : public uiTextureComponent{
     protected:
-        unsigned height;
         std::string text;
+        unsigned height;
         TTF_Font* font;
     
     public:
-    
+        uiTTFComponent(SMM* _app, std::string _text ,pos _Pos, unsigned _height, TTF_Font* _font);
+
         void render() override;
     };

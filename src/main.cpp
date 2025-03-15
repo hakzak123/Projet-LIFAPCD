@@ -10,9 +10,8 @@
 
 void argumentHandling(SMM*,int,char**);
 void eventHandling(SMM*,const SDL_Event&);
-void render(SMM*);
-void uiSetup(SDL_Renderer*);
-void update(SMM*);
+void uiSetup();
+void initGlobalTextures();
 
 SMM* app;
 
@@ -30,8 +29,12 @@ int main(int argc, char* argv[]){
         SDL_ShowSimpleMessageBox(0,"ERROR!", "TTF_Init() failed",nullptr);
         return 0;
     }
+
     
     app->setup();
+    initGlobalTextures();
+    uiSetup();
+
 
     while(app->appRunning){
         auto frameStart = CURRENT_TIME;

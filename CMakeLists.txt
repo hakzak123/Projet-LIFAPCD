@@ -11,6 +11,7 @@ set(SOURCES
     src/update.cpp
     src/argumentHandling.cpp
     src/eventHandling.cpp
+    src/globalTextures.cpp
 )
 
 include_directories(

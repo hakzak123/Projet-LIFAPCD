@@ -1,6 +1,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
+#include <unordered_map>
 #include <color.h>
 #include <ui.h>
 #include <windowInfo.h>
@@ -9,6 +10,7 @@
 #include <application.h>
 
 extern SMM* app;
+extern std::unordered_map<std::string,SDL_Texture*> globalTextures;
 ui Ui;
 
 // Returns true when at least ms amount of time has passed since the last call. lastTimeStatic MUST BE A ZERO-INITIALIZED STATIC VARIABLE.
@@ -65,7 +67,7 @@ std::string winInfo(){
     return std::to_string(app->winfo.w()) + "x" +std::to_string(app->winfo.h());
 }
 
-void uiSetup(SMM* app){
+void uiSetup(){
     int width = app->winfo.w();
     int height = app->winfo.h();
     SDL_Texture* textTexture = createTTFTexture(app->renderer,app->fontMap.find("testFont")->second,"test test test",{0,255,0,255});
@@ -74,6 +76,12 @@ void uiSetup(SMM* app){
         app,
         textTexture,
         fRect(width-width/10,height/6,600,100)
+    );
+
+    uiTextureComponent* uiTestGlobalTexture = new uiTextureComponent(
+        app,
+        globalTextures["placeholder.bmp"],
+        fRect(width/2,height/2,600,600)
     );
 
     uiTextComponent* uiTest = new uiTextComponent(
@@ -100,6 +108,7 @@ void uiSetup(SMM* app){
     Ui.insert("Test",uiTest);
     Ui.insert("FPS",uiFPS);
     Ui.insert("ttfTest",uiTestTexture);
+    Ui.insert("testGlobalTexture",uiTestGlobalTexture);
     Ui.insert("WinInfo",uiWinInfo); 
 
 }

@@ -1,9 +1,11 @@
-<diagram program="umletino" version="15.1"><zoom_level>5</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>185</x><y>265</y><w>175</w><h>195</h></coordinates><panel_attributes>SMM
+<diagram program="umletino" version="15.1"><zoom_level>5</zoom_level><help_text>Space for diagram notes
+</help_text><element><id>UMLClass</id><coordinates><x>185</x><y>369</y><w>175</w><h>195</h></coordinates><panel_attributes>SMM
 --
 -window: pointeur de SDL_Window 
 -renderer: pointeur de SDL_Renderer
 -winfo : windowInfo
--fontMap : map (clé : string, élément : pointeur de TTF_Font)
+-cam : camera
+-fontMap : map &lt;clé : string, élément : pointeur de TTF_Font&gt;
 +workspace : string constant
 -framerate : float64
 -maxframerate : float64
@@ -20,7 +22,7 @@
 +getWindowInfo() : windowInfo
 +getFramerate() : float64
 +getMaxFramerate() : float64
-+setMaxFramerate(fps : float64)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>145</y><w>145</w><h>105</h></coordinates><panel_attributes>windowInfo
++setMaxFramerate(fps : float64)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>249</y><w>145</w><h>115</h></coordinates><panel_attributes>windowInfo
 --
 -w0 : int
 -h0 : int
@@ -35,9 +37,135 @@
 +w() : int
 +h() : int
 +iniW() : int
-+iniH() : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>245</y><w>55</w><h>60</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;90;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>380</x><y>125</y><w>145</w><h>105</h></coordinates><panel_attributes>windowInfo
++iniH() : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>349</y><w>55</w><h>60</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;90;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>200</x><y>89</y><w>200</w><h>70</h></coordinates><panel_attributes>ui
 --
--uiCompMap : map (clé : string, élément : pointeur de uiComponent)
+-uiCompMap : map &lt;clé : string, élément : pointeur de uiComponent&gt;
 
 --
++ui()
++insert(clé : string, élément : pointeur de uiComponen)
++update()
++render()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>224</y><w>155</w><h>85</h></coordinates><panel_attributes>/uiComponent/
+{Abstract}
+--
+-app : pointeur de SMM
+-pos : Pos
+-rendered : bool
+--
++uiComponent(_app : pointeur de SMM, _Pos : pos)
++isRendered() : bool
++renderable(b : bool)
+/+update()/
+/+render()/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>330</x><y>304</y><w>45</w><h>75</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;130;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>405</x><y>404</y><w>75</w><h>80</h></coordinates><panel_attributes>pos
+--
+-x0 : float
+-y0 : float
++x : float
++y : float
+--
++pos()
++pos(_x : float, _y : float)
++iniX() : float
++iniY() : float</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>304</y><w>15</w><h>110</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;200;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>275</x><y>154</y><w>55</w><h>80</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>90;140;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>615</x><y>219</y><w>80</w><h>85</h></coordinates><panel_attributes>uiTextComponent
+--
+-text : string
+-stringColor : color
+--
++uiTextComponent(
+_app : pointeur de SMM, 
+_text : pointeur de string, 
+_position : pos, 
+_stringColor : color)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>470</x><y>254</y><w>155</w><h>15</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;290;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>470</x><y>514</y><w>60</w><h>85</h></coordinates><panel_attributes>color
+--
+
+--
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>790</x><y>219</y><w>130</w><h>85</h></coordinates><panel_attributes>uiDynamicTextComponent
+--
+-positionptr : pointeur de fonction -&gt; pos
+-textptr : pointeur de fonction -&gt; string
+-stringcolorptr : pointeur de fonction -&gt; color
+--
++uiDynamicTextComponent(</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>254</y><w>110</w><h>15</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;200;10</additional_attributes></element><element><id>Relation</id><coordinates><x>475</x><y>299</y><w>325</w><h>115</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;210;630;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>605</x><y>19</y><w>105</w><h>85</h></coordinates><panel_attributes>uiTextureComponent
+--
+-texture : pointeur SDL_Texture
+-dstRect : SDL_FRect
+--
++uiTextureComponent(
+_app : pointeur de SMM, 
+_texture : pointeur de SDL_Texture, 
+_dstRect : SDL_FRect)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>470</x><y>54</y><w>145</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;340;270;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>785</x><y>19</y><w>90</w><h>85</h></coordinates><panel_attributes>uiTTFComponent
+--
+-text : string
+-charsize: int
+-font : pointeur de TTF_Font
+--
++uiTextureComponent(
+_app : pointeur de SMM, 
+_pos : Pos,
+_text : string,
+_charsize: int,
+_font : pointeur de TTF_Font)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>705</x><y>54</y><w>90</w><h>15</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>555</x><y>389</y><w>230</w><h>85</h></coordinates><panel_attributes>/uiButton/
+{Abstract}
+--
+-onClick : pointeur de procédure
+-active : bool
+--
++uiButton(_app : pointeur de SMM, _Pos : pos, _onClick : pointeur de procédure)
+/+clickable() : bool/
++action()
++isActive() : bool
++setState(_active : bool)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>470</x><y>304</y><w>95</w><h>95</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;170</additional_attributes></element><element><id>UMLClass</id><coordinates><x>860</x><y>344</y><w>115</w><h>100</h></coordinates><panel_attributes>uiButtonRect
+--
+-rect : SDL_FRect
+-rectColor : color
+--
++uiButtonRect(_app : pointeur de SMM,
+ _Pos : pos,
+ _onClick : pointeur de procédure,
+_rect : SDL_FRect,
+_rectColor : color
+)
++renderRect()
++getRectColor() : color
++setRectColor(newColor : color)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>780</x><y>379</y><w>90</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;100;160;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1070</x><y>289</y><w>115</w><h>80</h></coordinates><panel_attributes>uiButtonRectText
+--
+-text : uiTTFComponent
+--
++uiButtonRectText(_app : pointeur de SMM,
+ _Pos : pos,
+ _onClick : pointeur de procédure,
+_rect : SDL_FRect,
+_rectColor : color,
+_text : uiTTFComponent
+)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>970</x><y>334</y><w>110</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;120;200;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1070</x><y>404</y><w>115</w><h>80</h></coordinates><panel_attributes>uiButtonRectTexture
+--
+-texture : pointeur de SDL_Texture
+--
++uiButtonRectTexture(_app : pointeur de SMM,
+ _Pos : pos,
+ _onClick : pointeur de procédure,
+_rect : SDL_FRect,
+_rectColor : color,
+_texture : pointeur de SDL_Texture
+)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>970</x><y>394</y><w>110</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;200;120</additional_attributes></element><element><id>UMLClass</id><coordinates><x>860</x><y>464</y><w>115</w><h>100</h></coordinates><panel_attributes>uiButtonTexture
+--
+-texture : pointeur de SDL_Texture
+-dstRect : SDL_FRect
+--
++uiButtonTexture(_app : pointeur de SMM,
+ _Pos : pos,
+ _onClick : pointeur de procédure,
+texture : pointeur de SDL_Texture,
+rect : SDL_FRect
+)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>780</x><y>429</y><w>90</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;120</additional_attributes></element><element><id>UMLClass</id><coordinates><x>145</x><y>609</y><w>60</w><h>85</h></coordinates><panel_attributes>camera
+--
+
+--
+
 </panel_attributes><additional_attributes></additional_attributes></element></diagram>
