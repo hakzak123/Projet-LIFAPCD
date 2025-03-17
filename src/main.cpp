@@ -30,11 +30,9 @@ int main(int argc, char* argv[]){
         return 0;
     }
 
-    
     app->setup();
     initGlobalTextures();
     uiSetup();
-
 
     while(app->appRunning){
         auto frameStart = CURRENT_TIME;

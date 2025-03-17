@@ -81,7 +81,7 @@ void uiSetup(){
     uiTextureComponent* uiTestGlobalTexture = new uiTextureComponent(
         app,
         globalTextures["placeholder.bmp"],
-        fRect(width/2,height/2,600,600)
+        fRect(660,240,600,600)
     );
 
     uiTextComponent* uiTest = new uiTextComponent(

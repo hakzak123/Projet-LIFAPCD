@@ -24,8 +24,8 @@ public :
         SDL_Renderer* renderer = app->renderer;
         Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
         Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
-        dstRect.x = dstRect.iniX()*winfo.w()/winfo.iniW();
-        dstRect.y = dstRect.iniY()*winfo.h()/winfo.iniH();
+        dstRect.x = Pos.x;
+        dstRect.y = Pos.y;
     }
 
     void render(){
