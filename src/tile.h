@@ -5,20 +5,16 @@
 class tile : public mapComponent{
 private :
     std::string textureName = "placeholder.bmp";
-    bool collisions = true;
 
 public :
     tile();
-
-    tile(std::string _textureName, bool _collisions = true);
+    tile(std::string _textureName, bool _collision = true);
 };
 
 class tileMap{
 private :
     unsigned short width, height;
     tile* tiles = nullptr;
-
-    void reAlloc(unsigned short _width, unsigned short _height);
 
 public :
     tileMap(unsigned short _width, unsigned short _height) : width(_width), height(_height), tiles(new tile[int(width)*height])
@@ -32,7 +28,7 @@ public :
 
     void newDim(unsigned short _width, unsigned short _height);
     tile& getTile();
-    tile getTile() const;
     void setTile(unsigned short x, unsigned short y);
+    void makeTileRectangle(unsigned short _width, unsigned short _height, std::string textureName);
 
 };
