@@ -20,20 +20,19 @@ public :
 
 
     void update() override{
-        windowInfo winfo = app->winfo;
-        SDL_Renderer* renderer = app->renderer;
+        windowInfo& winfo = app->winfo;
+        SDL_Renderer*& renderer = app->renderer;
         Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
         Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
-        dstRect.x = Pos.x;
-        dstRect.y = Pos.y;
+        dstRect.setPos(Pos);
     }
 
     void render(){
         if(rendered){
-            windowInfo winfo = app->winfo;
+            windowInfo& winfo = app->winfo;
             SDL_Renderer* renderer = app->renderer;
             fRect tmpRect = dstRect;
-            size_t rectWidth = dstRect.w;
+            float& rectWidth = dstRect.w;
             float gap = winfo.w()-dstRect.x;
             float overflow = rectWidth-gap;
             bool positiveOverflow = overflow > 0 ? true : false;

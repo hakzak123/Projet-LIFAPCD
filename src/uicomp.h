@@ -9,6 +9,7 @@ class uiComponent{
         SMM* app;
         pos Pos;
         bool rendered = true;
+
     public :
     
         uiComponent(SMM* _app, pos _Pos) : app(_app), Pos(_Pos){

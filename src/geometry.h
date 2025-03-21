@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
+#include <position.h>
 
 class fRect : public SDL_FRect{
 protected :
@@ -15,6 +16,14 @@ public:
         h = _h;
     }
 
+    pos getPos() const{
+        return pos(x,y);
+    }
+
+    void setPos(const pos &Pos){
+        x = Pos.x;
+        y = Pos.y;
+    }
 
     float iniX(){
         return x0;
@@ -49,3 +58,11 @@ public:
         return y0;
     }
 };
+
+inline bool isInRectangle(pos Pos, fRect rect){
+    return (Pos.x >= rect.x && Pos.x <= rect.w + rect.x)  &&  (Pos.y >= rect.y && Pos.y <= rect.h + rect.y);
+}
+
+inline bool isInRectangle(pos Pos, rect rect){
+    return (Pos.x >= rect.x && Pos.x <= rect.w + rect.x)  &&  (Pos.y >= rect.y && Pos.y <= rect.h + rect.y);
+}

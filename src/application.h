@@ -34,13 +34,31 @@ public:
 
     void setup(){
         // Fonts init
+        /*
         TTF_Font* testFont;
+
         if(!(testFont = TTF_OpenFont((workspace + "data/fonts/testTTF.ttf").c_str(),256))){
             SDL_ShowSimpleMessageBox(0,"ERROR!", "Font initialization failed",nullptr);
             SDL_Quit();
             std::exit(1);
         }
-        fontMap.insert({"testFont",testFont});
+        */
+
+        SDL_EnumerateDirectory((workspace + "data/fonts").c_str(),
+        [](void* data, const char *dirname, const char *fname) -> SDL_EnumerationResult{
+            typedef std::map<std::string, TTF_Font *> font_map; 
+            TTF_Font* font;
+            if(!(font = TTF_OpenFont(((std::string)dirname + fname).c_str(),256))){
+                SDL_ShowSimpleMessageBox(0,"ERROR!", "Font initialization failed",nullptr);
+                SDL_Quit();
+                std::exit(1);
+            }
+            static_cast<font_map*>(data)->insert({fname, font});
+            return SDL_ENUM_CONTINUE;
+        },
+        &fontMap);
+
+        //fontMap.insert({"testFont",testFont});
 
         // Window init
         if(window = SDL_CreateWindow("SDL test",0,0,SDL_WINDOW_FULLSCREEN)){
@@ -54,7 +72,7 @@ public:
         winfo = window;
     }
 
-    // handles framerate and returns current framerate
+    // handles update rate and sets framerate
     void framerateHandling(std::chrono::_V2::system_clock::time_point frameStart){
         double maxFramerateCycleCount = 1000000000/maxframerate;
         std::chrono::duration<double> frameTime = CURRENT_TIME-frameStart;

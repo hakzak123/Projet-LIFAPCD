@@ -16,3 +16,10 @@ SDL_EnumerationResult callback(void* data, const char *dirname, const char *fnam
 void initGlobalTextures(){
     SDL_EnumerateDirectory((app->workspace + "data/textures").c_str(),callback,nullptr);
 }
+
+void destroyGlobalTextures(){
+    for(auto &e : globalTextures){
+        SDL_DestroyTexture(e.second);
+        std::cout << "successfully destroyed " << e.first << '\n';
+    }
+}

@@ -67,21 +67,32 @@ std::string winInfo(){
     return std::to_string(app->winfo.w()) + "x" +std::to_string(app->winfo.h());
 }
 
+void onClickTest(uiButton* parent){
+    ((uiButtonRect*)parent)->setRectColor({(Uint8)SDL_rand(254),(Uint8)SDL_rand(254),(Uint8)SDL_rand(254),255});
+}
+
 void uiSetup(){
     int width = app->winfo.w();
     int height = app->winfo.h();
-    SDL_Texture* textTexture = createTTFTexture(app->renderer,app->fontMap.find("testFont")->second,"test test test",{0,255,0,255});
+    SDL_Texture* textTexture = createTTFTexture(app->renderer,app->fontMap["impact.ttf"],"TEST TEST TEST",{0,255,0,255});
 
     uiTextureComponent* uiTestTexture = new uiTextureComponent(
         app,
         textTexture,
-        fRect(width-width/10,height/6,600,100)
+        fRect(width-width/10,height/6,600,120)
     );
 
     uiTextureComponent* uiTestGlobalTexture = new uiTextureComponent(
         app,
         globalTextures["placeholder.bmp"],
         fRect(660,240,600,600)
+    );
+
+    uiButtonRect* uiTestButton = new uiButtonRect(
+        app,
+        onClickTest,
+        fRect(width-width/10,height/3,600,100),
+        color(0,255,0,255)
     );
 
     uiTextComponent* uiTest = new uiTextComponent(
@@ -109,6 +120,7 @@ void uiSetup(){
     Ui.insert("FPS",uiFPS);
     Ui.insert("ttfTest",uiTestTexture);
     Ui.insert("testGlobalTexture",uiTestGlobalTexture);
+    Ui.insert("testButton",uiTestButton);
     Ui.insert("WinInfo",uiWinInfo); 
 
 }

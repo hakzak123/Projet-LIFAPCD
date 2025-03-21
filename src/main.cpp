@@ -9,9 +9,12 @@
 #include <application.h>
 
 void argumentHandling(SMM*,int,char**);
-void eventHandling(SMM*,const SDL_Event&);
+void eventHandling(SDL_Event&);
 void uiSetup();
 void initGlobalTextures();
+void destroyGlobalTextures();
+void cursorHandling();
+void destroyCursors();
 
 SMM* app;
 
@@ -37,15 +40,16 @@ int main(int argc, char* argv[]){
     while(app->appRunning){
         auto frameStart = CURRENT_TIME;
 
-        while(SDL_PollEvent(&event)){
-            eventHandling(app,event);
-        }
+        eventHandling(event);
+        cursorHandling();
 
         app->update();
         app->render();
         app->framerateHandling(frameStart);
     }
 
-    SDL_Quit();
+    destroyGlobalTextures();
+    destroyCursors();
     delete app;
+    SDL_Quit();
 }

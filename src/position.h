@@ -14,7 +14,6 @@ public:
         
     }
 
-
     float iniX(){
         return x0;
     }

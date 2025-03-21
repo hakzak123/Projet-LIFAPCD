@@ -11,6 +11,7 @@ set(SOURCES
     src/update.cpp
     src/argumentHandling.cpp
     src/eventHandling.cpp
+    src/cursorHandling.cpp
     src/globalTextures.cpp
 )
 
