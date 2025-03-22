@@ -11,7 +11,8 @@ class uiComponent{
         bool rendered = true;
 
     public :
-    
+        uiComponent(){}
+
         uiComponent(SMM* _app, pos _Pos) : app(_app), Pos(_Pos){
     
         }
@@ -24,6 +25,14 @@ class uiComponent{
             rendered = b;
         }
     
+        pos getPos(){
+            return Pos;
+        }
+
+        void setPos(const pos& _Pos){
+            Pos = _Pos;
+        }
+
         virtual void update() = 0;
         virtual void render() = 0;
     };

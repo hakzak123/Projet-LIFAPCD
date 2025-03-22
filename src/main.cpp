@@ -2,26 +2,19 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <iostream>
-#include <chrono>
-#include <filesystem>
 #include <macros.h>
-#include <windowInfo.h>
 #include <application.h>
 
-void argumentHandling(SMM*,int,char**);
-void eventHandling(SDL_Event&);
+void eventHandling();
 void uiSetup();
 void initGlobalTextures();
 void destroyGlobalTextures();
-void cursorHandling();
-void destroyCursors();
 
 SMM* app;
 
 int main(int argc, char* argv[]){
     app = new SMM;
-    argumentHandling(app,argc,argv);
-    SDL_Event event;
+    app->argumentHandling(app,argc,argv);
 
     if(!SDL_Init(SDL_INIT_VIDEO)){
         SDL_ShowSimpleMessageBox(0,"ERROR!", "SDL_Init() failed",nullptr);
@@ -40,16 +33,14 @@ int main(int argc, char* argv[]){
     while(app->appRunning){
         auto frameStart = CURRENT_TIME;
 
-        eventHandling(event);
-        cursorHandling();
-
+        eventHandling();
+        
         app->update();
         app->render();
         app->framerateHandling(frameStart);
     }
 
     destroyGlobalTextures();
-    destroyCursors();
     delete app;
     SDL_Quit();
 }

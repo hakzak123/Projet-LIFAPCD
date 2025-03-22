@@ -32,9 +32,8 @@ protected:
     fRect rect;
     color rectColor;
 
-    void renderRect(){
-        windowInfo& winfo = app->winfo;
-        SDL_Renderer* renderer = app->renderer;
+    void updateRect(){
+        const windowInfo& winfo = app->getWindowInfo();
         float rectWidth = rect.w;
         float gap = winfo.w()-rect.x;
         float overflow = rectWidth-gap;
@@ -43,8 +42,11 @@ protected:
         if(positiveOverflow){
             rect.x -= overflow;
         }
-        setRenderDrawColor(app->renderer,rectColor);
-        SDL_RenderFillRect(app->renderer,&rect);
+    }
+
+    void renderRect(){
+        setRenderDrawColor(app->getRenderer(),rectColor);
+        SDL_RenderFillRect(app->getRenderer(),&rect);
     }
 
 public:
@@ -79,11 +81,13 @@ public:
     }
 
     void update() override{
-        windowInfo& winfo = app->winfo;
-        SDL_Renderer* renderer = app->renderer;
+        const windowInfo& winfo = app->getWindowInfo();
+        SDL_Renderer* renderer = app->getRenderer();
         Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
         Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
         rect.setPos(Pos);
+
+        updateRect();
     }
 
     void render() override{
@@ -95,11 +99,54 @@ public:
 class uiButtonRectText : public uiButtonRect{
 protected:
     uiTTFComponent text;
-
+    
 public:
-    uiButtonRectText(SMM* _app, pos _Pos, void (*_onClick)(uiButton*), fRect _rect, color _rectColor, uiTTFComponent _text);
+    uiButtonRectText(SMM* _app, void (*_onClick)(uiButton*), fRect _rect, color _rectColor, std::string _text, TTF_Font* _font, unsigned _textHeight, color _textColor) : 
+    uiButtonRect(_app,_onClick,_rect,_rectColor),
+    text(_app, _text, calculatePos(_text,_textHeight), _textHeight, _font, _textColor)
+    {
+    }
 
-    void render() override;
+    pos calculatePos(std::string _text, unsigned _textHeight){
+        updateRect();
+
+        float adjustedX;
+        float adjustedY;
+        float xMid = rect.x + rect.w/2;
+        float yMid = rect.y + rect.h/2;
+        float charwidth = 0.5*_textHeight;
+        float halfTextLenght;
+        if(_text.size()%2 == 0){
+            halfTextLenght = _text.size()/2*charwidth;
+        }
+        else{
+            halfTextLenght = (_text.size()/2 + 0.5)*charwidth;
+        }
+        adjustedX = xMid-halfTextLenght;
+        adjustedY = yMid - _textHeight/2;
+        return pos(adjustedX,adjustedY);
+    }
+
+    void update() override{
+        const windowInfo& winfo = app->getWindowInfo();
+        Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
+        Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
+        rect.setPos(Pos);
+
+        updateRect();
+
+        fRect tmpRect = text.getRect();
+        float xMid = rect.x + rect.w/2;
+        float yMid = rect.y + rect.h/2;
+        tmpRect.x = xMid - tmpRect.w/2;
+        tmpRect.y = yMid - tmpRect.h/2;
+        text.setRect(tmpRect);
+    }
+
+    void render() override{
+        renderRect();
+        text.render();
+    }
 };
 
 class uiButtonRectTexture : public uiButtonRect{

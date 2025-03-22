@@ -8,45 +8,61 @@
 #include <camera.h>
 
 class SMM{
-public:
+private:
+    SDL_Cursor* handCursor = nullptr;
+    SDL_Cursor* arrowCursor = nullptr;
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     std::map<std::string,TTF_Font*> fontMap;
-
     windowInfo winfo;
     camera cam;
-    const std::string workspace = std::string(SDL_GetBasePath()) + "../";
-
     double framerate = 0;
     double maxframerate = 60;
+
+public:
+    const std::string workspace = std::string(SDL_GetBasePath()) + "../";
     bool appRunning = true;
 
-    SDL_Window* const getWindow();
+    SMM(){
+    }
+
+    ~SMM(){
+        if(handCursor)
+            SDL_DestroyCursor(handCursor);
+        if(arrowCursor)
+            SDL_DestroyCursor(arrowCursor);
+    }
+
+    SDL_Window* const getWindow(){
+        return window;
+    }
     SDL_Renderer* const getRenderer(){
         return renderer;
     };
-    void addFont(std::string key,TTF_Font* font);
-    TTF_Font* getFont(std::string key);
-    windowInfo getWindowInfo();
-    double getFramerate();
-    double getMaxFramerate();
-    void setMaxFramerate(double fps);
+    void addFont(const std::string& key,TTF_Font* font){
+        fontMap[key] = font;
+    }
+    TTF_Font* getFont(const std::string& key){
+        return fontMap[key];
+    }
+    const windowInfo& getWindowInfo(){
+        return winfo;
+    }
+    double getFramerate() const{
+        return framerate;
+    }
+    double getMaxFramerate()const{
+        return maxframerate;
+    }
+    void setMaxFramerate(double fps){
+        maxframerate = fps;
+    }
 
     void setup(){
-        // Fonts init
-        /*
-        TTF_Font* testFont;
-
-        if(!(testFont = TTF_OpenFont((workspace + "data/fonts/testTTF.ttf").c_str(),256))){
-            SDL_ShowSimpleMessageBox(0,"ERROR!", "Font initialization failed",nullptr);
-            SDL_Quit();
-            std::exit(1);
-        }
-        */
-
+        // fontMap init
         SDL_EnumerateDirectory((workspace + "data/fonts").c_str(),
         [](void* data, const char *dirname, const char *fname) -> SDL_EnumerationResult{
-            typedef std::map<std::string, TTF_Font *> font_map; 
+            typedef std::map<std::string, TTF_Font *> font_map;
             TTF_Font* font;
             if(!(font = TTF_OpenFont(((std::string)dirname + fname).c_str(),256))){
                 SDL_ShowSimpleMessageBox(0,"ERROR!", "Font initialization failed",nullptr);
@@ -57,8 +73,6 @@ public:
             return SDL_ENUM_CONTINUE;
         },
         &fontMap);
-
-        //fontMap.insert({"testFont",testFont});
 
         // Window init
         if(window = SDL_CreateWindow("SDL test",0,0,SDL_WINDOW_FULLSCREEN)){
@@ -85,7 +99,10 @@ public:
         framerate = 1/loopTime.count();
     }
 
+    void argumentHandling(SMM*,int,char**);
+    void cursorHandling();
     void update();
     void render();
+
 
 };

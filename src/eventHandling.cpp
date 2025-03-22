@@ -6,7 +6,8 @@
 extern ui Ui;
 extern SMM* app;
 
-void eventHandling(SDL_Event& event){
+void eventHandling(){
+    SDL_Event event;
     while(SDL_PollEvent(&event)){
         switch(event.type){
             case SDL_EVENT_QUIT: {

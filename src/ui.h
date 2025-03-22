@@ -21,6 +21,10 @@ public :
         uiCompMap.insert({key,comp});
     }
 
+    auto& operator[](std::string s){
+        return uiCompMap[s];
+    }
+
     void update(){
         for(auto& e : uiCompMap){
             e.second->update();

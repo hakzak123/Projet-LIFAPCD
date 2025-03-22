@@ -3,14 +3,19 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <uicomp.h>
 #include <geometry.h>
+#include <ttf.h>
 
 
 class uiTextureComponent : public uiComponent{ // corrects a texture's rectangle position so that it doesn't overflow to the right. Doesn't take in src rectangle for simplicity.
 protected :
-    SDL_Texture* texture;
+    SDL_Texture* texture = nullptr;
     fRect dstRect;
 
 public :
+    uiTextureComponent(){
+        
+    }
+
     uiTextureComponent(SMM* _app, SDL_Texture* _texture,fRect _dstRect):
     uiComponent(_app,pos(_dstRect.x,_dstRect.y)),
     texture(_texture),
@@ -18,19 +23,26 @@ public :
     {
     }
 
+    fRect getRect(){
+        return dstRect;
+    }
+
+    void setRect(const fRect& other){
+        dstRect = other;
+    }
 
     void update() override{
-        windowInfo& winfo = app->winfo;
-        SDL_Renderer*& renderer = app->renderer;
+        const windowInfo& winfo = app->getWindowInfo();
+        SDL_Renderer* renderer = app->getRenderer();
         Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
         Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
         dstRect.setPos(Pos);
     }
 
-    void render(){
+    void render() override{
         if(rendered){
-            windowInfo& winfo = app->winfo;
-            SDL_Renderer* renderer = app->renderer;
+            const windowInfo& winfo = app->getWindowInfo();
+            SDL_Renderer* renderer = app->getRenderer();
             fRect tmpRect = dstRect;
             float& rectWidth = dstRect.w;
             float gap = winfo.w()-dstRect.x;
@@ -47,13 +59,20 @@ public :
 };
 
 class uiTTFComponent : public uiTextureComponent{
-    protected:
-        std::string text;
-        unsigned height;
-        TTF_Font* font;
-    
     public:
-        uiTTFComponent(SMM* _app, std::string _text ,pos _Pos, unsigned _height, TTF_Font* _font);
+        uiTTFComponent(){
 
-        void render() override;
+        }
+
+        uiTTFComponent(SMM* _app, std::string _text ,pos _Pos, unsigned _height, TTF_Font* _font, color _textColor) : 
+        uiTextureComponent(_app, createTTFTexture(_app->getRenderer(),_font,_text,_textColor),fRect(_Pos.x,_Pos.y,0.5*_height*_text.size(),_height))
+        {
+        }
+
+        ~uiTTFComponent(){
+            SDL_DestroyTexture(texture);
+        }
+
+
+        // pas de shallow copy sinon copy d'une texture détruite
     };

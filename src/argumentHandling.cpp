@@ -12,7 +12,7 @@ int argumentsParserFind(int argc, char* argv[], const char* searched){
     return -1;
 }
 
-void argumentHandling(SMM* app, int argc, char* argv[]){
+void SMM::argumentHandling(SMM* app, int argc, char* argv[]){
     int c = argumentsParserFind(argc,argv,"-maxfps");
 
     try{

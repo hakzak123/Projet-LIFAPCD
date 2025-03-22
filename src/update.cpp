@@ -7,6 +7,7 @@
 extern ui Ui;
 
 void SMM::update(){
+    cursorHandling();
     winfo.update();
     Ui.update();
 }

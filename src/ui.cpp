@@ -37,12 +37,12 @@ bool time_passed_since_last_time(Uint64 ms, Uint64 &lastTimeStatic, bool & first
 }
 
 std::string FPSCount(){
-    static int shownvalue = int(app->framerate);
+    static int shownvalue = int(app->getFramerate());
     static Uint64 lastTime = 0;
     static bool firstCall = true;
 
     if(time_passed_since_last_time(250,lastTime,firstCall)){
-        shownvalue = int(app->framerate);
+        shownvalue = int(app->getFramerate());
     }
 
     return std::to_string(shownvalue) + " FPS";
@@ -50,36 +50,50 @@ std::string FPSCount(){
 
 color FPSColor(){
     static Uint32 count = 0;
-    static int shownvalue = static_cast<int>(app->framerate);
+    static int shownvalue = static_cast<int>(app->getFramerate());
 
     if(count < 30){
         count++;
     }
     else{
         count = 0;
-        shownvalue = static_cast<int>(app->framerate);
+        shownvalue = static_cast<int>(app->getFramerate());
     }
 
     return shownvalue>30 ? color(32,255,48,255) : color(255,32,48,255);
 }
 
 std::string winInfo(){
-    return std::to_string(app->winfo.w()) + "x" +std::to_string(app->winfo.h());
+    return std::to_string(app->getWindowInfo().w()) + "x" +std::to_string(app->getWindowInfo().h());
 }
 
 void onClickTest(uiButton* parent){
     ((uiButtonRect*)parent)->setRectColor({(Uint8)SDL_rand(254),(Uint8)SDL_rand(254),(Uint8)SDL_rand(254),255});
 }
 
+void onClickDebug(uiButton* parent){
+    float x,y;
+    SDL_GetMouseState(&x,&y);
+    std::cout << x << " " << y << '\n';
+}
+
 void uiSetup(){
-    int width = app->winfo.w();
-    int height = app->winfo.h();
-    SDL_Texture* textTexture = createTTFTexture(app->renderer,app->fontMap["impact.ttf"],"TEST TEST TEST",{0,255,0,255});
+    const int width = app->getWindowInfo().w();
+    const int height = app->getWindowInfo().h();
+    SDL_Texture* textTexture = createTTFTexture(app->getRenderer(),app->getFont("impact.ttf"),"TEST TEST TEST",{0,255,0,255});
 
     uiTextureComponent* uiTestTexture = new uiTextureComponent(
         app,
         textTexture,
-        fRect(width-width/10,height/6,600,120)
+        fRect(width-width/10,height/6,600,110)
+    );
+
+    uiTTFComponent* uiTestTTF = new uiTTFComponent(app,
+        "TEST",
+        pos(100,100),
+        100,
+        app->getFont("impact.ttf"),
+        color(0,255,0,255)
     );
 
     uiTextureComponent* uiTestGlobalTexture = new uiTextureComponent(
@@ -93,6 +107,18 @@ void uiSetup(){
         onClickTest,
         fRect(width-width/10,height/3,600,100),
         color(0,255,0,255)
+    );
+
+    uiButtonRectText* uiTestTextButton = new uiButtonRectText(
+        app,
+        onClickDebug,
+        fRect(width-width/10,height/2,300,100),
+        color(255,255,255,255),
+        "TESTBTN",
+        app->getFont("impact.ttf"),
+        65,
+        color(0,0,0,255)
+
     );
 
     uiTextComponent* uiTest = new uiTextComponent(
@@ -116,11 +142,13 @@ void uiSetup(){
         {48,255,0,255}
     );
 
-    Ui.insert("Test",uiTest);
-    Ui.insert("FPS",uiFPS);
-    Ui.insert("ttfTest",uiTestTexture);
-    Ui.insert("testGlobalTexture",uiTestGlobalTexture);
-    Ui.insert("testButton",uiTestButton);
-    Ui.insert("WinInfo",uiWinInfo); 
+    Ui["Test"] = uiTest;
+    Ui["FPS"] = uiFPS;
+    Ui["textureTest"] = uiTestTexture;
+    Ui["ttfTest"] = uiTestTTF;
+    Ui["testGlobalTexture"] = uiTestGlobalTexture;
+    Ui["testButton"] = uiTestButton;
+    Ui["testButtonText"] = uiTestTextButton;
+    Ui["WinInfo"] = uiWinInfo; 
 
 }

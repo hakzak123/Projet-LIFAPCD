@@ -18,15 +18,15 @@ public:
     
     
         void update() override{
-            windowInfo winfo = app->winfo;
+            windowInfo winfo = app->getWindowInfo();
             Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
             Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
         }
     
         void render() override{
             if(rendered){
-                windowInfo winfo = app->winfo;
-                SDL_Renderer* renderer = app->renderer;
+                const windowInfo& winfo = app->getWindowInfo();
+                SDL_Renderer* renderer = app->getRenderer();
                 size_t stringsize = text.size()*8;
                 float gap = winfo.w()-Pos.x;
                 float overflow = stringsize-gap;
@@ -104,8 +104,8 @@ class uiDynamicTextComponent : public uiTextComponent{ // same job as uiTextComp
     
         void render() override {
             if(rendered){
-                windowInfo winfo = app->winfo;
-                SDL_Renderer* renderer = app->renderer;
+                const windowInfo& winfo = app->getWindowInfo();
+                SDL_Renderer* renderer = app->getRenderer();
                 if(textPtr)
                     text = textPtr();           
                 if(positionPtr){

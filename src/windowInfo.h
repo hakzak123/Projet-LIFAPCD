@@ -31,19 +31,19 @@ public:
         SDL_GetWindowSizeInPixels(window,&_w,&_h);
     }
 
-    int w(){
+    int w() const{
         return _w;
     }
 
-    int h(){
+    int h() const{
         return _h;
     }
 
-    int iniW(){
+    int iniW() const{
         return w0;
     }
 
-    int iniH(){
+    int iniH() const{
         return h0;
     }
 };
