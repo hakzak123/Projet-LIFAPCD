@@ -6,14 +6,13 @@
 
 class uiComponent{
     protected :
-        SMM* app;
         pos Pos;
         bool rendered = true;
 
     public :
         uiComponent(){}
 
-        uiComponent(SMM* _app, pos _Pos) : app(_app), Pos(_Pos){
+        uiComponent(pos _Pos) : Pos(_Pos){
     
         }
     
@@ -33,6 +32,6 @@ class uiComponent{
             Pos = _Pos;
         }
 
-        virtual void update() = 0;
-        virtual void render() = 0;
+        virtual void update(SMM* app) = 0;
+        virtual void render(SMM* app) = 0;
     };

@@ -10,20 +10,20 @@ protected :
         color stringColor;
     
 public:
-        uiTextComponent(SMM* _app,const std::string& _text, pos _position, const color &_stringColor) : 
-        uiComponent(_app,_position),
+        uiTextComponent(const std::string& _text, pos _position, const color &_stringColor) : 
+        uiComponent(_position),
         text(_text),
         stringColor(_stringColor)
         {}
     
     
-        void update() override{
+        void update(SMM* app) override{
             windowInfo winfo = app->getWindowInfo();
             Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
             Pos.y = Pos.iniY()*winfo.h()/winfo.iniH();
         }
     
-        void render() override{
+        void render(SMM* app) override{
             if(rendered){
                 const windowInfo& winfo = app->getWindowInfo();
                 SDL_Renderer* renderer = app->getRenderer();
@@ -53,56 +53,56 @@ class uiDynamicTextComponent : public uiTextComponent{ // same job as uiTextComp
     
     
     public : 
-        uiDynamicTextComponent(SMM* _app,std::string (*_textPtr)(), pos (*_positionPtr)(), color (* _stringColorPtr)()) : 
-        uiTextComponent(_app,_textPtr(),_positionPtr(),_stringColorPtr()),
+        uiDynamicTextComponent(std::string (*_textPtr)(), pos (*_positionPtr)(), color (* _stringColorPtr)()) : 
+        uiTextComponent(_textPtr(),_positionPtr(),_stringColorPtr()),
         positionPtr(_positionPtr),
         textPtr(_textPtr),
         stringColorPtr(_stringColorPtr)
         {}
     
-        uiDynamicTextComponent(SMM* _app,std::string _text, pos (*_positionPtr)(), color (* _stringColorPtr)()) : 
-        uiTextComponent(_app,_text,_positionPtr(),_stringColorPtr()),
+        uiDynamicTextComponent(std::string _text, pos (*_positionPtr)(), color (* _stringColorPtr)()) : 
+        uiTextComponent(_text,_positionPtr(),_stringColorPtr()),
         positionPtr(_positionPtr),
         textPtr(nullptr),
         stringColorPtr(_stringColorPtr)
         {}
     
-        uiDynamicTextComponent(SMM* _app,std::string (*_textPtr)(), pos _position, color (* _stringColorPtr)()) : 
-        uiTextComponent(_app,_textPtr(),_position,_stringColorPtr()),
+        uiDynamicTextComponent(std::string (*_textPtr)(), pos _position, color (* _stringColorPtr)()) : 
+        uiTextComponent(_textPtr(),_position,_stringColorPtr()),
         positionPtr(nullptr),
         textPtr(_textPtr),
         stringColorPtr(_stringColorPtr)
         {}
     
-        uiDynamicTextComponent(SMM* _app,std::string (*_textPtr)(), pos (*_positionPtr)(), color  _stringcolor) : 
-        uiTextComponent(_app,_textPtr(),_positionPtr(),_stringcolor),
+        uiDynamicTextComponent(std::string (*_textPtr)(), pos (*_positionPtr)(), color  _stringcolor) : 
+        uiTextComponent(_textPtr(),_positionPtr(),_stringcolor),
         positionPtr(_positionPtr),
         textPtr(_textPtr),
         stringColorPtr(nullptr)
         {}
     
-        uiDynamicTextComponent(SMM* _app,std::string _text, pos _position, color (* _stringColorPtr)()) : 
-        uiTextComponent(_app,_text,_position,_stringColorPtr()),
+        uiDynamicTextComponent(std::string _text, pos _position, color (* _stringColorPtr)()) : 
+        uiTextComponent(_text,_position,_stringColorPtr()),
         positionPtr(nullptr),
         textPtr(nullptr),
         stringColorPtr(_stringColorPtr)
         {}
     
-        uiDynamicTextComponent(SMM* _app,std::string (*_textPtr)(), pos _position, color _stringcolor) : 
-        uiTextComponent(_app,_textPtr(),_position,_stringcolor),
+        uiDynamicTextComponent(std::string (*_textPtr)(), pos _position, color _stringcolor) : 
+        uiTextComponent(_textPtr(),_position,_stringcolor),
         positionPtr(nullptr),
         textPtr(_textPtr),
         stringColorPtr(nullptr)
         {}
     
-        uiDynamicTextComponent(SMM* _app,std::string _text, pos (*_positionPtr)(), color _stringcolor) : 
-        uiTextComponent(_app,_text,_positionPtr(),_stringcolor),
+        uiDynamicTextComponent(std::string _text, pos (*_positionPtr)(), color _stringcolor) : 
+        uiTextComponent(_text,_positionPtr(),_stringcolor),
         positionPtr(_positionPtr),
         textPtr(nullptr),
         stringColorPtr(nullptr)
         {}
     
-        void render() override {
+        void render(SMM* app) override {
             if(rendered){
                 const windowInfo& winfo = app->getWindowInfo();
                 SDL_Renderer* renderer = app->getRenderer();

@@ -78,17 +78,18 @@ void onClickDebug(uiButton* parent){
 }
 
 void uiSetup(){
+    Ui = app;
     const int width = app->getWindowInfo().w();
     const int height = app->getWindowInfo().h();
     SDL_Texture* textTexture = createTTFTexture(app->getRenderer(),app->getFont("impact.ttf"),"TEST TEST TEST",{0,255,0,255});
 
     uiTextureComponent* uiTestTexture = new uiTextureComponent(
-        app,
         textTexture,
         fRect(width-width/10,height/6,600,110)
     );
 
-    uiTTFComponent* uiTestTTF = new uiTTFComponent(app,
+    uiTTFComponent* uiTestTTF = new uiTTFComponent(
+        app,
         "TEST",
         pos(100,100),
         100,
@@ -97,13 +98,11 @@ void uiSetup(){
     );
 
     uiTextureComponent* uiTestGlobalTexture = new uiTextureComponent(
-        app,
         globalTextures["placeholder.bmp"],
         fRect(660,240,600,600)
     );
 
     uiButtonRect* uiTestButton = new uiButtonRect(
-        app,
         onClickTest,
         fRect(width-width/10,height/3,600,100),
         color(0,255,0,255)
@@ -122,7 +121,6 @@ void uiSetup(){
     );
 
     uiButtonRectTexture* uiTestTexureButton = new uiButtonRectTexture(
-        app,
         nullptr,
         fRect(width-width/10,height/1.5,300,100),
         color(255,255,255,255),
@@ -131,21 +129,18 @@ void uiSetup(){
     );
 
     uiTextComponent* uiTest = new uiTextComponent(
-        app,
         "test test test test te",
         pos(width-width/10,height/8),
         {48,255,0,255}
     );
 
     uiDynamicTextComponent* uiFPS = new uiDynamicTextComponent(
-        app,
         FPSCount,
         pos(width-width/10,height/10),
         FPSColor
     );
 
     uiDynamicTextComponent* uiWinInfo = new uiDynamicTextComponent(
-        app,
         winInfo,
         pos(width-width/10,height/12),
         {48,255,0,255}

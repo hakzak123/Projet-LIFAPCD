@@ -12,9 +12,15 @@
 class ui{ // Stores ui component maps
 private :
     std::map<std::string,uiComponent*> uiCompMap;
+    SMM* app;
 
 public :
-    ui(){
+    ui(){}
+    ui(SMM* _app) : app(_app){
+    }
+
+    void operator=(SMM* const other){
+        app = other;
     }
 
     void insert(std::string key, uiComponent* comp){
@@ -27,13 +33,13 @@ public :
 
     void update(){
         for(auto& e : uiCompMap){
-            e.second->update();
+            e.second->update(app);
         }
     }
 
     void render(){
         for(auto& e : uiCompMap){
-            e.second->render();
+            e.second->render(app);
         }
     }
 
@@ -68,7 +74,7 @@ public :
 
     ~ui(){
         for(auto& e : uiCompMap){
-            delete e.second; // temporaire
+            delete e.second;
         }
     }
 

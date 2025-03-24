@@ -8,7 +8,7 @@ protected:
     void (*onClick)(uiButton*);
 
 public:
-    uiButton(SMM* _app, pos _Pos, void (*_onClick)(uiButton*), bool _active = true) : uiComponent(_app,_Pos), onClick(_onClick), active(_active)
+    uiButton(pos _Pos, void (*_onClick)(uiButton*), bool _active = true) : uiComponent(_Pos), onClick(_onClick), active(_active)
     {}
 
     virtual bool clickable() = 0;
@@ -32,7 +32,7 @@ protected:
     fRect rect;
     color rectColor;
 
-    void updateRect(){
+    void updateRect(SMM* app){
         // scaling
         const windowInfo& winfo = app->getWindowInfo();
         Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
@@ -50,15 +50,15 @@ protected:
         }
     }
 
-    void renderRect(){
+    void renderRect(SMM* app){
         setRenderDrawColor(app->getRenderer(),rectColor);
         SDL_RenderFillRect(app->getRenderer(),&rect);
     }
 
 public:
 
-    uiButtonRect(SMM* _app, void (*_onClick)(uiButton*), const fRect &_rect, color _rectColor, bool _active = true) : 
-    uiButton(_app, _rect.getPos(), _onClick, _active),
+    uiButtonRect(void (*_onClick)(uiButton*), const fRect &_rect, color _rectColor, bool _active = true) : 
+    uiButton(_rect.getPos(), _onClick, _active),
     rect(_rect),
     rectColor(_rectColor)
     {
@@ -86,12 +86,12 @@ public:
         return false;
     }
 
-    void update() override{
-        updateRect();
+    void update(SMM* app) override{
+        updateRect(app);
     }
 
-    void render() override{
-        renderRect();
+    void render(SMM* app) override{
+        renderRect(app);
     }
 
 };
@@ -111,13 +111,13 @@ protected:
 
 public:
     uiButtonRectText(SMM* _app, void (*_onClick)(uiButton*), fRect _rect, color _rectColor, std::string _text, TTF_Font* _font, unsigned _textHeight, color _textColor) : 
-    uiButtonRect(_app,_onClick,_rect,_rectColor),
-    text(_app, _text, calculateTextPos(_text,_textHeight), _textHeight, _font, _textColor)
+    uiButtonRect(_onClick,_rect,_rectColor),
+    text(_app, _text, calculateTextPos(_app, _text,_textHeight), _textHeight, _font, _textColor)
     {
     }
 
-    pos calculateTextPos(std::string _text, unsigned _textHeight){
-        updateRect();
+    pos calculateTextPos(SMM* app, std::string _text, unsigned _textHeight){
+        updateRect(app);
 
         float adjustedX;
         float adjustedY;
@@ -136,14 +136,14 @@ public:
         return pos(adjustedX,adjustedY);
     }
 
-    void update() override{
-        updateRect();
+    void update(SMM* app) override{
+        updateRect(app);
         textCentering();
     }
 
-    void render() override{
-        renderRect();
-        text.render();
+    void render(SMM* app) override{
+        renderRect(app);
+        text.render(app);
     }
 };
 
@@ -161,19 +161,19 @@ protected:
         dstRect = tmpRect;
     }
 public:
-    uiButtonRectTexture(SMM* _app, void (*_onClick)(uiButton*), fRect _rect, color _rectColor, SDL_Texture* _texture, fRect _dstRect) : 
-    uiButtonRect(_app,_onClick,_rect,_rectColor),
+    uiButtonRectTexture( void (*_onClick)(uiButton*), fRect _rect, color _rectColor, SDL_Texture* _texture, fRect _dstRect) : 
+    uiButtonRect(_onClick,_rect,_rectColor),
     texture(_texture),
     dstRect(_dstRect)
     {}
 
-    void update() override{
-        updateRect();
+    void update(SMM* app) override{
+        updateRect(app);
         dstRectCentering();
     }
 
-    void render() override{
-        renderRect();
+    void render(SMM* app) override{
+        renderRect(app);
         SDL_RenderTexture(app->getRenderer(),texture,NULL,&dstRect);
     }
 };

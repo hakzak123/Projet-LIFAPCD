@@ -9,16 +9,6 @@
 extern ui Ui;
 
 
-void renderApp(SMM* app){
-    setRenderDrawColor(app->getRenderer(),color(0,0,0,255));
-    SDL_RenderClear(app->getRenderer());
-    
-    Ui.render();
-
-    SDL_RenderPresent(app->getRenderer());
-
-}
-
 void SMM::render(){
     setRenderDrawColor(getRenderer(),color(0,0,0,255));
     SDL_RenderClear(getRenderer());

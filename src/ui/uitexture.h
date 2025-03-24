@@ -16,8 +16,8 @@ public :
         
     }
 
-    uiTextureComponent(SMM* _app, SDL_Texture* _texture,fRect _dstRect):
-    uiComponent(_app,pos(_dstRect.x,_dstRect.y)),
+    uiTextureComponent(SDL_Texture* _texture,fRect _dstRect):
+    uiComponent(pos(_dstRect.x,_dstRect.y)),
     texture(_texture),
     dstRect(_dstRect)
     {
@@ -31,7 +31,7 @@ public :
         dstRect = other;
     }
 
-    void update() override{
+    void update(SMM* app) override{
         const windowInfo& winfo = app->getWindowInfo();
         SDL_Renderer* renderer = app->getRenderer();
         Pos.x = Pos.iniX()*winfo.w()/winfo.iniW();
@@ -39,7 +39,7 @@ public :
         dstRect.setPos(Pos);
     }
 
-    void render() override{
+    void render(SMM* app) override{
         if(rendered){
             const windowInfo& winfo = app->getWindowInfo();
             SDL_Renderer* renderer = app->getRenderer();
@@ -64,8 +64,8 @@ class uiTTFComponent : public uiTextureComponent{
 
         }
 
-        uiTTFComponent(SMM* _app, std::string _text ,pos _Pos, unsigned _height, TTF_Font* _font, color _textColor) : 
-        uiTextureComponent(_app, createTTFTexture(_app->getRenderer(),_font,_text,_textColor),fRect(_Pos.x,_Pos.y,0.5*_height*_text.size(),_height))
+        uiTTFComponent(SMM* _app,std::string _text ,pos _Pos, unsigned _height, TTF_Font* _font, color _textColor) : 
+        uiTextureComponent(createTTFTexture(_app->getRenderer(),_font,_text,_textColor),fRect(_Pos.x,_Pos.y,0.5*_height*_text.size(),_height))
         {
         }
 
