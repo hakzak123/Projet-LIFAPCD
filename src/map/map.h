@@ -8,14 +8,22 @@
 class mapComponent{
 private:
     pos Pos;
-    bool collision = false;
+    bool collision;
 public :
-    mapComponent(const pos& _Pos, bool _collisions = true) : Pos(_Pos), collision(_collisions){}
+    mapComponent(const pos& _Pos = pos(0,0), bool _collisions = true) : Pos(_Pos), collision(_collisions){}
     
-    void setCollision(bool);
-    bool getCollision();
-    void setPos(const pos& _Pos);
-    pos getPos() const;
+    void setCollision(bool b){
+        collision = b;
+    }
+    bool getCollision() const{
+        return collision;
+    }
+    void setPos(const pos& _Pos){
+        Pos = _Pos;
+    }
+    pos getPos() const{
+        return Pos;
+    }
 };
 
 class map{

@@ -10,12 +10,16 @@ private :
     std::string sprite;
     fRect hitbox;
     int speed;
-    
+
     void updatePhys();
 
 public :
-    player(const std::string &_sprite,const fRect &_hitbox, const pos &_Pos, int _speed, bool _collision = true);
-
+    player(const std::string &_sprite,const fRect &_hitbox, const pos &_Pos, int _speed, bool _collision = true):
+    mapComponent(_Pos, _collision),
+    sprite(_sprite),
+    hitbox(_hitbox),
+    speed(_speed)
+    {}
 
     void update();
     void render();

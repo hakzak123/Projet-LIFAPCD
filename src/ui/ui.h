@@ -68,7 +68,7 @@ public :
 
     ~ui(){
         for(auto& e : uiCompMap){
-            delete e.second;
+            delete e.second; // temporaire
         }
     }
 
