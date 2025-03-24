@@ -6,18 +6,26 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SOURCES
     src/main.cpp
-    src/render.cpp
-    src/ui.cpp
-    src/update.cpp
-    src/argumentHandling.cpp
-    src/eventHandling.cpp
-    src/cursorHandling.cpp
+    src/render/render.cpp
+    src/ui/ui.cpp
+    src/update/update.cpp
+    src/handling/argumentHandling.cpp
+    src/handling/eventHandling.cpp
+    src/handling/cursorHandling.cpp
     src/globalTextures.cpp
 )
 
 include_directories(
     C:/SDL3-3.2.0/x86_64-w64-mingw32/include
     ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src/map
+    ${CMAKE_SOURCE_DIR}/src/ui
+    ${CMAKE_SOURCE_DIR}/src/utils
+    ${CMAKE_SOURCE_DIR}/src/app
+    ${CMAKE_SOURCE_DIR}/src/camera
+    ${CMAKE_SOURCE_DIR}/src/player
+    ${CMAKE_SOURCE_DIR}/src/ttf
+    ${CMAKE_SOURCE_DIR}/src/windowInfo
 )
 
 link_directories(
