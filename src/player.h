@@ -2,15 +2,14 @@
 #include <SDL3/SDL.h>
 #include <position.h>
 #include <geometry.h>
+#include <map.h>
 #include <string>
 
-class player{
+class player : public mapComponent{
 private :
     std::string sprite;
     fRect hitbox;
-    pos Pos;
     int speed;
-    bool collision = true;
     
     void updatePhys();
 
@@ -29,6 +28,5 @@ public :
     pos getPos();
     void setSpeed(int _speed);
     int getSpeed();
-    void setCollision(bool b);
-    bool getCollision();
+
 };

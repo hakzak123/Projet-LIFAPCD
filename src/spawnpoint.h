@@ -4,10 +4,7 @@
 #include <map.h>
 
 class spawnPoint : public mapComponent{
-private:
-    pos Pos;
-
 public:
-    spawnPoint(const pos &_Pos);
+    spawnPoint(const pos &_Pos) : mapComponent(_Pos, false){}
 
 };

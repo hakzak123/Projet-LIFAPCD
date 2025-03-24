@@ -121,6 +121,15 @@ void uiSetup(){
 
     );
 
+    uiButtonRectTexture* uiTestTexureButton = new uiButtonRectTexture(
+        app,
+        nullptr,
+        fRect(width-width/10,height/1.5,300,100),
+        color(255,255,255,255),
+        globalTextures["placeholder.bmp"],
+        fRect(0,0,100,100)
+    );
+
     uiTextComponent* uiTest = new uiTextComponent(
         app,
         "test test test test te",
@@ -149,6 +158,7 @@ void uiSetup(){
     Ui["testGlobalTexture"] = uiTestGlobalTexture;
     Ui["testButton"] = uiTestButton;
     Ui["testButtonText"] = uiTestTextButton;
+    Ui["testButtonTexture"] = uiTestTexureButton;
     Ui["WinInfo"] = uiWinInfo; 
 
 }

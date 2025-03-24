@@ -7,10 +7,15 @@
 
 class mapComponent{
 private:
+    pos Pos;
     bool collision = false;
 public :
+    mapComponent(const pos& _Pos, bool _collisions = true) : Pos(_Pos), collision(_collisions){}
+    
     void setCollision(bool);
     bool getCollision();
+    void setPos(const pos& _Pos);
+    pos getPos() const;
 };
 
 class map{

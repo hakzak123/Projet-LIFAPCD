@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
         return 0;
     }
 
-    app->setup();
+    app->init("SMM", 0, 0, SDL_WINDOW_FULLSCREEN);
     initGlobalTextures();
     uiSetup();
 

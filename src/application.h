@@ -7,6 +7,7 @@
 #include <macros.h>
 #include <camera.h>
 
+
 class SMM{
 private:
     SDL_Cursor* handCursor = nullptr;
@@ -58,7 +59,7 @@ public:
         maxframerate = fps;
     }
 
-    void setup(){
+    void init(const std::string& name, int _w, int _h, SDL_WindowFlags _flags){
         // fontMap init
         SDL_EnumerateDirectory((workspace + "data/fonts").c_str(),
         [](void* data, const char *dirname, const char *fname) -> SDL_EnumerationResult{
@@ -75,7 +76,7 @@ public:
         &fontMap);
 
         // Window init
-        if(window = SDL_CreateWindow("SDL test",0,0,SDL_WINDOW_FULLSCREEN)){
+        if(window = SDL_CreateWindow(name.c_str(),_w,_h,_flags)){
             renderer = SDL_CreateRenderer(window,NULL);
         }
         else{
