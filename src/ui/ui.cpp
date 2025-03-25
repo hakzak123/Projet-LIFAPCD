@@ -77,6 +77,10 @@ void onClickDebug(uiButton* parent){
     std::cout << x << " " << y << '\n';
 }
 
+void openFileDialog(void *userdata, const char * const *filelist, int filter){
+
+}
+
 void uiSetup(){
     Ui = app;
     const int width = app->getWindowInfo().w();
@@ -121,7 +125,9 @@ void uiSetup(){
     );
 
     uiButtonRectTexture* uiTestTexureButton = new uiButtonRectTexture(
-        nullptr,
+        [](uiButton*){
+            SDL_ShowOpenFileDialog(openFileDialog,nullptr,app->getWindow(),NULL,0,NULL,false);
+        },
         fRect(width-width/10,height/1.5,300,100),
         color(255,255,255,255),
         globalTextures["placeholder.bmp"],

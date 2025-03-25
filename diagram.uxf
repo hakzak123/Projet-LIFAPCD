@@ -1,5 +1,5 @@
-<diagram program="umletino" version="15.1"><zoom_level>2</zoom_level><help_text>Space for diagram notes
-</help_text><element><id>UMLClass</id><coordinates><x>282</x><y>152</y><w>70</w><h>78</h></coordinates><panel_attributes>SMM
+<diagram program="umletino" version="15.1"><zoom_level>7</zoom_level><help_text>Space for diagram notes
+</help_text><element><id>UMLClass</id><coordinates><x>987</x><y>490</y><w>245</w><h>273</h></coordinates><panel_attributes>SMM
 --
 -window: pointeur de SDL_Window 
 -renderer: pointeur de SDL_Renderer
@@ -21,7 +21,7 @@
 +getWindowInfo() : windowInfo
 +getFramerate() : float64
 +getMaxFramerate() : float64
-+setMaxFramerate(fps : float64)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>208</x><y>104</y><w>58</w><h>46</h></coordinates><panel_attributes>windowInfo
++setMaxFramerate(fps : float64)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>728</x><y>322</y><w>203</w><h>161</h></coordinates><panel_attributes>windowInfo
 --
 -w0 : int
 -h0 : int
@@ -36,7 +36,7 @@
 +w() : int
 +h() : int
 +iniW() : int
-+iniH() : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>264</x><y>144</y><w>22</w><h>24</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;90;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>288</x><y>40</y><w>80</w><h>28</h></coordinates><panel_attributes>ui
++iniH() : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>924</x><y>462</y><w>77</w><h>84</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;90;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1008</x><y>98</y><w>280</w><h>98</h></coordinates><panel_attributes>ui
 --
 -uiCompMap : map &lt;clé : string, élément : pointeur de uiComponent&gt;
 
@@ -45,7 +45,7 @@
 +insert(clé : string, élément : pointeur de uiComponen)
 +update()
 +render()
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>336</x><y>94</y><w>62</w><h>34</h></coordinates><panel_attributes>/uiComponent/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1176</x><y>287</y><w>217</w><h>119</h></coordinates><panel_attributes>/uiComponent/
 {Abstract}
 --
 -app : pointeur de SMM
@@ -57,7 +57,7 @@
 +renderable(b : bool)
 /+update()/
 /+render()/
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>340</x><y>126</y><w>18</w><h>30</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;130;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>516</x><y>280</y><w>30</w><h>32</h></coordinates><panel_attributes>pos
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1190</x><y>399</y><w>63</w><h>105</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;130;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1806</x><y>938</y><w>105</w><h>112</h></coordinates><panel_attributes>pos
 --
 -x0 : float
 -y0 : float
@@ -67,7 +67,7 @@
 +pos()
 +pos(_x : float, _y : float)
 +iniX() : float
-+iniY() : float</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>318</x><y>66</y><w>22</w><h>32</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>90;140;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>454</x><y>92</y><w>32</w><h>34</h></coordinates><panel_attributes>uiTextComponent
++iniY() : float</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1113</x><y>189</y><w>77</w><h>112</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>90;140;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1589</x><y>280</y><w>112</w><h>119</h></coordinates><panel_attributes>uiTextComponent
 --
 -text : string
 -stringColor : color
@@ -76,19 +76,19 @@
 _app : pointeur de SMM, 
 _text : pointeur de string, 
 _position : pos, 
-_stringColor : color)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>106</y><w>62</w><h>6</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;290;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>616</x><y>42</y><w>42</w><h>20</h></coordinates><panel_attributes>color
+_stringColor : color)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1386</x><y>329</y><w>217</w><h>21</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;290;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2156</x><y>105</y><w>147</w><h>70</h></coordinates><panel_attributes>color
 --
 +r,g,b,a : int
 --
 color()
 color(_r : int, _g : int, _b : int, _a : int)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>524</x><y>92</y><w>52</w><h>34</h></coordinates><panel_attributes>uiDynamicTextComponent
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1834</x><y>280</y><w>182</w><h>119</h></coordinates><panel_attributes>uiDynamicTextComponent
 --
 -positionptr : pointeur de fonction -&gt; pos
 -textptr : pointeur de fonction -&gt; string
 -stringcolorptr : pointeur de fonction -&gt; color
 --
-+uiDynamicTextComponent(</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>484</x><y>106</y><w>44</w><h>6</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;200;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>450</x><y>12</y><w>42</w><h>34</h></coordinates><panel_attributes>uiTextureComponent
++uiDynamicTextComponent(</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1694</x><y>329</y><w>154</w><h>21</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;200;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1575</x><y>0</y><w>147</w><h>119</h></coordinates><panel_attributes>uiTextureComponent
 --
 -texture : pointeur SDL_Texture
 -dstRect : SDL_FRect
@@ -96,7 +96,7 @@ color(_r : int, _g : int, _b : int, _a : int)
 +uiTextureComponent(
 _app : pointeur de SMM, 
 _texture : pointeur de SDL_Texture, 
-_dstRect : SDL_FRect)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>26</y><w>58</w><h>72</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;340;270;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>522</x><y>12</y><w>36</w><h>34</h></coordinates><panel_attributes>uiTTFComponent
+_dstRect : SDL_FRect)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1386</x><y>49</y><w>203</w><h>252</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;340;270;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1827</x><y>0</y><w>126</w><h>119</h></coordinates><panel_attributes>uiTTFComponent
 --
 -text : string
 -charsize: int
@@ -107,7 +107,7 @@ _app : pointeur de SMM,
 _pos : Pos,
 _text : string,
 _charsize: int,
-_font : pointeur de TTF_Font)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>490</x><y>26</y><w>36</w><h>6</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>430</x><y>160</y><w>92</w><h>34</h></coordinates><panel_attributes>/uiButton/
+_font : pointeur de TTF_Font)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1715</x><y>49</y><w>126</w><h>21</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1505</x><y>518</y><w>322</w><h>119</h></coordinates><panel_attributes>/uiButton/
 {Abstract}
 --
 -onClick : pointeur de procédure
@@ -118,7 +118,7 @@ _font : pointeur de TTF_Font)</panel_attributes><additional_attributes></additio
 +action()
 +isActive() : bool
 +setState(_active : bool)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>126</y><w>38</w><h>38</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;170</additional_attributes></element><element><id>UMLClass</id><coordinates><x>552</x><y>142</y><w>46</w><h>40</h></coordinates><panel_attributes>uiButtonRect
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1386</x><y>399</y><w>133</w><h>133</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;170</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1932</x><y>455</y><w>161</w><h>140</h></coordinates><panel_attributes>uiButtonRect
 --
 -rect : SDL_FRect
 -rectColor : color
@@ -131,7 +131,7 @@ _rectColor : color
 )
 +renderRect()
 +getRectColor() : color
-+setRectColor(newColor : color)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>156</y><w>36</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;100;160;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>636</x><y>120</y><w>46</w><h>32</h></coordinates><panel_attributes>uiButtonRectText
++setRectColor(newColor : color)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1820</x><y>504</y><w>126</w><h>84</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;100;160;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2226</x><y>378</y><w>161</w><h>112</h></coordinates><panel_attributes>uiButtonRectText
 --
 -text : uiTTFComponent
 --
@@ -142,7 +142,7 @@ _rect : SDL_FRect,
 _rectColor : color,
 _text : uiTTFComponent
 )
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>596</x><y>138</y><w>44</w><h>28</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;120;200;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>636</x><y>166</y><w>46</w><h>32</h></coordinates><panel_attributes>uiButtonRectTexture
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2086</x><y>441</y><w>154</w><h>98</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;120;200;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2226</x><y>539</y><w>161</w><h>112</h></coordinates><panel_attributes>uiButtonRectTexture
 --
 -texture : pointeur de SDL_Texture
 --
@@ -153,7 +153,7 @@ _rect : SDL_FRect,
 _rectColor : color,
 _texture : pointeur de SDL_Texture
 )
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>596</x><y>162</y><w>44</w><h>28</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;200;120</additional_attributes></element><element><id>UMLClass</id><coordinates><x>552</x><y>190</y><w>46</w><h>40</h></coordinates><panel_attributes>uiButtonTexture
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2086</x><y>525</y><w>154</w><h>98</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;200;120</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1932</x><y>623</y><w>161</w><h>140</h></coordinates><panel_attributes>uiButtonTexture
 --
 -texture : pointeur de SDL_Texture
 -dstRect : SDL_FRect
@@ -163,7 +163,7 @@ _texture : pointeur de SDL_Texture
  _onClick : pointeur de procédure,
 texture : pointeur de SDL_Texture,
 rect : SDL_FRect
-)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>176</y><w>36</w><h>28</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;120</additional_attributes></element><element><id>UMLClass</id><coordinates><x>390</x><y>278</y><w>40</w><h>36</h></coordinates><panel_attributes>camera
+)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1820</x><y>574</y><w>126</w><h>98</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;160;120</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1365</x><y>931</y><w>140</w><h>126</h></coordinates><panel_attributes>camera
 --
 -Pos : pos
 -zoom : float
@@ -174,7 +174,7 @@ rect : SDL_FRect
 +getPos() : pos
 +setPos(_Pos : pos)
 +getZoom() : int
-+setZoom(_zoom : float)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>260</x><y>272</y><w>96</w><h>68</h></coordinates><panel_attributes>map
++setZoom(_zoom : float)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>910</x><y>910</y><w>336</w><h>238</h></coordinates><panel_attributes>map
 --
 -app : pointeur de SMM
 -tiles : tileMap
@@ -196,7 +196,7 @@ getCamera() : camera
 getTileSize() : int
 setTileSize(size : int)
 getTesting() : bool
-setTesting(b : bool)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>158</x><y>270</y><w>76</w><h>38</h></coordinates><panel_attributes>tileMap
+setTesting(b : bool)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>553</x><y>903</y><w>266</w><h>133</h></coordinates><panel_attributes>tileMap
 --
 -width, height : int
 -tiles : pointeur de tile
@@ -207,27 +207,27 @@ setTesting(b : bool)</panel_attributes><additional_attributes></additional_attri
 +newDim(_width : int, _height : int)
 getTile() : tile
 setTile(x : int, y : int)
-makeTileRectangle(_width : int, _height : int, textureName : string)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>232</x><y>290</y><w>32</w><h>6</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;140;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>82</x><y>280</y><w>50</w><h>20</h></coordinates><panel_attributes>tile
+makeTileRectangle(_width : int, _height : int, textureName : string)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>812</x><y>973</y><w>112</w><h>21</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;140;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>287</x><y>938</y><w>175</w><h>70</h></coordinates><panel_attributes>tile
 --
 -textureName : string
 --
 +tile()
 +tile(_textureName : string, collision : bool)
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>290</y><w>32</w><h>6</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;140;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>282</y><w>50</w><h>20</h></coordinates><panel_attributes>mapComponent
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>455</x><y>973</y><w>112</w><h>21</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;140;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>945</y><w>175</w><h>70</h></coordinates><panel_attributes>mapComponent
 --
 -collision : bool
 --
 +getCollision() : bool
 +setCollision()
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>48</x><y>290</y><w>38</w><h>6</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>18</x><y>318</y><w>30</w><h>20</h></coordinates><panel_attributes>spawnPoint
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>168</x><y>973</y><w>133</w><h>21</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>63</x><y>1071</y><w>105</w><h>70</h></coordinates><panel_attributes>spawnPoint
 --
 -Pos : pos
 --
 +spawnPoint(_Pos : pos)
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>46</x><y>290</y><w>40</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;190;180;10</additional_attributes></element><element><id>Relation</id><coordinates><x>46</x><y>290</y><w>218</w><h>42</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;190;980;190;1070;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>248</x><y>356</y><w>94</w><h>68</h></coordinates><panel_attributes>player
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>161</x><y>973</y><w>140</w><h>147</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;190;180;10</additional_attributes></element><element><id>Relation</id><coordinates><x>161</x><y>973</y><w>763</w><h>147</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;190;980;190;1070;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>868</x><y>1204</y><w>329</w><h>238</h></coordinates><panel_attributes>player
 --
 -sprite : string
 -hitbox : SDL_FRect
@@ -249,4 +249,4 @@ getPos() : pos
 setSpeed(_speed : int)
 getSpeed() : int
 setCollision(b : bool)
-getCollision() : bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>294</x><y>338</y><w>6</w><h>22</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>314</x><y>228</y><w>6</w><h>48</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;220</additional_attributes></element><element><id>Relation</id><coordinates><x>354</x><y>294</y><w>40</w><h>6</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>428</x><y>294</y><w>92</w><h>6</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>440;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>300</y><w>178</w><h>96</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>870;10;460;460;10;460</additional_attributes></element><element><id>Relation</id><coordinates><x>32</x><y>312</y><w>506</w><h>160</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>2500;10;2510;780;10;780;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>374</x><y>126</y><w>160</w><h>158</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>780;770;10;520;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>562</x><y>52</y><w>58</w><h>44</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;200;270;10</additional_attributes></element><element><id>Relation</id><coordinates><x>474</x><y>48</y><w>146</w><h>48</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;220;10;140;710;10</additional_attributes></element><element><id>Relation</id><coordinates><x>590</x><y>60</y><w>40</w><h>86</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;410;180;10</additional_attributes></element><element><id>Relation</id><coordinates><x>536</x><y>124</y><w>6</w><h>160</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;780</additional_attributes></element></diagram>
+getCollision() : bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1029</x><y>1141</y><w>21</w><h>77</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1099</x><y>756</y><w>21</w><h>168</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;220</additional_attributes></element><element><id>Relation</id><coordinates><x>1239</x><y>987</y><w>140</w><h>21</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1498</x><y>987</y><w>322</w><h>21</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>440;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1197</x><y>1008</y><w>623</w><h>336</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>870;10;460;460;10;460</additional_attributes></element><element><id>Relation</id><coordinates><x>112</x><y>1050</y><w>1771</w><h>560</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>2500;10;2510;780;10;780;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1309</x><y>399</y><w>560</w><h>553</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>780;770;10;520;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1967</x><y>140</y><w>203</w><h>154</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;200;270;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1659</x><y>126</y><w>511</w><h>168</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;220;10;140;710;10</additional_attributes></element><element><id>Relation</id><coordinates><x>2065</x><y>168</y><w>140</w><h>301</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;410;180;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1876</x><y>392</y><w>21</w><h>560</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;780</additional_attributes></element></diagram>

@@ -19,7 +19,7 @@ private:
     camera cam;
     double framerate = 0;
     double maxframerate = 60;
-
+    
 public:
     const std::string workspace = std::string(SDL_GetBasePath()) + "../";
     bool appRunning = true;

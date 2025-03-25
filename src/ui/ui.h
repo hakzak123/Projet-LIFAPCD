@@ -64,7 +64,7 @@ public :
         for(auto& e : uiCompMap){
             uiButton* button;
             if(button = dynamic_cast<uiButton*>(e.second)){
-                if(button->clickable()){
+                if(button->clickable() && button->isRendered()){
                     return SDL_SYSTEM_CURSOR_POINTER;
                 }
             }
