@@ -49,6 +49,9 @@ public :
     tile& getTile(unsigned x, unsigned y){
         return tiles[_1DIndex(x, y)];
     }
+    std::vector<tile> getTiles(){
+        
+    }
 
     void makeTileRectangle(unsigned Xmin,unsigned Ymin,unsigned Xmax,unsigned Ymax, const std::string& _textureName){
         if(Xmin <=Xmax && Ymin <= Ymax && Xmax < width && Ymax < height){
