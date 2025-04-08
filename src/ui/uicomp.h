@@ -4,6 +4,7 @@
 #include <position.h>
 #include <application.h>
 
+
 class uiComponent{
     protected :
         pos Pos;

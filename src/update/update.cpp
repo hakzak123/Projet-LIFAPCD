@@ -4,10 +4,10 @@
 #include <windowInfo.h>
 #include <application.h>
 
-extern ui Ui;
-
 void SMM::update(){
     cursorHandling();
     winfo.update();
-    Ui.update();
+    for(auto& e : UiMap){
+        e.second->update(this);
+    }
 }

@@ -6,14 +6,13 @@
 #include <geometry.h>
 #include <application.h>
 
-extern ui Ui;
-
-
 void SMM::render(){
     setRenderDrawColor(getRenderer(),color(0,0,0,255));
     SDL_RenderClear(getRenderer());
     
-    Ui.render();
+    for(auto& e : UiMap){
+        e.second->render(this);
+    }
 
     SDL_RenderPresent(getRenderer());
 }

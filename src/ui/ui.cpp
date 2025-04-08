@@ -11,7 +11,6 @@
 
 extern SMM* app;
 extern std::unordered_map<std::string,SDL_Texture*> globalTextures;
-ui Ui;
 
 // Returns true when at least ms amount of time has passed since the last call. lastTimeStatic MUST BE A ZERO-INITIALIZED STATIC VARIABLE.
 bool time_passed_since_last_time(Uint64 ms, Uint64 &lastTimeStatic){
@@ -81,11 +80,14 @@ void openFileDialog(void *userdata, const char * const *filelist, int filter){
 
 }
 
-void uiSetup(){
-    Ui = app;
-    const int width = app->getWindowInfo().w();
-    const int height = app->getWindowInfo().h();
-    SDL_Texture* textTexture = createTTFTexture(app->getRenderer(),app->getFont("impact.ttf"),"TEST TEST TEST",{0,255,0,255});
+void SMM::uiSetup(){
+    ui* mainMenu = new ui; // à delete
+    ui* debug = new ui;
+    ui* stats = new ui;
+    ui* settings = new ui;
+    const int& width = this->getWindowInfo().w();
+    const int& height = this->getWindowInfo().h();
+    SDL_Texture* textTexture = createTTFTexture(this->getRenderer(),this->getFont("impact.ttf"),"TEST TEST TEST",{0,255,0,255});
 
     uiTextureComponent* uiTestTexture = new uiTextureComponent(
         textTexture,
@@ -93,11 +95,11 @@ void uiSetup(){
     );
 
     uiTTFComponent* uiTestTTF = new uiTTFComponent(
-        app,
+        this,
         "TEST",
         pos(100,100),
         100,
-        app->getFont("impact.ttf"),
+        this->getFont("impact.ttf"),
         color(0,255,0,255)
     );
 
@@ -113,12 +115,12 @@ void uiSetup(){
     );
 
     uiButtonRectText* uiTestTextButton = new uiButtonRectText(
-        app,
+        this,
         onClickDebug,
         fRect(width-width/10,height/2,300,100),
         color(255,255,255,255),
         "TESTBTN",
-        app->getFont("impact.ttf"),
+        this->getFont("impact.ttf"),
         65,
         color(0,0,0,255)
 
@@ -151,15 +153,127 @@ void uiSetup(){
         pos(width-width/10,height/12),
         {48,255,0,255}
     );
+    
+    uiButtonRectText* uiNew = new uiButtonRectText(
+        this,
+        nullptr,
+        fRect(width/20,height/4,200,90),
+        color(255,255,255,255),
+        "New",
+        this->getFont("impact.ttf"),
+        80,
+        color(0,0,0,255)
+    );
 
-    Ui["Test"] = uiTest;
-    Ui["FPS"] = uiFPS;
-    Ui["textureTest"] = uiTestTexture;
-    Ui["ttfTest"] = uiTestTTF;
-    Ui["testGlobalTexture"] = uiTestGlobalTexture;
-    Ui["testButton"] = uiTestButton;
-    Ui["testButtonText"] = uiTestTextButton;
-    Ui["testButtonTexture"] = uiTestTexureButton;
-    Ui["WinInfo"] = uiWinInfo; 
+    uiButtonRectText* uiEdit = new uiButtonRectText(
+        this,
+        nullptr,
+        fRect(width/20,height/2.8,200,90),
+        color(255,255,255,255),
+        "Edit",
+        this->getFont("impact.ttf"),
+        80,
+        color(0,0,0,255)
+    );
 
+    float spacing = (height / 2.8) - (height / 4);
+
+    uiButtonRectText* uiTestMap = new uiButtonRectText(
+        this,
+        nullptr,
+        fRect(width/20, (height/2.8) + spacing, 200, 90),
+        color(255,255,255,255),
+        "Test",
+        this->getFont("impact.ttf"),
+        80,
+        color(0,0,0,255)
+    );
+
+    uiButtonRectTexture* uiSettings = new uiButtonRectTexture(
+        [](uiButton*){
+            app->getUi()["mainMenu"]->setEnabled(false);
+            app->getUi()["settings"]->setEnabled(true);
+        },
+        fRect(width/20, (height/2.8) + 2*spacing, 200, 90),
+        color(255,255,255,255),
+        globalTextures["settings_icon.bmp"],
+        fRect(0,0,100,100)
+    );
+
+    uiButtonRectText* uiQuit = new uiButtonRectText(
+        this,
+        [](uiButton*){
+            app->appRunning = false;
+        },
+        fRect(width/20, (height/2.8) + 3*spacing, 200, 90),
+        color(255,255,255,255),
+        "Quit",
+        this->getFont("impact.ttf"),
+        80,
+        color(0,0,0,255)
+    );
+
+    uiButtonRectText* uiMaxFps = new uiButtonRectText(
+        this,
+        [](uiButton*){
+            unsigned short newFPS;
+            bool fail;
+            do{
+            std::cout << "Enter a new maximum framerate (max : 500)\n";
+            std::cin >> newFPS;
+
+            fail = std::cin.fail();
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            } while(newFPS<1 || newFPS >= 500 || fail);
+            app->setMaxFramerate(newFPS);
+        },
+        fRect(width/2-width/12,height/4,300,90),
+        color(255,255,255,255),
+        "Max Framerate",
+        this->getFont("impact.ttf"),
+        60,
+        color(0,0,0,255)
+    );
+
+    uiButtonRectText* uiSettingsBack = new uiButtonRectText(
+        this,
+        [](uiButton*){
+            app->getUi()["mainMenu"]->setEnabled(true);
+            app->getUi()["settings"]->setEnabled(false);
+        },
+        fRect(width/20,height/4,200,90),
+        color(255,255,255,255),
+        "Back",
+        this->getFont("impact.ttf"),
+        80,
+        color(0,0,0,255)
+    );
+
+    (*mainMenu)["New"] = uiNew;
+    (*mainMenu)["Edit"] = uiEdit;
+    (*mainMenu)["Test"] = uiTestMap;
+    (*mainMenu)["Settings"] = uiSettings;
+    (*mainMenu)["Quit"] = uiQuit;
+    (*stats)["FPS"] = uiFPS;
+    (*stats)["WinInfo"] = uiWinInfo;
+    (*debug)["Test"] = uiTest;
+    (*debug)["textureTest"] = uiTestTexture;
+    (*debug)["ttfTest"] = uiTestTTF;
+    (*debug)["testGlobalTexture"] = uiTestGlobalTexture;
+    (*debug)["testButton"] = uiTestButton;
+    (*debug)["testButtonText"] = uiTestTextButton;
+    (*debug)["testButtonTexture"] = uiTestTexureButton;
+    (*settings)["MaxFps"] = uiMaxFps;
+    (*settings)["Back"] = uiSettingsBack;
+
+    uiInsert("mainMenu", mainMenu);
+    uiInsert("debug", debug);
+    uiInsert("stats", stats);
+    uiInsert("settings", settings);
+
+    getUi()["debug"]->setEnabled(false);
+    getUi()["settings"]->setEnabled(false);
+    
 }

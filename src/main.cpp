@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
 
     app->init("SMM", 0, 0, SDL_WINDOW_FULLSCREEN);
     initGlobalTextures();
-    uiSetup();
+    app->uiSetup();
 
     while(app->appRunning){
         auto frameStart = CURRENT_TIME;

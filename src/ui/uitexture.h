@@ -59,20 +59,27 @@ public :
 };
 
 class uiTTFComponent : public uiTextureComponent{
-    public:
-        uiTTFComponent(){
+public:
+    uiTTFComponent(){
 
-        }
+    }
 
-        uiTTFComponent(SMM* _app,std::string _text ,pos _Pos, unsigned _height, TTF_Font* _font, color _textColor) : 
-        uiTextureComponent(createTTFTexture(_app->getRenderer(),_font,_text,_textColor),fRect(_Pos.x,_Pos.y,0.5*_height*_text.size(),_height))
-        {
-        }
+    uiTTFComponent(SMM* _app, std::string _text, pos _Pos, unsigned _height, TTF_Font* _font, color _textColor)
+    : uiTextureComponent(createTTFTexture(_app->getRenderer(), _font, _text, _textColor), calculateTextRect(_font, _text, _Pos, _height))
+    {
+    }
 
-        ~uiTTFComponent(){
-            SDL_DestroyTexture(texture);
-        }
+    static fRect calculateTextRect(TTF_Font* font, const std::string& text, pos position, unsigned height) {
+        int textWidth, textHeight;
+        TTF_GetStringSize(font, text.c_str(), 0, &textWidth, &textHeight);
+        float scale = static_cast<float>(height) / textHeight;
+        return fRect(position.x, position.y, textWidth * scale, height);
+    }
+
+    ~uiTTFComponent(){
+        SDL_DestroyTexture(texture);
+    }
 
 
-        // pas de shallow copy sinon copy d'une texture détruite
-    };
+    // pas de shallow copy sinon copy d'une texture détruite
+};

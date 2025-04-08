@@ -3,7 +3,6 @@
 #include <application.h>
 #include <ui.h>
 
-extern ui Ui;
 extern SMM* app;
 
 void eventHandling(){
@@ -15,6 +14,9 @@ void eventHandling(){
                 break;
             }
         }
-        Ui.eventHandler(event);
+        for(auto& e : app->getUi()){
+            e.second->eventHandler(event);
+        }
+
     }
 }

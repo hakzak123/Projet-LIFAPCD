@@ -7,6 +7,7 @@
 #include <macros.h>
 #include <camera.h>
 
+class ui;
 
 class SMM{
 private:
@@ -19,6 +20,7 @@ private:
     camera cam;
     double framerate = 0;
     double maxframerate = 60;
+    std::map<std::string,ui*> UiMap;
     
 public:
     const std::string workspace = std::string(SDL_GetBasePath()) + "../";
@@ -57,6 +59,12 @@ public:
     }
     void setMaxFramerate(double fps){
         maxframerate = fps;
+    }
+    std::map<std::string,ui*>& getUi(){
+        return UiMap;
+    }
+    void uiInsert(std::string key, ui* _Ui){
+        UiMap[key] = _Ui;
     }
 
     void init(const std::string& name, int _w, int _h, SDL_WindowFlags _flags){
@@ -102,6 +110,7 @@ public:
 
     void argumentHandling(SMM*,int,char**);
     void cursorHandling();
+    void uiSetup();
     void update();
     void render();
 

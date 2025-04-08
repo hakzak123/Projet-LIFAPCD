@@ -7,6 +7,6 @@
 #include <smartptr.h>
 
 inline SDL_Texture* createTTFTexture(SDL_Renderer* renderer,TTF_Font* font,std::string text,color Color){
-    uniqueSDLPtr<SDL_Surface> tmpSurface = TTF_RenderText_Solid(font,text.c_str(),0,{Color.r,Color.g,Color.b,Color.a});
+    uniqueSDLPtr<SDL_Surface> tmpSurface = TTF_RenderText_Blended(font,text.c_str(),0,{Color.r,Color.g,Color.b,Color.a});
     return SDL_CreateTextureFromSurface(renderer,tmpSurface.pointer());
 }
