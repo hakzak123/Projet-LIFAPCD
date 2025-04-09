@@ -81,10 +81,11 @@ void openFileDialog(void *userdata, const char * const *filelist, int filter){
 }
 
 void SMM::uiSetup(){
-    ui* mainMenu = new ui; // à delete
-    ui* debug = new ui;
-    ui* stats = new ui;
-    ui* settings = new ui;
+    screen* mainMenu = new screen; // à delete
+    screen* debug = new screen;
+    screen* stats = new screen;
+    screen* settings = new screen;
+    screen* editor = new screen;
     const int& width = this->getWindowInfo().w();
     const int& height = this->getWindowInfo().h();
     SDL_Texture* textTexture = createTTFTexture(this->getRenderer(),this->getFont("impact.ttf"),"TEST TEST TEST",{0,255,0,255});
@@ -268,10 +269,10 @@ void SMM::uiSetup(){
     (*settings)["MaxFps"] = uiMaxFps;
     (*settings)["Back"] = uiSettingsBack;
 
-    uiInsert("mainMenu", mainMenu);
-    uiInsert("debug", debug);
-    uiInsert("stats", stats);
-    uiInsert("settings", settings);
+    insertScreen("mainMenu", mainMenu);
+    insertScreen("debug", debug);
+    insertScreen("stats", stats);
+    insertScreen("settings", settings);
 
     getUi()["debug"]->setEnabled(false);
     getUi()["settings"]->setEnabled(false);

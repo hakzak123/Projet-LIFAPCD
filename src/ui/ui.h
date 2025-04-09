@@ -9,13 +9,13 @@
 #include <macros.h>
 
 
-class ui{ // Stores ui component maps
+class screen{ // Stores ui component maps
 private :
     std::map<std::string,uiComponent*> uiCompMap;
     bool enabled = true;
 
 public :
-    ui(){}
+    screen(){}
 
     void insert(std::string key, uiComponent* comp){
         uiCompMap.insert({key,comp});
@@ -78,7 +78,7 @@ public :
         return SDL_SYSTEM_CURSOR_DEFAULT;
     }
 
-    ~ui(){
+    ~screen(){
         for(auto& e : uiCompMap){
             delete e.second;
         }

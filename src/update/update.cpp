@@ -7,7 +7,7 @@
 void SMM::update(){
     cursorHandling();
     winfo.update();
-    for(auto& e : UiMap){
+    for(auto& e : getUi()){
         e.second->update(this);
     }
 }

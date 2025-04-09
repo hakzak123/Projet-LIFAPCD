@@ -10,7 +10,7 @@ void SMM::render(){
     setRenderDrawColor(getRenderer(),color(0,0,0,255));
     SDL_RenderClear(getRenderer());
     
-    for(auto& e : UiMap){
+    for(auto& e : getUi()){
         e.second->render(this);
     }
 
