@@ -8,6 +8,11 @@ set(SOURCES
     src/main.cpp
     src/render/render.cpp
     src/ui/ui.cpp
+    src/ui/debugscreen.cpp
+    src/ui/mainMenu.cpp
+    src/ui/stats.cpp
+    src/ui/settings.cpp
+    src/ui/editor.cpp
     src/update/update.cpp
     src/handling/argumentHandling.cpp
     src/handling/eventHandling.cpp

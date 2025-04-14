@@ -78,10 +78,12 @@ public:
 
 
     bool clickable() override{
-        pos mousePos;
-        SDL_GetMouseState(&mousePos.x, &mousePos.y);
-        if(isInRectangle(mousePos, rect)){
-            return true;
+        if(active){
+            pos mousePos;
+            SDL_GetMouseState(&mousePos.x, &mousePos.y);
+            if(isInRectangle(mousePos, rect)){
+                return true;
+            }
         }
         return false;
     }
@@ -110,8 +112,8 @@ protected:
     }
 
 public:
-    uiButtonRectText(SMM* _app, void (*_onClick)(uiButton*), fRect _rect, color _rectColor, std::string _text, TTF_Font* _font, unsigned _textHeight, color _textColor) : 
-    uiButtonRect(_onClick,_rect,_rectColor),
+    uiButtonRectText(SMM* _app, void (*_onClick)(uiButton*), fRect _rect, color _rectColor, std::string _text, TTF_Font* _font, unsigned _textHeight, color _textColor, bool _active = true) : 
+    uiButtonRect(_onClick,_rect,_rectColor, _active),
     text(_app, _text, calculateTextPos(_app, _text,_textHeight), _textHeight, _font, _textColor)
     {
     }
