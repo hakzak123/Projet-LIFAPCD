@@ -1,8 +1,10 @@
 #include <ui.h>
+#include <map.h>
 #include <map>
 
 extern SMM* app;
 extern std::map<std::string,SDL_Texture*> globalTextures;
+map g_map(app,tileMap(),spawnPoint());
 
 void editorSetup(SMM* _app){
     const int& width = _app->getWindowInfo().w();

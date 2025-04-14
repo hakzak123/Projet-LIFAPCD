@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include <map.h>
+#include <mapcomponent.h>
 #include <vector>
 
 class tile : public mapComponent{
@@ -36,7 +36,7 @@ private :
     }
 
 public :
-    tileMap(){}
+    tileMap() : width(50), height(50), tiles(width*height){}
 
     tileMap(unsigned short _width, unsigned short _height) : width(_width), height(_height), tiles(_width*_height)
     {}
@@ -50,7 +50,7 @@ public :
         return tiles[_1DIndex(x, y)];
     }
     std::vector<tile> getTiles(){
-        
+        return tiles;
     }
 
     void makeTileRectangle(unsigned Xmin,unsigned Ymin,unsigned Xmax,unsigned Ymax, const std::string& _textureName){

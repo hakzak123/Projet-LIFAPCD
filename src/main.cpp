@@ -6,7 +6,6 @@
 #include <application.h>
 
 void eventHandling();
-void uiSetup();
 void initGlobalTextures();
 void destroyGlobalTextures();
 

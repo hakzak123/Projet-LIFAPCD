@@ -2,7 +2,7 @@
 #include <SDL3/SDL.h>
 #include <position.h>
 #include <geometry.h>
-#include <map.h>
+#include <mapcomponent.h>
 #include <string>
 
 class player : public mapComponent{
@@ -14,6 +14,8 @@ private :
     void updatePhys();
 
 public :
+    player(){}
+
     player(const std::string &_sprite,const fRect &_hitbox, const pos &_Pos, int _speed, bool _collision = true):
     mapComponent(_Pos, _collision),
     sprite(_sprite),

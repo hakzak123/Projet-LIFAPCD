@@ -1,8 +1,14 @@
 #include <ui.h>
+#include <map.h>
 #include <map>
 
 extern SMM* app;
 extern std::map<std::string,SDL_Texture*> globalTextures;
+extern map g_map;
+
+void ofdCallback(void *userdata, const char * const *filelist, int filter){
+
+}
 
 void mainMenuSetup(SMM* _app){
     SDL_Texture* textTexture = createTTFTexture(_app->getRenderer(),_app->getFont("impact.ttf"),"TEST TEST TEST",{0,255,0,255});
@@ -27,6 +33,7 @@ void mainMenuSetup(SMM* _app){
     uiButtonRectText* uiEdit = new uiButtonRectText(
         _app,
         [](uiButton*){
+            SDL_ShowOpenFileDialog(ofdCallback,nullptr,app->getWindow(),NULL,0,NULL,false);
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["editor"]->setEnabled(true);
         },
