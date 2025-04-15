@@ -18,6 +18,7 @@ set(SOURCES
     src/handling/eventHandling.cpp
     src/handling/cursorHandling.cpp
     src/globalTextures.cpp
+    src/tinyfd/tinyfiledialogs.c
 )
 
 include_directories(
@@ -31,6 +32,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/player
     ${CMAKE_SOURCE_DIR}/src/ttf
     ${CMAKE_SOURCE_DIR}/src/windowInfo
+    ${CMAKE_SOURCE_DIR}/src/tinyfd
 )
 
 link_directories(

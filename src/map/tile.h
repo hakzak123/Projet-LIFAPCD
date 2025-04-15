@@ -49,7 +49,7 @@ public :
     tile& getTile(unsigned x, unsigned y){
         return tiles[_1DIndex(x, y)];
     }
-    std::vector<tile> getTiles(){
+    std::vector<tile>& getTiles(){
         return tiles;
     }
 
@@ -62,5 +62,4 @@ public :
             }
         }
     }
-
 };

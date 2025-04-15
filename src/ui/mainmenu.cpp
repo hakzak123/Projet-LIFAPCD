@@ -6,8 +6,79 @@ extern SMM* app;
 extern std::map<std::string,SDL_Texture*> globalTextures;
 extern map g_map;
 
-void ofdCallback(void *userdata, const char * const *filelist, int filter){
+Uint32 loadMapEvent = 0;
 
+/*
+smp format :
+spawnpoint
+tilesize
+tileMap : uint32 width, height, array of tiles (map components + null terminated strings)
+*/
+
+int loadMapFromFile(const char* filePath){ // ajouter des checks
+    size_t fileSize;
+    size_t addition = 0;
+
+    if(filePath == nullptr){
+        return -1;
+    }
+
+    char* file = (char*)SDL_LoadFile(filePath,&fileSize);
+    
+    spawnPoint spawn = *(spawnPoint*)file;
+    addition += sizeof(spawnPoint);
+    g_map.setSpawnPoint(spawn);
+    
+    unsigned tileSize = *(unsigned*)(file + addition);
+    addition += sizeof(unsigned);
+    g_map.setTileSize(tileSize);
+    
+    unsigned width, height;
+    width = *(unsigned*)(file + addition);
+    addition += sizeof(unsigned);
+    height = *(unsigned*)(file + addition);
+    g_map.getTileMap().newDim(width,height);
+
+    int index = 0;
+    while(addition <= fileSize){
+        mapComponent m = *(mapComponent*)(file + addition);
+        addition += sizeof(mapComponent);
+        std::string s = (const char*)(file + addition);
+        addition += s.size() + 1;
+
+        tile t(s,m.getPos(),m.getCollision());
+        g_map.getTileMap().getTiles()[index] = t;
+        index++;
+    }
+
+    SDL_free(file);
+    return 0;
+}
+
+void ofdCallback(void *userdata, const char * const *filelist, int filter){
+    if(loadMapEvent == 0)
+        loadMapEvent = SDL_RegisterEvents(1);
+
+    SDL_Event event;
+    event.type = loadMapEvent;
+    event.user.timestamp = SDL_GetTicksNS();
+    event.user.data1 = nullptr;
+    event.user.data2 = nullptr;
+
+    int errorCode = loadMapFromFile(filelist[0]);
+    switch(errorCode){
+        case 0 : {
+            app->getUi()["mainMenu"]->setEnabled(false);
+            app->getUi()["editor"]->setEnabled(true);
+            g_map.setFilePath(filelist[0]); // remettre à 0 dans le bouton discard
+            event.user.code = 0;
+        }
+        case -1 : {
+            event.user.code = -1;
+        }
+    }
+
+    SDL_PushEvent(&event);
 }
 
 void mainMenuSetup(SMM* _app){
@@ -34,8 +105,6 @@ void mainMenuSetup(SMM* _app){
         _app,
         [](uiButton*){
             SDL_ShowOpenFileDialog(ofdCallback,nullptr,app->getWindow(),NULL,0,NULL,false);
-            app->getUi()["mainMenu"]->setEnabled(false);
-            app->getUi()["editor"]->setEnabled(true);
         },
         fRect(width/20,height/2.8,200,90),
         color(255,255,255,255),

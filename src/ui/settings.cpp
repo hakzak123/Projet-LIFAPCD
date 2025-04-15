@@ -1,5 +1,6 @@
 #include <ui.h>
 #include <map>
+#include <tinyfiledialogs.h>
 
 extern SMM* app;
 extern std::map<std::string,SDL_Texture*> globalTextures;
@@ -13,17 +14,24 @@ void settingsSetup(SMM* _app){
     uiButtonRectText* uiMaxFps = new uiButtonRectText(
         _app,
         [](uiButton*){
-            unsigned short newFPS;
-            bool fail;
+            unsigned short newFPS = -1;
+
             do{
-            std::cout << "Enter a new maximum framerate (max : 500)\n";
-            std::cin >> newFPS;
+                char* input = tinyfd_inputBox("Enter a new framerate", "Integer between 1 and 500", "60");
+                if(!input){
+                    continue;
+                }
+                try{
+                    newFPS = std::stoi(input);
+                }
+                catch(const std::invalid_argument&){
+                    continue;
+                }
+                catch(const std::out_of_range&){
+                    continue;
+                }
+            } while(newFPS<1 || newFPS >= 500);
 
-            fail = std::cin.fail();
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-            } while(newFPS<1 || newFPS >= 500 || fail);
             app->setMaxFramerate(newFPS);
         },
         fRect(width/2-width/12,height/4,300,90),
