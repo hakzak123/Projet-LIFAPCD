@@ -86,6 +86,8 @@ void ofdCallback(void *userdata, const char * const *filelist, int filter){
         }
     }
 
+    app->getUi()["loading"]->setEnabled(false);
+
     SDL_PushEvent(&event);
 }
 
@@ -115,6 +117,7 @@ void mainMenuSetup(SMM* _app){
         [](uiButton*){
             SDL_ShowOpenFileDialog(ofdCallback,nullptr,app->getWindow(),NULL,0,NULL,false);
             app->getUi()["mainMenu"]->setEnabled(false);
+            app->getUi()["loading"]->setEnabled(true);
         },
         fRect(width/20,height/2.8,200,90),
         color(255,255,255,255),

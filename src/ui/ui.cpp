@@ -14,6 +14,7 @@ void mainMenuSetup(SMM*);
 void statsSetup(SMM*);
 void settingsSetup(SMM*);
 void editorSetup(SMM*);
+void loadingScreenSetup(SMM*);
 
 void SMM::uiSetup(){
     mainMenuSetup(this);
@@ -21,4 +22,5 @@ void SMM::uiSetup(){
     statsSetup(this);
     settingsSetup(this);
     editorSetup(this);
+    loadingScreenSetup(this);
 }

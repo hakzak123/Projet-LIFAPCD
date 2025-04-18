@@ -50,14 +50,16 @@ int saveMapToFile(const char* filePath){
 
     SDL_SaveFile(filePath,file,sizeOfFile);
 
-    printf("Saved map to %s", filePath);
+    printf("Saved map to %s\n", filePath);
 
     return 0;
 }
 
 void sfdCallback(void *userdata, const char * const *filelist, int filter){
-    std::string dest = std::string(filelist[0]) + ".smp";
-    saveMapToFile(dest.c_str());
+    if(filelist[0]){
+        std::string dest = std::string(filelist[0]) + ".smp";
+        saveMapToFile(dest.c_str());
+    }
 }
 
 void editorSetup(SMM* _app){
@@ -83,6 +85,47 @@ void editorSetup(SMM* _app){
         fRect(0, height/1.1, 200, 90),
         color(255,255,255,255),
         "Save",
+        _app->getFont("impact.ttf"),
+        80,
+        color(0,0,0,255)
+    );
+
+    uiButtonRectText* uiLeave = new uiButtonRectText(
+        _app,
+        [](uiButton*){
+            SDL_MessageBoxButtonData buttons[2];
+            SDL_MessageBoxButtonData cancel;
+            SDL_MessageBoxButtonData understand;
+            SDL_MessageBoxData warningBoxData;
+            int buttonId;
+
+            cancel.buttonID = 1;
+            cancel.text = "Cancel";
+
+            understand.buttonID = 0;
+            understand.text = "I understand";
+
+            buttons[0] = cancel;
+            buttons[1] = understand;
+
+            warningBoxData.flags = SDL_MESSAGEBOX_WARNING;
+            warningBoxData.window = app->getWindow();
+            warningBoxData.title = "Warning";
+            warningBoxData.message = "Any unsaved changed will be discarded.";
+            warningBoxData.numbuttons = 2;
+            warningBoxData.buttons = buttons;
+            warningBoxData.colorScheme = NULL;
+
+            SDL_ShowMessageBox(&warningBoxData, &buttonId);
+
+            if(buttonId == 0){
+                app->getUi()["editor"]->setEnabled(false);
+                app->getUi()["mainMenu"]->setEnabled(true);
+            }
+        },
+        fRect(200 + 30, height/1.1, 200, 90),
+        color(255,255,255,255),
+        "Leave",
         _app->getFont("impact.ttf"),
         80,
         color(0,0,0,255)
@@ -117,6 +160,7 @@ void editorSetup(SMM* _app){
 
     (*editor)["background"] = background;
     (*editor)["save"] = uiSave;
+    (*editor)["leave"] = uiLeave;
 
     _app->insertScreen("editor", editor);
     _app->getUi()["editor"]->setEnabled(false);

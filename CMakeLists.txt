@@ -13,6 +13,7 @@ set(SOURCES
     src/ui/stats.cpp
     src/ui/settings.cpp
     src/ui/editor.cpp
+    src/ui/loading.cpp
     src/update/update.cpp
     src/handling/argumentHandling.cpp
     src/handling/eventHandling.cpp
