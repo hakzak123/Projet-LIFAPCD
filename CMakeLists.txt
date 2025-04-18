@@ -19,10 +19,15 @@ set(SOURCES
     src/handling/cursorHandling.cpp
     src/globalTextures.cpp
     src/tinyfd/tinyfiledialogs.c
+    src/gfx/SDL3_framerate.c
+    src/gfx/SDL3_gfxPrimitives.c
+    src/gfx/SDL3_imageFilter.c
+    src/gfx/SDL3_rotozoom.c
 )
 
 include_directories(
     C:/SDL3-3.2.0/x86_64-w64-mingw32/include
+    C:/SDL3-3.2.0/x86_64-w64-mingw32/include/SDL3_gfx
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/map
     ${CMAKE_SOURCE_DIR}/src/ui

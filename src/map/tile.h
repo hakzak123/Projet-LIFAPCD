@@ -49,6 +49,12 @@ public :
     tile& getTile(unsigned x, unsigned y){
         return tiles[_1DIndex(x, y)];
     }
+    unsigned getWidth(){
+        return width;
+    }
+    unsigned getHeight(){
+        return height;
+    }
     std::vector<tile>& getTiles(){
         return tiles;
     }

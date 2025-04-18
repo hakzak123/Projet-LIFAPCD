@@ -13,10 +13,10 @@ private :
     unsigned tileSize;
     spawnPoint spawn;
     player ply;
-    std::string filePath; // can be NULL
+    std::string filePath;
 
 public :
-    map(SMM* _app, const tileMap& t, spawnPoint _spawn, unsigned _tileSize = 50, player _ply = player()) :
+    map(SMM* _app, const tileMap& t, spawnPoint _spawn, unsigned _tileSize = 50, std::string _filePath = std::string(), player _ply = player()) :
     app(_app),
     tiles(t),
     spawn(_spawn),
@@ -36,7 +36,9 @@ public :
     tileMap& getTileMap(){
         return tiles;
     }
-    player& getPlayer();
+    player& getPlayer(){
+        return ply;
+    }
     spawnPoint getSpawnPoint(){
         return spawn;
     }

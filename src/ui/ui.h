@@ -17,6 +17,10 @@ private :
 public :
     screen(){}
 
+    std::map<std::string,uiComponent*>& getUiComponents(){
+        return uiCompMap;
+    }
+
     void insert(std::string key, uiComponent* comp){
         uiCompMap.insert({key,comp});
     }

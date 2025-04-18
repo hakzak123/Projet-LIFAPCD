@@ -9,7 +9,10 @@
 void SMM::render(){
     setRenderDrawColor(getRenderer(),color(0,0,0,255));
     SDL_RenderClear(getRenderer());
-    
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    setRenderDrawColor(getRenderer(),color(50,50,50,70));
+    SDL_RenderFillRect(getRenderer(),NULL);
+
     for(auto& e : getUi()){
         e.second->render(this);
     }

@@ -19,7 +19,8 @@ void settingsSetup(SMM* _app){
             do{
                 char* input = tinyfd_inputBox("Enter a new framerate", "Integer between 1 and 500", "60");
                 if(!input){
-                    continue;
+                    newFPS = app->getMaxFramerate();
+                    break;
                 }
                 try{
                     newFPS = std::stoi(input);

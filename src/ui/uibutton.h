@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
+#include <SDL3_gfx/SDL3_gfxPrimitives.h>
 #include <uitexture.h>
 
 class uiButton : public uiComponent{
@@ -31,6 +32,7 @@ class uiButtonRect : public uiButton{
 protected:
     fRect rect;
     color rectColor;
+    bool roundedCorners;
 
     void updateRect(SMM* app){
         // scaling
@@ -51,16 +53,24 @@ protected:
     }
 
     void renderRect(SMM* app){
-        setRenderDrawColor(app->getRenderer(),rectColor);
-        SDL_RenderFillRect(app->getRenderer(),&rect);
+        //setRenderDrawColor(app->getRenderer(),rectColor);
+        //SDL_RenderFillRect(app->getRenderer(),&rect);
+        if(roundedCorners){
+            roundedBoxRGBA(app->getRenderer(),rect.x, rect.y, rect.x+rect.w, rect.y+rect.h, std::min(rect.w, rect.h) / 6, rectColor.r, rectColor.g, rectColor.b, rectColor.a);
+        }
+        else{
+            setRenderDrawColor(app->getRenderer(),rectColor);
+            SDL_RenderFillRect(app->getRenderer(),&rect);
+        }
     }
 
 public:
 
-    uiButtonRect(void (*_onClick)(uiButton*), const fRect &_rect, color _rectColor, bool _active = true) : 
+    uiButtonRect(void (*_onClick)(uiButton*), const fRect &_rect, color _rectColor, bool _roundedCorners = true, bool _active = true) : 
     uiButton(_rect.getPos(), _onClick, _active),
     rect(_rect),
-    rectColor(_rectColor)
+    rectColor(_rectColor),
+    roundedCorners(_roundedCorners)
     {
     }
 
@@ -94,6 +104,15 @@ public:
 
     void render(SMM* app) override{
         renderRect(app);
+        if(clickable()){
+            if(roundedCorners){
+                roundedBoxRGBA(app->getRenderer(),rect.x, rect.y, rect.x+rect.w, rect.y+rect.h, std::min(rect.w, rect.h) / 6, 127, 127, 127, 100);
+            }
+            else{
+                setRenderDrawColor(app->getRenderer(),color(127,127,127,80));
+                SDL_RenderFillRect(app->getRenderer(),&rect);
+            }
+        }
     }
 
 };
@@ -112,8 +131,8 @@ protected:
     }
 
 public:
-    uiButtonRectText(SMM* _app, void (*_onClick)(uiButton*), fRect _rect, color _rectColor, std::string _text, TTF_Font* _font, unsigned _textHeight, color _textColor, bool _active = true) : 
-    uiButtonRect(_onClick,_rect,_rectColor, _active),
+    uiButtonRectText(SMM* _app, void (*_onClick)(uiButton*), fRect _rect, color _rectColor, std::string _text, TTF_Font* _font, unsigned _textHeight, color _textColor, bool _roundedCorners = true, bool _active = true) : 
+    uiButtonRect(_onClick,_rect,_rectColor, _roundedCorners, _active),
     text(_app, _text, calculateTextPos(_app, _text,_textHeight), _textHeight, _font, _textColor)
     {
     }
@@ -145,6 +164,15 @@ public:
 
     void render(SMM* app) override{
         renderRect(app);
+        if(clickable()){
+            if(roundedCorners){
+                roundedBoxRGBA(app->getRenderer(),rect.x, rect.y, rect.x+rect.w, rect.y+rect.h, std::min(rect.w, rect.h) / 6, 127, 127, 127, 100);
+            }
+            else{
+                setRenderDrawColor(app->getRenderer(),color(127,127,127,80));
+                SDL_RenderFillRect(app->getRenderer(),&rect);
+            }
+        }
         text.render(app);
     }
 };
@@ -163,8 +191,8 @@ protected:
         dstRect = tmpRect;
     }
 public:
-    uiButtonRectTexture( void (*_onClick)(uiButton*), fRect _rect, color _rectColor, SDL_Texture* _texture, fRect _dstRect) : 
-    uiButtonRect(_onClick,_rect,_rectColor),
+    uiButtonRectTexture( void (*_onClick)(uiButton*), fRect _rect, color _rectColor, SDL_Texture* _texture, fRect _dstRect, bool _roundedCorners = true, bool _active = true) : 
+    uiButtonRect(_onClick, _rect, _rectColor, _roundedCorners, _active),
     texture(_texture),
     dstRect(_dstRect)
     {}
@@ -177,9 +205,16 @@ public:
     void render(SMM* app) override{
         renderRect(app);
         SDL_RenderTexture(app->getRenderer(),texture,NULL,&dstRect);
+        if(clickable()){
+            if(roundedCorners){
+                roundedBoxRGBA(app->getRenderer(),rect.x, rect.y, rect.x+rect.w, rect.y+rect.h, std::min(rect.w, rect.h) / 6, 127, 127, 127, 100);
+            }
+            else{
+                SDL_SetRenderDrawBlendMode(app->getRenderer(), SDL_BLENDMODE_BLEND);
+                setRenderDrawColor(app->getRenderer(),color(127,127,127,80));
+                SDL_RenderFillRect(app->getRenderer(),&rect);
+                
+            }
+        }    
     }
-};
-
-class uiButtonTexture : public uiButton{ // pas besoin
-
 };

@@ -17,7 +17,8 @@ tileMap : uint32 width, height, array of tiles (map components + null terminated
 
 int loadMapFromFile(const char* filePath){ // ajouter des checks
     size_t fileSize;
-    size_t addition = 0;
+    size_t offset = 0;
+    tileMap tile_map = g_map.getTileMap();
 
     if(filePath == nullptr){
         return -1;
@@ -26,30 +27,35 @@ int loadMapFromFile(const char* filePath){ // ajouter des checks
     char* file = (char*)SDL_LoadFile(filePath,&fileSize);
     
     spawnPoint spawn = *(spawnPoint*)file;
-    addition += sizeof(spawnPoint);
+    offset += sizeof(spawnPoint);
     g_map.setSpawnPoint(spawn);
     
-    unsigned tileSize = *(unsigned*)(file + addition);
-    addition += sizeof(unsigned);
+    unsigned tileSize = *(unsigned*)(file + offset);
+    offset += sizeof(unsigned);
     g_map.setTileSize(tileSize);
     
     unsigned width, height;
-    width = *(unsigned*)(file + addition);
-    addition += sizeof(unsigned);
-    height = *(unsigned*)(file + addition);
-    g_map.getTileMap().newDim(width,height);
+    width = *(unsigned*)(file + offset);
+    offset += sizeof(unsigned);
+    height = *(unsigned*)(file + offset);
+    offset += sizeof(unsigned);
+    tile_map.newDim(width,height);
 
     int index = 0;
-    while(addition <= fileSize){
-        mapComponent m = *(mapComponent*)(file + addition);
-        addition += sizeof(mapComponent);
-        std::string s = (const char*)(file + addition);
-        addition += s.size() + 1;
+    tile_map.newDim(width,height);
+
+    while(offset < fileSize){
+        mapComponent m = *(mapComponent*)(file + offset);
+        offset += sizeof(mapComponent);
+        std::string s = (const char*)(file + offset);
+        offset += s.size() + 1;
 
         tile t(s,m.getPos(),m.getCollision());
-        g_map.getTileMap().getTiles()[index] = t;
+        tile_map.getTiles()[index] = t;
         index++;
     }
+
+    printf("Map loaded. Map dimensions : %ux%u, amount of tiles : %u\n",tile_map.getWidth(), tile_map.getHeight(), tile_map.getTiles().size());
 
     SDL_free(file);
     return 0;
@@ -68,13 +74,15 @@ void ofdCallback(void *userdata, const char * const *filelist, int filter){
     int errorCode = loadMapFromFile(filelist[0]);
     switch(errorCode){
         case 0 : {
-            app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["editor"]->setEnabled(true);
             g_map.setFilePath(filelist[0]); // remettre à 0 dans le bouton discard
             event.user.code = 0;
+            break;
         }
         case -1 : {
+            app->getUi()["mainMenu"]->setEnabled(true);
             event.user.code = -1;
+            break;
         }
     }
 
@@ -90,6 +98,7 @@ void mainMenuSetup(SMM* _app){
     uiButtonRectText* uiNew = new uiButtonRectText(
         _app,
         [](uiButton*){
+            g_map = map(app, tileMap(), spawnPoint(),50);
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["editor"]->setEnabled(true);
         },
@@ -105,6 +114,7 @@ void mainMenuSetup(SMM* _app){
         _app,
         [](uiButton*){
             SDL_ShowOpenFileDialog(ofdCallback,nullptr,app->getWindow(),NULL,0,NULL,false);
+            app->getUi()["mainMenu"]->setEnabled(false);
         },
         fRect(width/20,height/2.8,200,90),
         color(255,255,255,255),
