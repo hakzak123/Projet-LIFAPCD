@@ -8,6 +8,7 @@
 void eventHandling();
 void initGlobalTextures();
 void destroyGlobalTextures();
+void mapInit(SMM*);
 
 SMM* app;
 
@@ -27,7 +28,10 @@ int main(int argc, char* argv[]){
 
     app->init("SMM", 0, 0, SDL_WINDOW_FULLSCREEN);
     initGlobalTextures();
+    mapInit(app);
     app->uiSetup();
+
+
 
     while(app->appRunning){
         auto frameStart = CURRENT_TIME;

@@ -1,6 +1,7 @@
 #include <ui.h>
 #include <map.h>
 #include <map>
+#include <editorInfo.h>
 
 extern SMM* app;
 extern std::map<std::string,SDL_Texture*> globalTextures;
@@ -76,6 +77,8 @@ void ofdCallback(void *userdata, const char * const *filelist, int filter){
         case 0 : {
             app->getUi()["editor"]->setEnabled(true);
             g_map.setFilePath(filelist[0]); // remettre à 0 dans le bouton discard
+            g_map.init();
+            g_map.setRenderTarget(fRect(listWidth, 0, app->getWindowInfo().w() - listWidth, listHeight));
             event.user.code = 0;
             break;
         }
@@ -100,7 +103,9 @@ void mainMenuSetup(SMM* _app){
     uiButtonRectText* uiNew = new uiButtonRectText(
         _app,
         [](uiButton*){
-            g_map = map(app, tileMap(), spawnPoint(),50);
+            g_map = map(app, tileMap(), spawnPoint());
+            g_map.init();
+            g_map.setRenderTarget(fRect(listWidth, 0, app->getWindowInfo().w() - listWidth, listHeight));
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["editor"]->setEnabled(true);
         },
@@ -115,7 +120,8 @@ void mainMenuSetup(SMM* _app){
     uiButtonRectText* uiEdit = new uiButtonRectText(
         _app,
         [](uiButton*){
-            SDL_ShowOpenFileDialog(ofdCallback,nullptr,app->getWindow(),NULL,0,NULL,false);
+            SDL_DialogFileFilter filter = {"SMP file", "smp"};
+            SDL_ShowOpenFileDialog(ofdCallback,nullptr,app->getWindow(),&filter,1,NULL,false);
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["loading"]->setEnabled(true);
         },

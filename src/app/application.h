@@ -17,7 +17,6 @@ private:
     SDL_Renderer* renderer = nullptr;
     std::map<std::string,TTF_Font*> fontMap;
     windowInfo winfo;
-    camera cam;
     double framerate = 0;
     double maxframerate = 60;
     std::map<std::string,screen*> ui;

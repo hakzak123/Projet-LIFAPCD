@@ -6,7 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SOURCES
     src/main.cpp
+    src/map/mapinit.cpp
     src/render/render.cpp
+    src/render/maprender.cpp
     src/ui/ui.cpp
     src/ui/debugscreen.cpp
     src/ui/mainMenu.cpp
@@ -39,6 +41,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/ttf
     ${CMAKE_SOURCE_DIR}/src/windowInfo
     ${CMAKE_SOURCE_DIR}/src/tinyfd
+    ${CMAKE_SOURCE_DIR}/src/editorinfo
 )
 
 link_directories(

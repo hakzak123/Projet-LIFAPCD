@@ -1,10 +1,11 @@
 #include <ui.h>
 #include <map.h>
 #include <map>
+#include <editorInfo.h>
 
 extern SMM* app;
 extern std::map<std::string,SDL_Texture*> globalTextures;
-map g_map(app, tileMap(), spawnPoint());
+extern map g_map;
 
 /*
 smp format :
@@ -68,13 +69,13 @@ void editorSetup(SMM* _app){
     screen* editor = new screen;
     int index = 0;
     const unsigned listLineSize = 3;
-    const unsigned listWidth = 450, listHeight = 750;
+    editorInfo listWidth = editorInfo::listWidth, listHeight = editorInfo::listHeight;
     const unsigned blockSize = listWidth/listLineSize;
 
     uiButtonRectTexture* tileButton;
     uiButtonRectText* tileName;
 
-    uiButtonRect* background = new uiButtonRect(nullptr, fRect(0, 0, listWidth, listHeight), color(255,255,255,255), true, false);
+    uiButtonRect* background = new uiButtonRect(nullptr, fRect(0, 0, listWidth, listHeight), color(255,255,255,255), false, false);
 
     uiButtonRectText* uiSave = new uiButtonRectText(
         _app,
@@ -82,7 +83,7 @@ void editorSetup(SMM* _app){
             SDL_DialogFileFilter filter = {"SMP file", "smp"};
             SDL_ShowSaveFileDialog(sfdCallback, NULL, app->getWindow(), &filter, 1, NULL);
         },
-        fRect(0, height/1.1, 200, 90),
+        fRect(0, height-90, 200, 90),
         color(255,255,255,255),
         "Save",
         _app->getFont("impact.ttf"),
@@ -121,9 +122,10 @@ void editorSetup(SMM* _app){
             if(buttonId == 0){
                 app->getUi()["editor"]->setEnabled(false);
                 app->getUi()["mainMenu"]->setEnabled(true);
+                g_map.setRenderTarget(fRect(0,0,0,0));
             }
         },
-        fRect(200 + 30, height/1.1, 200, 90),
+        fRect(200 + 30, height-90, 200, 90),
         color(255,255,255,255),
         "Leave",
         _app->getFont("impact.ttf"),

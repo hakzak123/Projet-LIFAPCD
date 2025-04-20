@@ -33,6 +33,7 @@ private :
             return index;
         else
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,"ERROR!","A tileMap method tries to access a tile with no valid index.",nullptr);
+            std::exit(1);
     }
 
 public :

@@ -5,6 +5,9 @@
 #include <ui.h>
 #include <geometry.h>
 #include <application.h>
+#include <map.h>
+
+extern map g_map;
 
 void SMM::render(){
     setRenderDrawColor(getRenderer(),color(0,0,0,255));
@@ -16,6 +19,8 @@ void SMM::render(){
     for(auto& e : getUi()){
         e.second->render(this);
     }
+
+    g_map.render();
 
     SDL_RenderPresent(getRenderer());
 }
