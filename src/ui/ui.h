@@ -21,9 +21,6 @@ public :
         return uiCompMap;
     }
 
-    void insert(std::string key, uiComponent* comp){
-        uiCompMap.insert({key,comp});
-    }
 
     auto& operator[](std::string s){
         return uiCompMap[s];
