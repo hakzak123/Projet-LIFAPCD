@@ -59,7 +59,7 @@ public :
                     if(event.button.button == MOUSE_LEFT_CLICK)
                         for(auto& e : uiCompMap){
                             if(button = dynamic_cast<uiButton*>(e.second)){
-                                if(button->clickable()){
+                                if(button->clickable() && enabled){
                                     button->action();
                                 }
                             }
@@ -86,6 +86,7 @@ public :
         for(auto& e : uiCompMap){
             delete e.second;
         }
+        delete this;
     }
 
 };

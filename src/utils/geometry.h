@@ -4,12 +4,12 @@
 
 class fRect : public SDL_FRect{
 protected :
-    float x0 = 0, y0 = 0;
+    float x0 = 0, y0 = 0, w0 = 0, h0 = 0;
 public: 
     fRect(){
     }
 
-    fRect(float _x, float _y, float _w, float _h) : x0(_x), y0(_y){
+    fRect(float _x, float _y, float _w, float _h) : x0(_x), y0(_y), w0(_w), h0(_h){
         x = _x;
         y = _y;
         w = _w;
@@ -31,6 +31,14 @@ public:
 
     float iniY(){
         return y0;
+    }
+
+    float iniW(){
+        return w0;
+    }
+
+    float iniH(){
+        return h0;
     }
 };
 

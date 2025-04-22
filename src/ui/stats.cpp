@@ -55,13 +55,13 @@ void statsSetup(SMM* _app){
 
     uiDynamicTextComponent* uiFPS = new uiDynamicTextComponent(
         FPSCount,
-        pos(width-width/10,height/10),
+        pos(width-width/10,height/14),
         FPSColor
     );
 
     uiDynamicTextComponent* uiWinInfo = new uiDynamicTextComponent(
         winInfo,
-        pos(width-width/10,height/12),
+        pos(width-width/10,height/16),
         {48,255,0,255}
     );
 
@@ -69,4 +69,5 @@ void statsSetup(SMM* _app){
     (*stats)["WinInfo"] = uiWinInfo;
 
     _app->insertScreen("stats", stats);
+    stats->setEnabled(false);
 }

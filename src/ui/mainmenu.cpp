@@ -19,7 +19,7 @@ tileMap : uint32 width, height, array of tiles (map components + null terminated
 int loadMapFromFile(const char* filePath){ // ajouter des checks
     size_t fileSize;
     size_t offset = 0;
-    tileMap tile_map = g_map.getTileMap();
+    tileMap& tile_map = g_map.getTileMap();
 
     if(filePath == nullptr){
         return -1;
@@ -79,11 +79,13 @@ void ofdCallback(void *userdata, const char * const *filelist, int filter){
             g_map.setFilePath(filelist[0]); // remettre à 0 dans le bouton discard
             g_map.init();
             g_map.setRenderTarget(fRect(listWidth, 0, app->getWindowInfo().w() - listWidth, listHeight));
+            g_map.setRendered(true);
             event.user.code = 0;
             break;
         }
         case -1 : {
             app->getUi()["mainMenu"]->setEnabled(true);
+            g_map.setRendered(false);
             event.user.code = -1;
             break;
         }
@@ -99,6 +101,18 @@ void mainMenuSetup(SMM* _app){
     const int& width = _app->getWindowInfo().w();
     const int& height = _app->getWindowInfo().h();
     screen* mainMenu = new screen;
+    float spacing = (height / 2.8) - (height / 4);
+
+    uiButtonRectTextureScaled* uiLogo= new uiButtonRectTextureScaled(
+        nullptr,
+        fRect(width/2-width/8.2,height/1000,500,500),
+        color(255,255,255,0),
+        globalTextures["logo.bmp"],
+        fRect(0,0,500,500),
+        true,
+        false
+    );
+
 
     uiButtonRectText* uiNew = new uiButtonRectText(
         _app,
@@ -109,7 +123,7 @@ void mainMenuSetup(SMM* _app){
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["editor"]->setEnabled(true);
         },
-        fRect(width/20,height/4,200,90),
+        fRect(width/20,height/2.8,200,90),
         color(255,255,255,255),
         "New",
         _app->getFont("impact.ttf"),
@@ -125,7 +139,7 @@ void mainMenuSetup(SMM* _app){
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["loading"]->setEnabled(true);
         },
-        fRect(width/20,height/2.8,200,90),
+        fRect(width/20, (height/2.8) + spacing,200,90),
         color(255,255,255,255),
         "Edit",
         _app->getFont("impact.ttf"),
@@ -133,12 +147,12 @@ void mainMenuSetup(SMM* _app){
         color(0,0,0,255)
     );
 
-    float spacing = (height / 2.8) - (height / 4);
+
 
     uiButtonRectText* uiTestMap = new uiButtonRectText(
         _app,
         nullptr,
-        fRect(width/20, (height/2.8) + spacing, 200, 90),
+        fRect(width/20, (height/2.8) + spacing*2, 200, 90),
         color(255,255,255,255),
         "Test",
         _app->getFont("impact.ttf"),
@@ -151,7 +165,7 @@ void mainMenuSetup(SMM* _app){
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["settings"]->setEnabled(true);
         },
-        fRect(width/20, (height/2.8) + 2*spacing, 200, 90),
+        fRect(width/20, (height/2.8) + 3*spacing, 200, 90),
         color(255,255,255,255),
         globalTextures["settings_icon.bmp"],
         fRect(0,0,100,100)
@@ -162,7 +176,7 @@ void mainMenuSetup(SMM* _app){
         [](uiButton*){
             app->appRunning = false;
         },
-        fRect(width/20, (height/2.8) + 3*spacing, 200, 90),
+        fRect(width/20, (height/2.8) + 4*spacing, 200, 90),
         color(255,255,255,255),
         "Quit",
         _app->getFont("impact.ttf"),
@@ -170,6 +184,7 @@ void mainMenuSetup(SMM* _app){
         color(0,0,0,255)
     );
 
+    (*mainMenu)["Logo"] = uiLogo;
     (*mainMenu)["New"] = uiNew;
     (*mainMenu)["Edit"] = uiEdit;
     (*mainMenu)["Test"] = uiTestMap;

@@ -15,12 +15,14 @@ void SMM::render(){
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     setRenderDrawColor(getRenderer(),color(50,50,50,70));
     SDL_RenderFillRect(getRenderer(),NULL);
-
+    
+    g_map.render(false);
+    
     for(auto& e : getUi()){
         e.second->render(this);
     }
 
-    g_map.render();
+
 
     SDL_RenderPresent(getRenderer());
 }

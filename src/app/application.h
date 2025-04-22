@@ -33,6 +33,7 @@ public:
             SDL_DestroyCursor(handCursor);
         if(arrowCursor)
             SDL_DestroyCursor(arrowCursor);
+        
     }
 
     SDL_Window* const getWindow(){

@@ -15,6 +15,10 @@ SDL_EnumerationResult callback(void* data, const char *dirname, const char *fnam
 
 void initGlobalTextures(){
     SDL_EnumerateDirectory((app->workspace + "data/textures").c_str(),callback,nullptr);
+    if(globalTextures.find("placeholder.bmp") == globalTextures.end()){
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR!", "placeholder.bmp was not found", app->getWindow());
+        std::exit(1);
+    }
 }
 
 void destroyGlobalTextures(){

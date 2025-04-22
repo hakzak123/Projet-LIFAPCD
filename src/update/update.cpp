@@ -3,6 +3,9 @@
 #include <ui.h>
 #include <windowInfo.h>
 #include <application.h>
+#include <map.h>
+
+extern map g_map;
 
 void SMM::update(){
     cursorHandling();
@@ -10,4 +13,6 @@ void SMM::update(){
     for(auto& e : getUi()){
         e.second->update(this);
     }
+
+    g_map.update();
 }

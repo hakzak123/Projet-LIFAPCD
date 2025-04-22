@@ -5,11 +5,14 @@
 extern SMM* app;
 extern std::map<std::string,SDL_Texture*> globalTextures;
 
+static bool statsEnabled = false;
+
 void settingsSetup(SMM* _app){
     SDL_Texture* textTexture = createTTFTexture(_app->getRenderer(),_app->getFont("impact.ttf"),"TEST TEST TEST",{0,255,0,255});
     const int& width = _app->getWindowInfo().w();
     const int& height = _app->getWindowInfo().h();
     screen* settings = new screen;
+    float spacing = (height / 2.8) - (height / 4);
 
     uiButtonRectText* uiMaxFps = new uiButtonRectText(
         _app,
@@ -43,13 +46,33 @@ void settingsSetup(SMM* _app){
         color(0,0,0,255)
     );
 
+    uiButtonRectText* uiStats = new uiButtonRectText(
+        _app,
+        [](uiButton*){
+            if(statsEnabled){
+                statsEnabled = false;
+                app->getUi()["stats"]->setEnabled(false);
+            }
+            else{
+                statsEnabled = true;
+                app->getUi()["stats"]->setEnabled(true);
+            }
+        },
+        fRect(width/2-width/12, height/4 + spacing, 300, 90),
+        color(255,255,255,255),
+        "Enable/Disable stats",
+        _app->getFont("impact.ttf"),
+        42,
+        color(0,0,0,255)
+    );
+
     uiButtonRectText* uiSettingsBack = new uiButtonRectText(
         _app,
         [](uiButton*){
             app->getUi()["mainMenu"]->setEnabled(true);
             app->getUi()["settings"]->setEnabled(false);
         },
-        fRect(width/20,height/4,200,90),
+        fRect(width/20, height/4, 200, 90),
         color(255,255,255,255),
         "Back",
         _app->getFont("impact.ttf"),
@@ -58,6 +81,7 @@ void settingsSetup(SMM* _app){
     );
 
     (*settings)["MaxFps"] = uiMaxFps;
+    (*settings)["stats"] = uiStats;
     (*settings)["Back"] = uiSettingsBack;
 
     _app->insertScreen("settings", settings);
