@@ -7,26 +7,28 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCES
     src/main.cpp
     src/map/mapinit.cpp
+    src/map/map.cpp
     src/render/render.cpp
-    src/render/maprender.cpp
     src/ui/ui.cpp
-    src/ui/debugscreen.cpp
-    src/ui/mainMenu.cpp
-    src/ui/stats.cpp
-    src/ui/settings.cpp
-    src/ui/editor.cpp
-    src/ui/loading.cpp
+    src/screens/debugscreen.cpp
+    src/screens/mainMenu.cpp
+    src/screens/stats.cpp
+    src/screens/settings.cpp
+    src/screens/editor.cpp
+    src/screens/loading.cpp
+    src/screens/test.cpp
     src/update/update.cpp
     src/handling/argumentHandling.cpp
     src/handling/eventHandling.cpp
     src/handling/cursorHandling.cpp
-    src/globalTextures.cpp
     src/tinyfd/tinyfiledialogs.c
     src/gfx/SDL3_framerate.c
     src/gfx/SDL3_gfxPrimitives.c
     src/gfx/SDL3_imageFilter.c
     src/gfx/SDL3_rotozoom.c
     src/player/player.cpp
+    src/globalTextures/globalTextures.cpp
+
 )
 
 include_directories(
@@ -34,6 +36,7 @@ include_directories(
     C:/SDL3-3.2.0/x86_64-w64-mingw32/include/SDL3_gfx
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/map
+    ${CMAKE_SOURCE_DIR}/src/mapComponents
     ${CMAKE_SOURCE_DIR}/src/ui
     ${CMAKE_SOURCE_DIR}/src/utils
     ${CMAKE_SOURCE_DIR}/src/app

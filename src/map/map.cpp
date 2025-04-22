@@ -85,6 +85,7 @@ void map::render(bool renderRect, color rectColor) {
             SDL_RenderRect(app->getRenderer(),&renderTarget);
         }
 
-        ply.render();
+        if(testMode)
+            ply.render();
     }
 }

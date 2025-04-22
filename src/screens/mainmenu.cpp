@@ -63,6 +63,9 @@ int loadMapFromFile(const char* filePath){ // ajouter des checks
 }
 
 void ofdCallback(void *userdata, const char * const *filelist, int filter){
+    const char* converted = (const char*)userdata;
+    std::string screenName = converted;
+
     if(loadMapEvent == 0)
         loadMapEvent = SDL_RegisterEvents(1);
 
@@ -75,10 +78,17 @@ void ofdCallback(void *userdata, const char * const *filelist, int filter){
     int errorCode = loadMapFromFile(filelist[0]);
     switch(errorCode){
         case 0 : {
-            app->getUi()["editor"]->setEnabled(true);
+            app->getUi()[screenName]->setEnabled(true);
             g_map.setFilePath(filelist[0]); // remettre à 0 dans le bouton discard
             g_map.init();
-            g_map.setRenderTarget(fRect(listWidth, 0, app->getWindowInfo().w() - listWidth, listHeight));
+            if(screenName == "editor"){
+                g_map.setRenderTarget(fRect(listWidth, 0, app->getWindowInfo().w() - listWidth, listHeight));
+                g_map.setTestMode(false);
+            }
+            else if(screenName == "test"){
+                g_map.setRenderTarget(fRect(0, 0, app->getWindowInfo().w(), app->getWindowInfo().h()));
+                g_map.setTestMode(true);
+            }
             g_map.setRendered(true);
             event.user.code = 0;
             break;
@@ -135,7 +145,7 @@ void mainMenuSetup(SMM* _app){
         _app,
         [](uiButton*){
             SDL_DialogFileFilter filter = {"SMP file", "smp"};
-            SDL_ShowOpenFileDialog(ofdCallback,nullptr,app->getWindow(),&filter,1,NULL,false);
+            SDL_ShowOpenFileDialog(ofdCallback,(void*)"editor",app->getWindow(),&filter,1,NULL,false);
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["loading"]->setEnabled(true);
         },
@@ -151,7 +161,12 @@ void mainMenuSetup(SMM* _app){
 
     uiButtonRectText* uiTestMap = new uiButtonRectText(
         _app,
-        nullptr,
+        [](uiButton*){
+            SDL_DialogFileFilter filter = {"SMP file", "smp"};
+            SDL_ShowOpenFileDialog(ofdCallback, (void*)"test",app->getWindow(),&filter,1,NULL,false);
+            app->getUi()["mainMenu"]->setEnabled(false);
+            app->getUi()["loading"]->setEnabled(true);
+        },
         fRect(width/20, (height/2.8) + spacing*2, 200, 90),
         color(255,255,255,255),
         "Test",

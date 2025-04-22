@@ -47,6 +47,8 @@ public :
                 ));
             }
         }
+
+        ply.setPos(spawn.getPos());
     }
 
 
@@ -58,6 +60,13 @@ public :
         renderTarget.y = renderTarget.iniY()*windowHeight/app->getWindowInfo().iniH();
         renderTarget.w = renderTarget.iniW() / app->getWindowInfo().iniW() * windowWidth;
         renderTarget.h = renderTarget.iniH() / app->getWindowInfo().iniH() * windowHeight;
+
+        if(testMode){
+            cam.setPos(pos(ply.getPos().x, -ply.getPos().y));
+            if(!isInRectangle(ply.getPos(),fRect(-offsetX(), -offsetY(), tileSize*tiles.getWidth(), tileSize*tiles.getHeight()))){
+                ply.setPos(spawn.getPos());
+            }
+        }
     }
 
     void render(bool, color rectColor = color(0,255,0,255));
@@ -201,55 +210,47 @@ public :
         const bool* keystate = SDL_GetKeyboardState(NULL);
 
         if(keystate[SDL_SCANCODE_W]){
-            //if(_mapBeginY + cam.getEditorSpeed() * tileRatio <= renderTarget.y){
+            if(testMode){
+                ply.moveUp();
+            }
+            else{
                 pos newPos = cam.getPos();
                 newPos.y += cam.getEditorSpeed();
                 cam.setPos(newPos);
-            /*}
-            else{
-                pos newPos = cam.getPos();
-                newPos.y = (halfMapHeightInPixels - halfRenderTargetHeight) * tileSize / tilePixelSize;
-                cam.setPos(newPos);
-            }*/
+            }
+
         }
         if(keystate[SDL_SCANCODE_A]){
-            //if(_mapBeginX + cam.getEditorSpeed() * tileRatio <= renderTarget.x){
+            if(testMode){
+                ply.moveLeft();
+            }
+            else{
                 pos newPos = cam.getPos();
                 newPos.x -= cam.getEditorSpeed();
                 cam.setPos(newPos);
-            /*}
-            else{
-                pos newPos = cam.getPos();
-                newPos.x = -(halfMapWidthInPixels - halfRenderTargetWidth) * tileSize / tilePixelSize;
-                cam.setPos(newPos);
             }
-                */
         }
         if(keystate[SDL_SCANCODE_S]){
-            //if(_mapBeginY + MapHeightInPixels - cam.getEditorSpeed() * tileRatio >= renderTarget.y + renderTarget.h){
+            if(testMode){
+                ply.moveDown();
+            }
+            else
+            {
                 pos newPos = cam.getPos();
                 newPos.y -= cam.getEditorSpeed();
                 cam.setPos(newPos);
-            /*}
-            else{
-                pos newPos = cam.getPos();
-                newPos.y = -(halfMapHeightInPixels - halfRenderTargetHeight) * tileSize / tilePixelSize;
-                cam.setPos(newPos);
             }
-                */
+
         }
         if(keystate[SDL_SCANCODE_D]){
-            //if(_mapBeginX + MapWidthInPixels - cam.getEditorSpeed() * tileRatio >= renderTarget.x + renderTarget.w){
+            if(testMode){
+                ply.moveRight();
+            }
+            else{
                 pos newPos = cam.getPos();
                 newPos.x += cam.getEditorSpeed();
                 cam.setPos(newPos);
-            /*}
-            else{
-                pos newPos = cam.getPos();
-                newPos.x = (halfMapWidthInPixels - halfRenderTargetWidth) * tileSize / tilePixelSize;
-                cam.setPos(newPos);
             }
-                */
         }
 
     }

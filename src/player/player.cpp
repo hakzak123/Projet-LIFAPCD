@@ -27,13 +27,17 @@ void player::render(){
 
 void player::moveRight(){
     Pos.x += speed;
-    //if(){
-        
-    //}     
-
 }
 
 void player::moveLeft(){
     Pos.x -= speed;    
 
+}
+
+void player::moveUp(){
+    Pos.y -= speed;
+}
+
+void player::moveDown(){
+    Pos.y += speed;
 }
