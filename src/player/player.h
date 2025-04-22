@@ -3,20 +3,17 @@
 #include <position.h>
 #include <geometry.h>
 #include <mapcomponent.h>
-#include <string>
 
 class player : public mapComponent{
 private :
     std::string sprite;
-    fRect hitbox;
+    fRect hitbox; // en worldPos
     int speed;
 
     void updatePhys();
 
 public :
-    player(){}
-
-    player(const std::string &_sprite,const fRect &_hitbox, const pos &_Pos, int _speed, bool _collision = true):
+    player(const std::string &_sprite = "player_sprite.bmp", const fRect &_hitbox = fRect(0,0,50,100), const pos &_Pos = pos(0,0), int _speed = 15, bool _collision = true):
     mapComponent(_Pos, _collision),
     sprite(_sprite),
     hitbox(_hitbox),
@@ -27,7 +24,9 @@ public :
     void render();
 
     void moveRight();
-    void moveLeft();
+    void moveLeft(){
+        Pos.x -= speed;  
+    }
     void jump();
 
     void setPos(pos _Pos);

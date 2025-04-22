@@ -18,6 +18,7 @@ private :
     camera cam;
     fRect renderTarget;
     bool rendered = true;
+    bool testMode = false;
 
     long long offsetX(){
         return (tiles.getWidth()*tileSize)/2;
@@ -82,7 +83,7 @@ public :
         return renderTarget.y + halfRenderTargetHeight - halfMapHeightInPixels + cameraOffsetY;        
     }
 
-    float calculateXDistanceToWorldOrigin(float windowX) {
+    float windowXtoWorldX(float windowX) {
         float _mapBeginX = mapBeginX();
         size_t tilePixelSize = (tileSize * renderTarget.w) / app->getWindowInfo().w();
         tilePixelSize = static_cast<size_t>(tilePixelSize * cam.getZoom());
@@ -96,7 +97,7 @@ public :
         return distanceToOrigin;
     }
 
-    float calculateYDistanceToWorldOrigin(float windowY) {
+    float windowYtoWorldY(float windowY) {
         float _mapBeginY = mapBeginY();
         size_t tilePixelSize = (tileSize * renderTarget.w) / app->getWindowInfo().w();
         tilePixelSize = static_cast<size_t>(tilePixelSize * cam.getZoom());
@@ -110,10 +111,47 @@ public :
         return distanceToOrigin;
     }
 
-    tile* getTileFromWinPos(float windowX, float windowY){
-        float worldX = calculateXDistanceToWorldOrigin(windowX);
-        float worldY = calculateYDistanceToWorldOrigin(windowY);
+    float worldXtoWindowX(float worldX) {
+        float _mapBeginX = mapBeginX();
+        size_t tilePixelSize = (tileSize * renderTarget.w) / app->getWindowInfo().w();
+        tilePixelSize = static_cast<size_t>(tilePixelSize * cam.getZoom());
+    
+        float scale = static_cast<float>(tilePixelSize) / tileSize;
 
+        return _mapBeginX + (worldX + offsetX()) * scale;
+    }
+
+    float worldYtoWindowY(float worldY) {
+        float _mapBeginY = mapBeginY();
+        size_t tilePixelSize = (tileSize * renderTarget.w) / app->getWindowInfo().w();
+        tilePixelSize = static_cast<size_t>(tilePixelSize * cam.getZoom());
+    
+        float scale = static_cast<float>(tilePixelSize) / tileSize;
+
+        return _mapBeginY + (worldY + offsetY()) * scale;
+    }
+
+    tile* getTileFromWinPos(float windowX, float windowY){
+        float worldX = windowXtoWorldX(windowX);
+        float worldY = windowYtoWorldY(windowY);
+
+        pos worldPos(worldX, worldY);
+
+        for(auto& t : tiles.getTiles()){
+            fRect tileRect;
+            tileRect.x = t.getPos().x-tileSize/2;
+            tileRect.y = t.getPos().y-tileSize/2;
+            tileRect.w = tileSize;
+            tileRect.h = tileSize;
+            if(isInRectangle(worldPos, tileRect)){
+                return &t;
+            }
+        }
+
+        return NULL;
+    }
+
+    tile* getTileFromWorldPos(float worldX, float worldY){
         pos worldPos(worldX, worldY);
 
         for(auto& t : tiles.getTiles()){
@@ -145,7 +183,6 @@ public :
                 break;
             }
         }
-
     }
 
     void directionHandler(){
@@ -267,6 +304,14 @@ public :
 
     bool isRendered(){
         return rendered;
+    }
+
+    bool isInTestMode(){
+        return testMode;
+    }
+
+    void setTestMode(bool b){
+        testMode = b;
     }
 
 };

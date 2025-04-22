@@ -16,7 +16,7 @@ void SMM::render(){
     setRenderDrawColor(getRenderer(),color(50,50,50,70));
     SDL_RenderFillRect(getRenderer(),NULL);
     
-    g_map.render(false);
+    g_map.render(true);
     
     for(auto& e : getUi()){
         e.second->render(this);

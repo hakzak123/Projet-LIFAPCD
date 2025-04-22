@@ -9,6 +9,7 @@ extern std::map<std::string,SDL_Texture*> globalTextures;
 extern map g_map;
 
 static SDL_Texture* selectedTexture = globalTextures["placeholder.bmp"];
+static bool collisions = true;
 
 int loadMapFromFile(const char*);
 void ofdCallback(void *, const char * const *, int);
@@ -88,7 +89,7 @@ int saveMapToFile(const char* filePath){
         *(mapComponent*)(file + offset) = e;
         offset += sizeof(mapComponent);
 
-        memcpy(file+offset,e.getTextureName().c_str(),e.getTextureName().size()+1);
+        memcpy(file+offset, e.getTextureName().c_str(), e.getTextureName().size()+1);
         offset += e.getTextureName().size()+1;
     }
 
@@ -102,6 +103,9 @@ int saveMapToFile(const char* filePath){
 void sfdCallback(void *userdata, const char * const *filelist, int filter){
     if(filelist[0]){
         std::string dest = std::string(filelist[0]);
+        if(dest.substr(dest.size()-4) != ".smp"){
+            dest += ".smp";
+        }
         saveMapToFile(dest.c_str());
     }
 }
@@ -129,6 +133,7 @@ void editorSetup(SMM* _app){
                 for(const auto& e : globalTextures){
                     if(selectedTexture == e.second)
                         t->setTexture(e.first);
+                        t->setCollision(collisions);
                 }
             }
         },
@@ -302,7 +307,7 @@ void editorSetup(SMM* _app){
         color(0,0,0,255)
     );
 
-    uiButtonRectText* uiBackToOrigin= new uiButtonRectText(
+    uiButtonRectText* uiBackToOrigin = new uiButtonRectText(
         _app,
         [](uiButton*){
             g_map.getCamera().setPos(pos(0,0));
@@ -312,6 +317,27 @@ void editorSetup(SMM* _app){
         "Go to origin",
         _app->getFont("impact.ttf"),
         50,
+        color(0,0,0,255)
+    );
+
+    
+    uiButtonRectText* uiSetCollisions = new uiButtonRectText(
+        _app,
+        [](uiButton* button){
+            if(collisions){
+                ((uiButtonRect*)button)->setRectColor(color(255,0,0,255));
+                collisions = false;
+            }
+            else{
+                ((uiButtonRect*)button)->setRectColor(color(255,255,255,255));
+                collisions = true;
+            }
+        },
+        fRect(width-1000-80, height-90, 200, 90),
+        color(255,255,255,255),
+        "Collisions",
+        _app->getFont("impact.ttf"),
+        55,
         color(0,0,0,255)
     );
 
@@ -354,6 +380,7 @@ void editorSetup(SMM* _app){
     (*editor)["tileSize"] = uiTileSize;
     (*editor)["backToOrigin"] = uiBackToOrigin;
     (*editor)["selectionZone"] = selectionZone;
+    (*editor)["setCollisions"] = uiSetCollisions;
 
 
     _app->insertScreen("editor", editor);

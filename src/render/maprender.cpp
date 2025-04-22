@@ -9,13 +9,13 @@ void map::render(bool renderRect, color rectColor) {
         size_t tilePixelSize = (tileSize * renderTarget.w) / app->getWindowInfo().w(); // Cross-multiplication
         tilePixelSize = static_cast<size_t>(tilePixelSize * zoom);
 
-        float mapBeginX = renderTarget.x + (renderTarget.w - tilePixelSize * tiles.getWidth()) / 2.0 - cam.getPos().x * tilePixelSize/tileSize;
-        float mapBeginY = renderTarget.y + (renderTarget.h - tilePixelSize * tiles.getHeight()) / 2.0 + cam.getPos().y * tilePixelSize/tileSize;
+        float _mapBeginX = mapBeginX();
+        float _mapBeginY = mapBeginY();
 
         for (long long x = 0; x < tiles.getWidth(); ++x) {
-            float current_x = mapBeginX + x * tilePixelSize;
+            float current_x = _mapBeginX + x * tilePixelSize;
             for (long long y = 0; y < tiles.getHeight(); ++y) {
-                float current_y = mapBeginY + y * tilePixelSize;
+                float current_y = _mapBeginY + y * tilePixelSize;
 
                 fRect srcRect;
                 fRect dstRect;
@@ -84,5 +84,7 @@ void map::render(bool renderRect, color rectColor) {
             setRenderDrawColor(app->getRenderer(), rectColor);
             SDL_RenderRect(app->getRenderer(),&renderTarget);
         }
+
+        ply.render();
     }
 }

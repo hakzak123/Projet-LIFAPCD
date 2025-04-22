@@ -26,6 +26,7 @@ set(SOURCES
     src/gfx/SDL3_gfxPrimitives.c
     src/gfx/SDL3_imageFilter.c
     src/gfx/SDL3_rotozoom.c
+    src/player/player.cpp
 )
 
 include_directories(

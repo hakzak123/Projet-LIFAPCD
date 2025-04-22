@@ -2,7 +2,7 @@
 #include <position.h>
 
 class mapComponent{
-    private:
+    protected:
         pos Pos;
         bool collision;
     public :
