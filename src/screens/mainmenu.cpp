@@ -4,67 +4,17 @@
 #include <editorInfo.h>
 
 extern SMM* app;
-extern std::map<std::string,SDL_Texture*> globalTextures;
 extern map g_map;
 
 Uint32 loadMapEvent = 0;
+static const char* prevNext[2];
 
-/*
-smp format :
-spawnpoint
-tilesize
-tileMap : uint32 width, height, array of tiles (map components + null terminated strings)
-*/
+int loadMapFromFile(const char* filePath);
 
-int loadMapFromFile(const char* filePath){ // ajouter des checks
-    size_t fileSize;
-    size_t offset = 0;
-    tileMap& tile_map = g_map.getTileMap();
-
-    if(filePath == nullptr){
-        return -1;
-    }
-
-    char* file = (char*)SDL_LoadFile(filePath,&fileSize);
-    
-    spawnPoint spawn = *(spawnPoint*)file;
-    offset += sizeof(spawnPoint);
-    g_map.setSpawnPoint(spawn);
-    
-    unsigned tileSize = *(unsigned*)(file + offset);
-    offset += sizeof(unsigned);
-    g_map.setTileSize(tileSize);
-    
-    unsigned width, height;
-    width = *(unsigned*)(file + offset);
-    offset += sizeof(unsigned);
-    height = *(unsigned*)(file + offset);
-    offset += sizeof(unsigned);
-    tile_map.newDim(width,height);
-
-    int index = 0;
-    tile_map.newDim(width,height);
-
-    while(offset < fileSize){
-        mapComponent m = *(mapComponent*)(file + offset);
-        offset += sizeof(mapComponent);
-        std::string s = (const char*)(file + offset);
-        offset += s.size() + 1;
-
-        tile t(s,m.getPos(),m.getCollision());
-        tile_map.getTiles()[index] = t;
-        index++;
-    }
-
-    printf("Map loaded. Map dimensions : %ux%u, amount of tiles : %u\n",tile_map.getWidth(), tile_map.getHeight(), tile_map.getTiles().size());
-
-    SDL_free(file);
-    return 0;
-}
-
-void ofdCallback(void *userdata, const char * const *filelist, int filter){
-    const char* converted = (const char*)userdata;
-    std::string screenName = converted;
+void ofdCallback(void *userdata, const char * const *filelist, int filter){ // (const char*)userdata = next screen, (const char*)userdata+1 = previous screen
+    const char** converted = (const char**)userdata;
+    std::string prev = converted[0];
+    std::string next = converted[1];
 
     if(loadMapEvent == 0)
         loadMapEvent = SDL_RegisterEvents(1);
@@ -76,16 +26,17 @@ void ofdCallback(void *userdata, const char * const *filelist, int filter){
     event.user.data2 = nullptr;
 
     int errorCode = loadMapFromFile(filelist[0]);
+
     switch(errorCode){
         case 0 : {
-            app->getUi()[screenName]->setEnabled(true);
+            app->getUi()[next]->setEnabled(true);
             g_map.setFilePath(filelist[0]); // remettre à 0 dans le bouton discard
             g_map.init();
-            if(screenName == "editor"){
+            if(next == "editor"){
                 g_map.setRenderTarget(fRect(listWidth, 0, app->getWindowInfo().w() - listWidth, listHeight));
                 g_map.setTestMode(false);
             }
-            else if(screenName == "test"){
+            else if(next == "test"){
                 g_map.setRenderTarget(fRect(0, 0, app->getWindowInfo().w(), app->getWindowInfo().h()));
                 g_map.setTestMode(true);
             }
@@ -94,8 +45,11 @@ void ofdCallback(void *userdata, const char * const *filelist, int filter){
             break;
         }
         case -1 : {
-            app->getUi()["mainMenu"]->setEnabled(true);
-            g_map.setRendered(false);
+            app->getUi()[prev]->setEnabled(true);
+            if(prev != "editor")
+                g_map.setRendered(false);
+            else
+                g_map.setRendered(true);
             event.user.code = -1;
             break;
         }
@@ -117,7 +71,7 @@ void mainMenuSetup(SMM* _app){
         nullptr,
         fRect(width/2-width/8.2,height/1000,500,500),
         color(255,255,255,0),
-        globalTextures["logo.bmp"],
+        app->getGlobalTextures()["logo.bmp"],
         fRect(0,0,500,500),
         true,
         false
@@ -132,6 +86,7 @@ void mainMenuSetup(SMM* _app){
             g_map.setRenderTarget(fRect(listWidth, 0, app->getWindowInfo().w() - listWidth, listHeight));
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["editor"]->setEnabled(true);
+            g_map.setRendered(true);
         },
         fRect(width/20,height/2.8,200,90),
         color(255,255,255,255),
@@ -145,7 +100,11 @@ void mainMenuSetup(SMM* _app){
         _app,
         [](uiButton*){
             SDL_DialogFileFilter filter = {"SMP file", "smp"};
-            SDL_ShowOpenFileDialog(ofdCallback,(void*)"editor",app->getWindow(),&filter,1,NULL,false);
+
+            prevNext[0] = "mainMenu";
+            prevNext[1] = "editor";
+
+            SDL_ShowOpenFileDialog(ofdCallback,(void*)prevNext,app->getWindow(),&filter,1,NULL,false);
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["loading"]->setEnabled(true);
         },
@@ -163,9 +122,14 @@ void mainMenuSetup(SMM* _app){
         _app,
         [](uiButton*){
             SDL_DialogFileFilter filter = {"SMP file", "smp"};
-            SDL_ShowOpenFileDialog(ofdCallback, (void*)"test",app->getWindow(),&filter,1,NULL,false);
+
+            prevNext[0] = "mainMenu";
+            prevNext[1] = "test";
+
+            SDL_ShowOpenFileDialog(ofdCallback, (void*)prevNext,app->getWindow(),&filter,1,NULL,false);
             app->getUi()["mainMenu"]->setEnabled(false);
             app->getUi()["loading"]->setEnabled(true);
+            g_map.getPlayer().setPos(g_map.getSpawnPoint().getPos());
         },
         fRect(width/20, (height/2.8) + spacing*2, 200, 90),
         color(255,255,255,255),
@@ -182,7 +146,7 @@ void mainMenuSetup(SMM* _app){
         },
         fRect(width/20, (height/2.8) + 3*spacing, 200, 90),
         color(255,255,255,255),
-        globalTextures["settings_icon.bmp"],
+        app->getGlobalTextures()["settings_icon.bmp"],
         fRect(0,0,100,100)
     );
 

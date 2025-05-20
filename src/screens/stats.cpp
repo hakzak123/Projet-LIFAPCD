@@ -2,7 +2,6 @@
 #include <map>
 
 extern SMM* app;
-extern std::map<std::string,SDL_Texture*> globalTextures;
 
 // Returns true when at least ms amount of time has passed since lastTimeStatic. lastTimeStatic MUST BE A ZERO-INITIALIZED STATIC VARIABLE. If you want the first call to be true, pass into firstCallStatic a static bool initialized to true.
 bool time_passed_since_last_time(Uint64 ms, Uint64 &lastTimeStatic, bool & firstCallStatic){

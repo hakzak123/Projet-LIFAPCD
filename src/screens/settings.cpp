@@ -3,7 +3,6 @@
 #include <tinyfiledialogs.h>
 
 extern SMM* app;
-extern std::map<std::string,SDL_Texture*> globalTextures;
 
 static bool statsEnabled = false;
 

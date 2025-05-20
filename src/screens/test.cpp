@@ -3,7 +3,6 @@
 #include <map.h>
 
 extern SMM* app;
-extern std::map<std::string,SDL_Texture*> globalTextures;
 extern map g_map;
 
 

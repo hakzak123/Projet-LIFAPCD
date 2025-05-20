@@ -2,8 +2,8 @@
 
 map g_map(nullptr, tileMap(), spawnPoint());
 
-void mapInit(SMM* _app){
-    g_map = map(_app, tileMap(), spawnPoint());
+void SMM::mapInit(){
+    g_map = map(this, tileMap(), spawnPoint());
     g_map.init();
     g_map.setRenderTarget(fRect(0,0,0,0));
 }

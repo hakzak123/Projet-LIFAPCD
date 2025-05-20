@@ -11,7 +11,7 @@ private :
     int speed;
 
 public :
-    player(const std::string &_sprite = "player_sprite.bmp", const fRect &_hitbox = fRect(0,0,50,100), const pos &_Pos = pos(0,0), int _speed = 15, bool _collision = true):
+    player(const std::string &_sprite = "player_sprite.bmp", const fRect &_hitbox = fRect(0,0,50,100), const pos &_Pos = pos(0,0), int _speed = 5, bool _collision = true):
     mapComponent(_Pos, _collision),
     sprite(_sprite),
     hitbox(_hitbox),

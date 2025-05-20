@@ -1,8 +1,6 @@
 #include <map.h>
 #include <color.h>
 
-extern std::map<std::string,SDL_Texture*> globalTextures;
-
 void map::render(bool renderRect, color rectColor) {
     if(rendered){
         float zoom = cam.getZoom();
@@ -12,16 +10,36 @@ void map::render(bool renderRect, color rectColor) {
         float _mapBeginX = mapBeginX();
         float _mapBeginY = mapBeginY();
 
-        for (long long x = 0; x < tiles.getWidth(); ++x) {
+        long long tileIndexBeginX = (renderTarget.x - _mapBeginX) / tilePixelSize;
+        long long tileIndexBeginY = (renderTarget.y - _mapBeginY) / tilePixelSize;
+
+        long long tileIndexEndX = static_cast<long long>(tiles.getWidth()) - (mapEndX() - std::abs((renderTarget.x + renderTarget.w))) / static_cast<long long>(tilePixelSize);
+        long long tileIndexEndY = static_cast<long long>(tiles.getHeight()) - (mapEndY() - std::abs((renderTarget.y + renderTarget.h))) / static_cast<long long>(tilePixelSize);
+
+        if(
+            tileIndexBeginX >= tiles.getWidth()
+            || tileIndexEndX < 0
+            || tileIndexBeginY >= tiles.getHeight()
+            || tileIndexEndY < 0
+        ){
+            goto skip;
+        }
+
+        tileIndexBeginX = std::max(0LL, tileIndexBeginX);
+        tileIndexBeginY = std::max(0LL, tileIndexBeginY);
+        tileIndexEndX = std::min(static_cast<long long>(tiles.getWidth()) - 1, tileIndexEndX);
+        tileIndexEndY = std::min(static_cast<long long>(tiles.getHeight()) - 1, tileIndexEndY);
+
+        for (long long x = tileIndexBeginX; x <= tileIndexEndX; ++x) {
             float current_x = _mapBeginX + x * tilePixelSize;
-            for (long long y = 0; y < tiles.getHeight(); ++y) {
+            for (long long y = tileIndexBeginY; y <= tileIndexEndY; ++y) {
                 float current_y = _mapBeginY + y * tilePixelSize;
 
                 fRect srcRect;
                 fRect dstRect;
 
                 tile t = tiles.getTile(x, y);
-                SDL_Texture* texture = globalTextures[t.getTextureName()];
+                SDL_Texture* texture = app->getGlobalTextures()[t.getTextureName()];
                 float textureWidth, textureHeight;
                 SDL_GetTextureSize(texture, &textureWidth, &textureHeight);
 
@@ -80,6 +98,7 @@ void map::render(bool renderRect, color rectColor) {
                 SDL_RenderTexture(app->getRenderer(), texture, &srcRect, &dstRect);
             }
         }
+        skip:
         if(renderRect){
             setRenderDrawColor(app->getRenderer(), rectColor);
             SDL_RenderRect(app->getRenderer(),&renderTarget);

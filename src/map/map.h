@@ -17,7 +17,7 @@ private :
     std::string filePath;
     camera cam;
     fRect renderTarget;
-    bool rendered = true;
+    bool rendered = false;
     bool testMode = false;
 
     long long offsetX(){
@@ -48,11 +48,12 @@ public :
             }
         }
 
-        ply.setPos(spawn.getPos());
+//        ply.setPos(spawn.getPos());
     }
 
 
     void update(){
+        
         int windowWidth = app->getWindowInfo().w();
         int windowHeight = app->getWindowInfo().h();
 
@@ -82,6 +83,17 @@ public :
         
     }
 
+    float mapEndX(){
+        size_t tilePixelSize = (tileSize * renderTarget.w) / app->getWindowInfo().w();
+        tilePixelSize = static_cast<size_t>(tilePixelSize * cam.getZoom());
+    
+        float halfRenderTargetWidth = renderTarget.w / 2.0;
+        float halfMapWidthInPixels = (tilePixelSize * tiles.getWidth()) / 2.0;
+        float cameraOffsetX = cam.getPos().x * tilePixelSize / tileSize;
+        return renderTarget.x + halfRenderTargetWidth + halfMapWidthInPixels - cameraOffsetX;
+        
+    }
+
     float mapBeginY(){
         size_t tilePixelSize = (tileSize * renderTarget.w) / app->getWindowInfo().w();
         tilePixelSize = static_cast<size_t>(tilePixelSize * cam.getZoom());
@@ -90,6 +102,16 @@ public :
         float halfMapHeightInPixels = (tilePixelSize * tiles.getHeight()) / 2.0;
         float cameraOffsetY = cam.getPos().y * tilePixelSize / tileSize;
         return renderTarget.y + halfRenderTargetHeight - halfMapHeightInPixels + cameraOffsetY;        
+    }
+
+    float mapEndY(){
+        size_t tilePixelSize = (tileSize * renderTarget.w) / app->getWindowInfo().w();
+        tilePixelSize = static_cast<size_t>(tilePixelSize * cam.getZoom());
+    
+        float halfRenderTargetHeight = renderTarget.h / 2.0;
+        float halfMapHeightInPixels = (tilePixelSize * tiles.getHeight()) / 2.0;
+        float cameraOffsetY = cam.getPos().y * tilePixelSize / tileSize;
+        return renderTarget.y + halfRenderTargetHeight + halfMapHeightInPixels + cameraOffsetY;        
     }
 
     float windowXtoWorldX(float windowX) {
@@ -101,7 +123,7 @@ public :
     
         float worldX = (windowX - _mapBeginX) * scale;
     
-        float distanceToOrigin = std::abs(worldX) - offsetX();
+        float distanceToOrigin = worldX - offsetX();
     
         return distanceToOrigin;
     }
@@ -115,7 +137,7 @@ public :
     
         float worldY = (windowY - _mapBeginY) * scale;
     
-        float distanceToOrigin = std::abs(worldY) - offsetY();
+        float distanceToOrigin = worldY - offsetY();
     
         return distanceToOrigin;
     }
@@ -141,48 +163,33 @@ public :
     }
 
     tile* getTileFromWinPos(float windowX, float windowY){
-        float worldX = windowXtoWorldX(windowX);
-        float worldY = windowYtoWorldY(windowY);
+        float offsetWorldX = windowXtoWorldX(windowX) + offsetX();
+        float offsetWorldY = windowYtoWorldY(windowY) + offsetY();
 
-        pos worldPos(worldX, worldY);
+        if(offsetWorldX < 0 || offsetWorldX > offsetX() * 2 || offsetWorldY < 0 || offsetWorldY > offsetY() * 2)
+            return NULL;
+    
+        int xIndex = offsetWorldX/tileSize;
+        int yIndex = offsetWorldY/tileSize;
 
-        for(auto& t : tiles.getTiles()){
-            fRect tileRect;
-            tileRect.x = t.getPos().x-tileSize/2;
-            tileRect.y = t.getPos().y-tileSize/2;
-            tileRect.w = tileSize;
-            tileRect.h = tileSize;
-            if(isInRectangle(worldPos, tileRect)){
-                return &t;
-            }
-        }
-
-        return NULL;
+        return &tiles.getTile(xIndex, yIndex);
     }
 
     tile* getTileFromWorldPos(float worldX, float worldY){
-        pos worldPos(worldX, worldY);
+        float offsetWorldX = worldX + offsetX();
+        float offsetWorldY = worldY + offsetY();
 
-        for(auto& t : tiles.getTiles()){
-            fRect tileRect;
-            tileRect.x = t.getPos().x-tileSize/2;
-            tileRect.y = t.getPos().y-tileSize/2;
-            tileRect.w = tileSize;
-            tileRect.h = tileSize;
-            if(isInRectangle(worldPos, tileRect)){
-                return &t;
-            }
-        }
+        if(offsetWorldX < 0 || offsetWorldX > offsetX() * 2 || offsetWorldY < 0 || offsetWorldY > offsetY() * 2)
+            return NULL;
+    
+        int xIndex = offsetWorldX/tileSize;
+        int yIndex = offsetWorldY/tileSize;
 
-        return NULL;
+        return &tiles.getTile(xIndex, yIndex);
     }
 
     void eventHandler(const SDL_Event& event){
         switch(event.type){
-            case SDL_EVENT_KEY_DOWN :{
-                directionHandler();
-                break;
-            }
             case SDL_EVENT_MOUSE_WHEEL: {
                 if (event.wheel.y > 0) {
                     cam.setZoom(cam.getZoom() * 1.1f);

@@ -6,8 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SOURCES
     src/main.cpp
+    src/app/application.cpp
     src/map/mapinit.cpp
     src/map/map.cpp
+    src/map/mapio.cpp
     src/render/render.cpp
     src/ui/ui.cpp
     src/screens/debugscreen.cpp

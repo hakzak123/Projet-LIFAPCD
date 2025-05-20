@@ -4,7 +4,6 @@
 #include <map.h>
 #include <map>
 
-extern std::map<std::string, SDL_Texture*> globalTextures;
 extern map g_map;
 extern SMM* app;
 
@@ -22,7 +21,7 @@ void player::render(){
     dstRect.w = hitboxWidthInPixels;
     dstRect.h = hitboxHeightInPixels;
 
-    SDL_RenderTexture(app->getRenderer(),globalTextures[sprite],NULL,&dstRect);
+    SDL_RenderTexture(app->getRenderer(), app->getGlobalTextures()[sprite], NULL, &dstRect);
 }
 
 void player::moveRight(){

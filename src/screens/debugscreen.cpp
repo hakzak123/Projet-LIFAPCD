@@ -2,7 +2,6 @@
 #include <map>
 
 extern SMM* app;
-extern std::map<std::string,SDL_Texture*> globalTextures;
 
 void onClickTest(uiButton* parent){
     ((uiButtonRect*)parent)->setRectColor({(Uint8)SDL_rand(254),(Uint8)SDL_rand(254),(Uint8)SDL_rand(254),255});
@@ -38,7 +37,7 @@ void debugScreenSetup(SMM* _app){
     );
 
     uiTextureComponent* uiTestGlobalTexture = new uiTextureComponent(
-        globalTextures["placeholder.bmp"],
+        app->getGlobalTextures()["placeholder.bmp"],
         fRect(660,240,600,600)
     );
 
@@ -66,7 +65,7 @@ void debugScreenSetup(SMM* _app){
         },
         fRect(width-width/10,height/1.5,300,100),
         color(255,255,255,255),
-        globalTextures["placeholder.bmp"],
+        app->getGlobalTextures()["placeholder.bmp"],
         fRect(0,0,100,100)
     );
 
