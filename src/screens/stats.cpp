@@ -1,7 +1,7 @@
 #include <ui.h>
 #include <map>
 
-extern SMM* app;
+static SMM* app;
 
 // Returns true when at least ms amount of time has passed since lastTimeStatic. lastTimeStatic MUST BE A ZERO-INITIALIZED STATIC VARIABLE. If you want the first call to be true, pass into firstCallStatic a static bool initialized to true.
 bool time_passed_since_last_time(Uint64 ms, Uint64 &lastTimeStatic, bool & firstCallStatic){
@@ -47,7 +47,8 @@ std::string winInfo(){
 }
 
 void statsSetup(SMM* _app){
-    SDL_Texture* textTexture = createTTFTexture(_app->getRenderer(),_app->getFont("impact.ttf"),"TEST TEST TEST",{0,255,0,255});
+    app = _app;
+    SDL_Texture* textTexture = createTTFTexture(_app->getRenderer(), _app->getFont("impact.ttf"), "TEST TEST TEST", {0,255,0,255});
     const int& width = _app->getWindowInfo().w();
     const int& height = _app->getWindowInfo().h();
     screen* stats = new screen;

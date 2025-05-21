@@ -65,7 +65,7 @@ void editorSetup(SMM* _app){
     const unsigned listLineSize = 3;
     editorInfo listWidth = editorInfo::listWidth, listHeight = editorInfo::listHeight;
     const unsigned blockSize = listWidth/listLineSize;
-    selectedTexture = app->getGlobalTextures()["placeholder.bmp"];
+    selectedTexture = _app->getGlobalTextures()["placeholder.bmp"];
 
     uiButtonRectTextureScaled* tileButton;
     uiButtonRectText* tileName;
@@ -85,9 +85,9 @@ void editorSetup(SMM* _app){
                 }
             }
         },
-        fRect(listWidth, 0, app->getWindowInfo().w() - listWidth, listHeight), 
+        fRect(listWidth, 0, _app->getWindowInfo().w() - listWidth, listHeight), 
         color(255,255,255,0), 
-        app->getGlobalTextures()["transparent.bmp"], 
+        _app->getGlobalTextures()["transparent.bmp"], 
         fRect(), 
         true, 
         true, 
@@ -295,7 +295,7 @@ void editorSetup(SMM* _app){
     );
 
 
-    for(const auto& e : app->getGlobalTextures()){
+    for(const auto& e : _app->getGlobalTextures()){
         tileButton = new uiButtonRectTextureScaled(
             [](uiButton* button){
                 selectedTexture = button->getTexture();
@@ -312,7 +312,8 @@ void editorSetup(SMM* _app){
             nullptr,
             fRect(index % listLineSize * blockSize, index / listLineSize * blockSize, blockSize, blockSize/5),
             color(127,127,127,255),
-            e.first,_app->getFont("impact.ttf"),
+            e.first,
+            _app->getFont("impact.ttf"),
             blockSize/7,
             color(255,255,255,255),
             true,

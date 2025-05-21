@@ -71,7 +71,7 @@ void mainMenuSetup(SMM* _app){
         nullptr,
         fRect(width/2-width/8.2,height/1000,500,500),
         color(255,255,255,0),
-        app->getGlobalTextures()["logo.bmp"],
+        _app->getGlobalTextures()["logo.bmp"],
         fRect(0,0,500,500),
         true,
         false
@@ -146,7 +146,7 @@ void mainMenuSetup(SMM* _app){
         },
         fRect(width/20, (height/2.8) + 3*spacing, 200, 90),
         color(255,255,255,255),
-        app->getGlobalTextures()["settings_icon.bmp"],
+        _app->getGlobalTextures()["settings_icon.bmp"],
         fRect(0,0,100,100)
     );
 

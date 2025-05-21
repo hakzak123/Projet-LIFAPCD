@@ -79,6 +79,7 @@ public:
     void mapInit();
     void initGlobalTextures();
     void destroyGlobalTextures();
+    void runLoop();
     void eventHandling();
     void cursorHandling();
     void uiSetup();

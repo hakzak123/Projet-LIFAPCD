@@ -37,7 +37,7 @@ void debugScreenSetup(SMM* _app){
     );
 
     uiTextureComponent* uiTestGlobalTexture = new uiTextureComponent(
-        app->getGlobalTextures()["placeholder.bmp"],
+        _app->getGlobalTextures()["placeholder.bmp"],
         fRect(660,240,600,600)
     );
 
@@ -65,7 +65,7 @@ void debugScreenSetup(SMM* _app){
         },
         fRect(width-width/10,height/1.5,300,100),
         color(255,255,255,255),
-        app->getGlobalTextures()["placeholder.bmp"],
+        _app->getGlobalTextures()["placeholder.bmp"],
         fRect(0,0,100,100)
     );
 

@@ -17,6 +17,7 @@ SMM::SMM(int argc, char* argv[], const std::string& windowName, int width, int h
     initGlobalTextures();
     mapInit();
     uiSetup();
+
 }
 
 void SMM::windowInit(const std::string& name, int _w, int _h, SDL_WindowFlags _flags){
@@ -45,6 +46,17 @@ void SMM::windowInit(const std::string& name, int _w, int _h, SDL_WindowFlags _f
         std::exit(1);
     }
     winfo = window;
+}
+
+void SMM::runLoop(){
+    while(appRunning){
+        auto frameStart = CURRENT_TIME;
+
+        eventHandling();     
+        update();
+        render();
+        framerateHandling(frameStart);
+    }
 }
 
 void SMM::framerateHandling(std::chrono::_V2::system_clock::time_point frameStart){
